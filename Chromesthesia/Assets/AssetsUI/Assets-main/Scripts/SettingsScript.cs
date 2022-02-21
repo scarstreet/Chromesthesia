@@ -3,13 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class SettingsScript : MonoBehaviour
 {
   // Start is called before the first frame update
+  private static string prevActiveScene;
+  public static bool settingsOpen = false;
   void Start()
   {
+    settingsOpen = true;
+    prevActiveScene = SceneManager.GetActiveScene().name;
+    Debug.Log(prevActiveScene);
+    SceneManager.UnloadSceneAsync(prevActiveScene);
+  }
 
+  private void OnDestroy() {
+    settingsOpen = false;
   }
 
   // Update is called once per frame
@@ -17,8 +27,7 @@ public class SettingsScript : MonoBehaviour
   {}
 
   public void toBack(){
-    SceneManager.UnloadSceneAsync("SettingsScene");
-    Debug.Log("GoingBack");
+    SceneManager.LoadScene(prevActiveScene, LoadSceneMode.Single);
   }
   private bool IsPointerOverUIObject()
   {

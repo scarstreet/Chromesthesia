@@ -16,14 +16,10 @@ public class UIScript : MonoBehaviour
   {
     if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
     {
-      Application.LoadLevel(1);
-      Debug.Log("'CLICKED ANYWEHER'");
     }
   }
 
   public void toSettings(){
-    Application.LoadLevel(2);
-    Debug.Log("TO SETTIGNS");
   }
   private bool IsPointerOverUIObject()
   {

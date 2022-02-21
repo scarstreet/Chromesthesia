@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameScript : MonoBehaviour
 {
+  // TODO - public static song info etc so can pause / restart from pause scene
   // Start is called before the first frame update
   void Start()
   {
@@ -15,13 +16,11 @@ public class GameScript : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
-    {
-      Debug.Log("'CLICKED ANYWEHER'");
-    }
   }
 
-  public void toSettings(){
+  public void pauseGame(){
+    // TODO - pause the game
+    SceneManager.LoadScene("PauseScreen", LoadSceneMode.Additive);
   }
   private bool IsPointerOverUIObject()
   {

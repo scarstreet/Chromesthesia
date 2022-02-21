@@ -11,7 +11,7 @@ public class Score{
 public class SongInfo{
   string title;
   string artist;
-  Score easy, normal, hard;
+  Score easy, normal, hard; // Highscores for each difficulty
   SongInfo(){}
   SongInfo(string filename) {
     // open file and do shit
@@ -20,12 +20,14 @@ public class SongInfo{
 
 public class SongSelectScript : MonoBehaviour
 {
-  public string currentDifficulty = "EASY"; //"EASY","NORMAL" or "HARD"
-  public SongInfo currentSong;
+  public static string currentDifficulty = "EASY"; //"EASY","NORMAL" or "HARD"
+  private List<SongInfo> allSongs;
+  public static SongInfo currentSong;
+  public static SongInfo nextSong;
+  public static SongInfo prevSong;
   // Start is called before the first frame update
-  void Start()
+  public void Start()
   {
-
   }
 
   // Update is called once per frame
@@ -36,17 +38,27 @@ public class SongSelectScript : MonoBehaviour
   {
     currentDifficulty = selected;
   }
-  public void previousSong()
+  public void previousSongPressed()
   {
+    Debug.Log("prevsing");
+    currentSong = prevSong;
+    int index = allSongs.FindIndex(song => song == currentSong);
+    nextSong = index + 1 == allSongs.Count ? allSongs[0] : allSongs[index + 1];
+    prevSong = index - 1 == -1 ? allSongs[allSongs.Count-1] : allSongs[index - 1];
   }
 
-  public void nextSong()
+  public void nextSongPressed()
   {
+    Debug.Log("nextsing");
+    currentSong = nextSong;
+    int index = allSongs.FindIndex(song => song == currentSong);
+    nextSong = index + 1 == allSongs.Count ? allSongs[0] : allSongs[index + 1];
+    prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
   }
 
-  public void playClicked()
+  public void playPressed()
   {
-    SceneManager.LoadSceneAsync("GameScreen", LoadSceneMode.Single);
+    SceneManager.LoadScene("GameScreen", LoadSceneMode.Single);
   }
 
   public void toSettings()

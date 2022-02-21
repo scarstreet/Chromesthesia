@@ -20,6 +20,14 @@ public class ScoreScreenScript : MonoBehaviour
     SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
   }
 
+  public void toSongList() {
+    SceneManager.LoadScene("SongList", LoadSceneMode.Single);
+  }
+
+  public void playAgainPressed(){
+    SceneManager.LoadScene("GameScreen", LoadSceneMode.Single);
+  }
+
   private bool IsPointerOverUIObject()
   {
     var eventDataCurrentPosition = new PointerEventData(EventSystem.current)
