@@ -5,7 +5,29 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  m_configObjects: {}
+    path: Assets/AssetsUI/Assets-main/Scenes/GameScreen.unity
+    guid: 68d3ba5417323cf4e86c8615a02eae97
+  - enabled: 1
+    path: Assets/AssetsUI/Assets-main/Scenes/LoadingScene.unity
+    guid: db4b467f23af82a41935ada62805924a
+  - enabled: 1
+    path: Assets/AssetsUI/Assets-main/Scenes/MainTitleScreen.unity
+    guid: 693870fd24cd9aa4fb816db5bdf9b51c
+  - enabled: 1
+    path: Assets/AssetsUI/Assets-main/Scenes/PauseScreen.unity
+    guid: d8079c50e3970cd42974559c76f5f444
+  - enabled: 1
+    path: Assets/AssetsUI/Assets-main/Scenes/ScoreScreen.unity
+    guid: 563b9161967bd8d41851c53ba621861b
+  - enabled: 1
+    path: Assets/AssetsUI/Assets-main/Scenes/SettingsScene.unity
+    guid: 3c299205572a08245b07d2fdcba5f86c
+  - enabled: 1
+    path: Assets/AssetsUI/Assets-main/Scenes/SongSelect.unity
+    guid: 4ea5b22c81b38b645aa90a38a0f972a7
+  m_configObjects:
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: f4f66a6477b08dd4e92c9e63b471a2e8, type: 2}
