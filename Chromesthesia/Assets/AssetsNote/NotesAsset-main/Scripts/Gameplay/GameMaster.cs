@@ -45,7 +45,7 @@ public class GameMaster : MonoBehaviour
         score=0;
         time = Time.timeAsDouble;
         timetext.text = time.ToString();
-        TextAsset theList = Resources.Load<TextAsset>("Text/queuenumber");
+        TextAsset theList = Resources.Load<TextAsset>("Beatmap/queuenumber");
         string text = theList.text;
         // char trigger='\n';
         string[] words = text.Split('\n');
@@ -113,13 +113,40 @@ public class GameMaster : MonoBehaviour
                     double angle = rad * (180 / Math.PI);
                     NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
                     Debug.Log(angle);
-                    // Vector2 startPPPos = Camera.main.ScreenToWorldPoint(touch.position - touch.deltaPosition); 
-                    // Debug.Log("start : "+startPPPos);
-                    // Debug.Log("end : "+Camera.main.ScreenToWorldPoint(touch.position));
-                    // Debug.Log(Vector2.Angle(startPPPos,Camera.main.ScreenToWorldPoint(touch.position)));
+                    if(check(angle,touchable.Peek().direction)==true && checktime(touchable.time+))
+                    {
+                        s.setState("perfect");
+                    }
+                    else
+                        s.setState("miss");
                     touchable.Dequeue();
                 }
             }
         }
+    }
+
+    public bool check(double angle,string truecircle)
+    {
+        string dir="";
+        if(angle >=-22.5 && angle < 22.5)
+            dir = "right";
+        else if(angle >=22.5 && angle<67.5)
+            dir = "upright";
+        else if(angle >=67.5 && angle<112.5)
+            dir = "up";
+        else if(angle >=112.5 && angle<157.5)
+            dir = "upleft";
+        else if(angle >=157.5 && angle<-157.5)
+            dir = "left";
+        else if(angle <=-157.5 && angle<-112.5)
+            dir = "downleft";
+        else if(angle <=-112.5 && angle<-67.5)
+            dir = "down";
+        else if(angle <=-67.5 && angle<-22.5)
+            dir = "downright";
+        Debug.Log(dir);
+        if(dir==truecircle)
+            return true;
+        return false;
     }
 }

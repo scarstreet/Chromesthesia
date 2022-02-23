@@ -69,7 +69,7 @@ public class NoteDiamond : MonoBehaviour
     Destroy(gameObject);
     Instantiate(death, transform.position, transform.rotation);
   }
-
+  
   private void displayResult(string state)
   {
     status = state;
