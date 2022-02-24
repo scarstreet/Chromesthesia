@@ -120,7 +120,7 @@ public class GameMaster : MonoBehaviour
                 Touch[] touches = Input.touches;
                 Vector2 startPos = touches[i].rawPosition;
                 // Vector3 touchPosition = Camera.main.ScreenToWorldPoint(Input.touches[i].position);
-                if(touches[i].phase == TouchPhase.Ended)
+                if(touches[i].phase == TouchPhase.Ended && (touches[i].deltaPosition.x <-0.15 || touches[i].deltaPosition.x > 0.15 || touches[i].deltaPosition.y > 0.15 || touches[i].deltaPosition.x < -0.15))
                 {
                     double timetouched = time;
                     Vector2 endPos = Input.touches[i].position;
@@ -129,12 +129,19 @@ public class GameMaster : MonoBehaviour
                     double angle = rad * (180 / Math.PI);
                     NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
                     // Debug.Log(angle);
-                    if(getDir(angle,touchable.Peek().time)==true)
+                    if(getDir(angle,touchable.Peek().time)==true && (touchable.Peek().time + 1 - time < 0.38  && touchable.Peek().time + 1 - time > -0.15))
                     {
+                        Debug.Log(touchable.Peek().time+1.5 - time);
                         s.setState("perfect");
+                    }
+                    else if(getDir(angle,touchable.Peek().time)==true && (touchable.Peek().time + 1 - time < 0.8  && touchable.Peek().time + 1 - time > -0.3))
+                    {
+                        Debug.Log(touchable.Peek().time+1.5 - time);
+                        s.setState("good");
                     }
                     else
                     {
+                        Debug.Log(touchable.Peek().time+1.5 - time);
                         s.setState("miss");
                     }
                     touchable.Dequeue();
@@ -197,6 +204,9 @@ public class GameMaster : MonoBehaviour
                 Note sameDirNote = sametime[now].notes.Find(x => x.direction[0] == dir[0]);
                 Debug.Log("Removing "+sameDirNote.direction);
                 sametime[now].notes.Remove(sameDirNote);
+                if(sametime[now].notes.Count == 0){
+                    sametime.Remove(sametime[now]);
+                }
                 return true;
             }
         }

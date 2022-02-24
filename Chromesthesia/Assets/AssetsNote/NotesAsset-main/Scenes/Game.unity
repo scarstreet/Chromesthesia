@@ -554,4 +554,4 @@ MonoBehaviour:
   tempo: 0
   circle: {fileID: 1278560318573899504, guid: e08c69148fc757044bb92af7c2c41ec2, type: 3}
   time: 0
-  timetext: {fileID: 575411459}
+  timetext: {fileID: 684306575}
