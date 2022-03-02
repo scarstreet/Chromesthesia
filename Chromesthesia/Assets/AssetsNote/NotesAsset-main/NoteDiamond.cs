@@ -13,6 +13,7 @@ public class NoteDiamond : MonoBehaviour
   public GameObject miss;
   public GameObject death;
   private NoteDiamondDeath deathScript;
+
   /*********************************************************************
 		Right now, the animation for this image is 2 seconds:
 		40 frames scaling down, everything else is summoned. anyways,
@@ -27,7 +28,7 @@ public class NoteDiamond : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    status = "";
+    status = "noInput";
     deathScript = death.GetComponent<NoteDiamondDeath>();
     renderers = GetComponentsInChildren<Renderer>();
     animator = gameObject.GetComponent<Animator>();
@@ -38,15 +39,19 @@ public class NoteDiamond : MonoBehaviour
   
   public void setState(string state)
   {
-    // Debug.Log(state);
     NoteDiamondResult resultScript;
     status = state;
-    if (status == "miss" || status == "")
+    Debug.Log(state);
+    if (status == "miss" || status=="noInput")
     {
       resultScript = miss.GetComponent<NoteDiamondResult>();
       resultScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextAnimation = miss;
+      if(status=="noInput"){
+        Debug.Log(gameObject + "!!! Dequeueing !!!");
+        GameMaster.touchable.Dequeue();
+      }
     }
     else if (status == "good")
     {
@@ -61,6 +66,7 @@ public class NoteDiamond : MonoBehaviour
       resultScript.nextColor = new Color((255f / 255f), (230f / 255f), (100f / 255f), 1); // sum light yello
       deathScript.nextColor = new Color((255f / 255f), (230f / 255f), (100f / 255f), 1); // sum light yello
       deathScript.nextAnimation = perfect;
+      // GameMaster.touchable.Dequeue();
     }
     else
     {

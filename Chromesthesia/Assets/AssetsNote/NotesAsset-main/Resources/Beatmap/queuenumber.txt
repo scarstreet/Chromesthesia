@@ -1,5 +1,29 @@
-1,50,56,up,1
-3,100,56,up,2
-5,200,56,up,3
-6,152,30,down,4
-7,33,12,left,5
+<head>
+
+Song Title : 
+Duration :
+Tempo :
+Difficulty :
+Credits (If there is copyright) : 
+
+</head>
+
+/* 
+
+For body the format should be like this :
+
+type,posx,posy,direction,duration,time
+
+Explaination : 
+
+- Type has two integers, either 0 or 1, with 0 is swipe, and 1 is hold
+- Posx and posy means the position x and position y
+- Direction means which direction will you have to swipe to
+- Duration is for hold only, fill in 0 for swipe, means how long do we have to hold the note before swiping it
+- Time means when the note will be instantiated, in other words, where the note will be seen in the screen
+
+*/
+
+<body>
+
+</body>
