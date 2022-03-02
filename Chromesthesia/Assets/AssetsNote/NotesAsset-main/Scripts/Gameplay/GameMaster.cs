@@ -17,7 +17,6 @@ public class GameMaster : MonoBehaviour
         public double time;
         public float posx,posy;
         public string direction;
-        public string status;
         public Note()
         {
             this.time = 0;
@@ -89,7 +88,7 @@ public class GameMaster : MonoBehaviour
                     GameObject create = Instantiate(circle);
                     circle.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
                     create.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(que.Peek().posx, que.Peek().posy,1));
-                    // create.transform.rotation = Quaternion.Euler(90,90, 90);
+                    create.transform.rotation = Quaternion.Euler(0,0,assignrotate(que.Peek().direction[0]));
                     Note temp = new Note(que.Peek().time+1f,que.Peek().posx,que.Peek().posy,que.Peek().direction);
                     temp.setGameObject(create);
                     isoutthere.Enqueue(temp);
@@ -149,7 +148,28 @@ public class GameMaster : MonoBehaviour
             }
         }
     }
-
+    private float assignrotate(char dir)
+    {
+        float z=0;
+        if(dir =='w')
+            z = 0;
+        else if(dir =='q')
+            z = 45;
+        else if(dir =='a')
+            z = 90;
+        else if(dir =='z')
+            z = 135;
+        else if(dir =='x')
+            z = 180;
+        else if(dir =='c')
+            z = 225;
+        else if(dir=='d')
+            z = 270;
+        else if(dir =='e')
+            z = 315;
+        Debug.Log(z);
+        return z;
+    }
     /*
         Direction :
         w = up;
