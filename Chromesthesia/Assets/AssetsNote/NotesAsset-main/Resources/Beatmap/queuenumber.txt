@@ -22,8 +22,14 @@ Explaination :
 - Duration is for hold only, fill in 0 for swipe, means how long do we have to hold the note before swiping it
 - Time means when the note will be instantiated, in other words, where the note will be seen in the screen
 
+
 */
 
 <body>
-
+0,500,500,w,0,2
+0,750,500,a,0,3
+0,250,500,d,0,5
+0,500,500,x,0,6
+0,500,250,x,0,7
+0,500,750,x,0,7
 </body>
