@@ -49,7 +49,7 @@ public class NoteDiamond : MonoBehaviour
       deathScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextAnimation = miss;
       if(status=="noInput"){
-        Debug.Log(gameObject + "!!! Dequeueing !!!");
+        // Debug.Log(gameObject + "!!! Dequeueing !!!");
         GameMaster.touchable.Dequeue();
       }
     }
@@ -73,7 +73,6 @@ public class NoteDiamond : MonoBehaviour
       Debug.Log("omegeh, Note has bad status. This should not happen");
     }
     Destroy(gameObject);
-    Debug.Log("I need to die");
     Instantiate(death, transform.position, transform.rotation);
   }
   
