@@ -84,7 +84,7 @@ public class NoteDiamond : MonoBehaviour
 
   IEnumerator FadeIn()
   {
-    float opPerMS = 1 / (float)(duration / (totalFrame / spawnFrame));
+    float opPerMS = 5 / (float)(duration / (totalFrame / spawnFrame));
     for (float alpha = 0; alpha < 1; alpha += opPerMS)
     {
       foreach (Renderer renderer in renderers)
