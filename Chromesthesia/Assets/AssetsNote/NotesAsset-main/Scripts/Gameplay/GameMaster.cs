@@ -7,6 +7,8 @@ using System.IO;
 
 public class GameMaster : MonoBehaviour
 {
+    public AudioSource audiosource;
+    public string highscore;
     public Text currentscore;
     public int score;
     public int tempo;
@@ -15,20 +17,25 @@ public class GameMaster : MonoBehaviour
     {
         public GameObject obj;
         public int type;
+        public string color;
         public float posx,posy;
         public string direction;
         public double duration;
         public double time;
         public Note()
         {
-            this.time = 0;
+            this.type = type;
+            this.color = "#FFFFFF";
             this.posx = 0;
             this.posy = 0;
             this.direction = "";
+            this.duration = duration;
+            this.time = 0;
         }
-        public Note(int type,float posx,float posy,string direction,double duration,double time)
+        public Note(int type,string color,float posx,float posy,string direction,double duration,double time)
         {
             this.type = type;
+            this.color = color;
             this.posx = posx;
             this.posy = posy;
             this.direction = direction;
@@ -54,6 +61,12 @@ public class GameMaster : MonoBehaviour
 
     void Start()
     {
+        //string highscorepath = Application.persistentDataPath + "";
+        string audiopath = "Beatmap/Dragonlady";
+        audiosource = GetComponent<AudioSource>();
+        audiosource.clip = Resources.Load<AudioClip>("Beatmap/Dragonlady");
+        audiosource.Play();
+        //highscore = Resources.Load<audiosource>(audiosource);
         score=0;
         time = Time.timeAsDouble;
         timetext.text = time.ToString();
@@ -62,17 +75,17 @@ public class GameMaster : MonoBehaviour
         string[] words = text.Split('\n');
         List<string> wordlist = new List<string>(words);
         int bodyindex = wordlist.FindIndex(x => x.Contains("<body>"))+1;
-        Debug.Log(bodyindex);
         for(int i=bodyindex;wordlist[i]!="";i++) //read from after the <body> in the textfile and split it for later use
         {
             string[] list = wordlist[i].Split(',');
             int type = Convert.ToInt16(list[0]);
-            float posx = Convert.ToSingle(list[1]);
-            float posy = Convert.ToSingle(list[2]);
-            string direction = list[3];
-            double duration = Convert.ToDouble(list[4]);
-            double time = Convert.ToDouble(list[5]);
-            que.Enqueue(new Note(type,posx,posy,direction,duration,time));
+            string color = list[1];
+            float posx = Convert.ToSingle(list[2]);
+            float posy = Convert.ToSingle(list[3]);
+            string direction = list[4];
+            double duration = Convert.ToDouble(list[5]);
+            double time = Convert.ToDouble(list[6]);
+            que.Enqueue(new Note(type,color,posx,posy,direction,duration,time));
         }
         currentscore.text = score.ToString();
     }
@@ -82,7 +95,11 @@ public class GameMaster : MonoBehaviour
     {
         time = Time.timeAsDouble;
         timetext.text = time.ToString();
-        if(que.Count > 0){
+        if(que.Count==0)
+        {
+            StartCoroutine(songfinished());
+        }
+        else if(que.Count > 0){
             if(time >= que.Peek().time)
             {
                 List<Note> Temp = new List<Note>();
@@ -91,9 +108,14 @@ public class GameMaster : MonoBehaviour
                 {
                     GameObject create = Instantiate(circle);
                     circle.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
-                    create.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(que.Peek().posx, que.Peek().posy,1));
+                    /*
+                    1. get window size, width & height
+                    2. height/2, width/2
+                    3. posx+,posy+height/2
+                    */
+                    create.transform.position = new Vector3(que.Peek().posx, que.Peek().posy,1);
                     create.transform.rotation = Quaternion.Euler(0,0,assignrotate(que.Peek().direction[0]));
-                    Note temp = new Note(que.Peek().type,que.Peek().posx,que.Peek().posy,que.Peek().direction,que.Peek().duration,que.Peek().time+1f);
+                    Note temp = new Note(que.Peek().type,que.Peek().color,que.Peek().posx,que.Peek().posy,que.Peek().direction,que.Peek().duration,que.Peek().time+1f);
                     temp.setGameObject(create); //assigning which gameobject to the temp
                     isoutthere.Enqueue(temp); //showing the note and put in the queue
                     Temp.Add(temp); //the list note of which when there are multiple touchable at the same time
@@ -220,5 +242,11 @@ public class GameMaster : MonoBehaviour
             }
         }
         return false;
+    }
+
+    IEnumerator songfinished()
+    {
+        yield return new WaitForSeconds(5);
+        audiosource.Stop();
     }
 }

@@ -73,6 +73,7 @@ public class NoteDiamond : MonoBehaviour
       Debug.Log("omegeh, Note has bad status. This should not happen");
     }
     Destroy(gameObject);
+    Debug.Log("I need to die");
     Instantiate(death, transform.position, transform.rotation);
   }
   
