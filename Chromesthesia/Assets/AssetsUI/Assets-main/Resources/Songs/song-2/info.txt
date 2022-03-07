@@ -1,0 +1,41 @@
+>> song-info
+song-name=song-2
+artist=STILL DIO
+duration=7:11
+
+>> files
+> beatmap-easy=beatmap-easy
+> beatmap-normal=beatmap-normal
+> beatmap-hard=beatmap-hard
+> image=image
+
+>> score
+> Easy
+new=true
+score=0
+miss=0
+good=0
+perfect=0
+combo=0
+accuracy=0
+rating=0
+
+> Normal
+new=true
+score=0
+miss=0
+good=0
+perfect=0
+combo=0
+accuracy=0
+rating=0
+
+> Hard
+new=true
+score=0
+miss=0
+good=0
+perfect=0
+combo=0
+accuracy=0
+rating=0
