@@ -62,9 +62,9 @@ public class GameMaster : MonoBehaviour
     void Start()
     {
         //string highscorepath = Application.persistentDataPath + "";
-        string audiopath = "Beatmap/Dragonlady";
+        string audiopath = "Beatmap/Body_Talk";
         audiosource = GetComponent<AudioSource>();
-        audiosource.clip = Resources.Load<AudioClip>("Beatmap/Dragonlady");
+        audiosource.clip = Resources.Load<AudioClip>(audiopath);
         audiosource.Play();
         //highscore = Resources.Load<audiosource>(audiosource);
         score=0;
