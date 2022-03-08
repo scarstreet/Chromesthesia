@@ -24,7 +24,7 @@ public class NoteDiamond : MonoBehaviour
   private double originalDuration = 2500;
   private float totalFrame = 150;
   private float spawnFrame = 40;
-  public string timeStatus; // ''/'miss'/'good'/'perfect'
+  public string timeStatus = "noInput"; // ''/'miss'/'good'/'perfect'
   public string status="";
   // Start is called before the first frame update
   void Start()
@@ -42,32 +42,27 @@ public class NoteDiamond : MonoBehaviour
   {
     NoteDiamondResult resultScript;
     statusDetermine(dirStatus);
-    /*
-      ts = p, ds = p , j = p
-      ts = p||g, ds = p||g, j = g
-      ts = g, ds = g, j = g
-      else, j = m
-    */
+    Debug.Log(status);
     // TODO - consider both timing/direction and 
-    if (status == "miss" || timeStatus=="noInput")
+    if (status.Contains("miss") || timeStatus.Contains("noInput"))
     {
       resultScript = miss.GetComponent<NoteDiamondResult>();
       resultScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextAnimation = miss;
-      if(timeStatus=="noInput"){
+      if(timeStatus.Contains("noInput")) {
         // Debug.Log(gameObject + "!!! Dequeueing !!!");
         GameMaster.touchable.Dequeue();
       }
     }
-    else if (status == "good")
+    else if (status.Contains("good"))
     {
       resultScript = good.GetComponent<NoteDiamondResult>();
       resultScript.nextColor = new Color((110f / 255f), (225f / 255f), (255f / 255f), 1); // sum light blu
       deathScript.nextColor = new Color((110f / 255f), (225f / 255f), (255f / 255f), 1); // sum light blu
       deathScript.nextAnimation = good;
     }
-    else if (status == "perfect")
+    else if (status.Contains("perfect"))
     {
       resultScript = perfect.GetComponent<NoteDiamondResult>();
       resultScript.nextColor = new Color((255f / 255f), (230f / 255f), (100f / 255f), 1); // sum light yello
@@ -84,17 +79,17 @@ public class NoteDiamond : MonoBehaviour
   }
 
   void statusDetermine(string dirStatus){
-    if(timeStatus=="perfect" && dirStatus=="perfect")
+    if(timeStatus.Contains("perfect") && dirStatus.Contains("perfect"))
       status = "perfect";
-    else if((timeStatus=="perfect" && dirStatus=="good") || (timeStatus=="good" && dirStatus=="perfect"))
+    else if((timeStatus.Contains("perfect") || timeStatus.Contains("good")) && (dirStatus.Contains("good") || dirStatus.Contains("perfect")))
       status = "good";
-    else if(timeStatus=="good" && dirStatus=="good")
+    else if(timeStatus.Contains("good") && dirStatus.Contains("good"))
       status = "good";
     else
       status = "miss";
   }
 
-  public void changeState(string state){
+  public void changeTimeState(string state){
     timeStatus = state;
   }
 
