@@ -1015,7 +1015,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a22599f111ce7f6429378829c3666596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentDifficulty: EASY
+  currentSongImage: {fileID: 169294001}
+  nextSongImage: {fileID: 907617097}
+  prevSongImage: {fileID: 1575340976}
+  songTitle: {fileID: 3589472589497271762}
+  artistName: {fileID: 7276890587000930866}
+  nextSongText: {fileID: 1975516710}
+  prevSongText: {fileID: 2010273228}
 --- !u!1 &1239603766
 GameObject:
   m_ObjectHideFlags: 0
