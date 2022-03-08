@@ -149,7 +149,7 @@ public class GameMaster : MonoBehaviour
                     double rad = Mathf.Atan2(touches[i].deltaPosition.y,touches[i].deltaPosition.x); 
                     double angle = rad * (180 / Math.PI); //check the angle and change it to degrees from radian
                     NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
-                    if(getDir(angle,touchable.Peek().time)==true && (touchable.Peek().time + 1 - time < 0.38  && touchable.Peek().time + 1 - time > -0.15)) //just for the timing
+                    if(getDir(angle,touchable.Peek().time)==true) //just for the timing
                     {
                         s.setState("perfect");
                     }

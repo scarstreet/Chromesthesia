@@ -24,11 +24,12 @@ public class NoteDiamond : MonoBehaviour
   private double originalDuration = 2500;
   private float totalFrame = 150;
   private float spawnFrame = 40;
-  private string status; // ''/'miss'/'good'/'perfect'
+  public string timeStatus; // ''/'miss'/'good'/'perfect'
+  public string status="";
   // Start is called before the first frame update
   void Start()
   {
-    status = "noInput";
+    timeStatus = "noInput";
     deathScript = death.GetComponent<NoteDiamondDeath>();
     renderers = GetComponentsInChildren<Renderer>();
     animator = gameObject.GetComponent<Animator>();
@@ -37,18 +38,24 @@ public class NoteDiamond : MonoBehaviour
     animator.speed = 1 / speed;
   }
   
-  public void setState(string state)
+  public void setState(string dirStatus)
   {
     NoteDiamondResult resultScript;
-    status = state;
-    Debug.Log(state);
-    if (status == "miss" || status=="noInput")
+    statusDetermine(dirStatus);
+    /*
+      ts = p, ds = p , j = p
+      ts = p||g, ds = p||g, j = g
+      ts = g, ds = g, j = g
+      else, j = m
+    */
+    // TODO - consider both timing/direction and 
+    if (status == "miss" || timeStatus=="noInput")
     {
       resultScript = miss.GetComponent<NoteDiamondResult>();
       resultScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextAnimation = miss;
-      if(status=="noInput"){
+      if(timeStatus=="noInput"){
         // Debug.Log(gameObject + "!!! Dequeueing !!!");
         GameMaster.touchable.Dequeue();
       }
@@ -70,15 +77,25 @@ public class NoteDiamond : MonoBehaviour
     }
     else
     {
-      Debug.Log("omegeh, Note has bad status. This should not happen");
+      Debug.Log("omegeh, Note has bad timeStatus. This should not happen");
     }
     Destroy(gameObject);
     Instantiate(death, transform.position, transform.rotation);
   }
-  
-  private void displayResult(string state)
-  {
-    status = state;
+
+  void statusDetermine(string dirStatus){
+    if(timeStatus=="perfect" && dirStatus=="perfect")
+      status = "perfect";
+    else if((timeStatus=="perfect" && dirStatus=="good") || (timeStatus=="good" && dirStatus=="perfect"))
+      status = "good";
+    else if(timeStatus=="good" && dirStatus=="good")
+      status = "good";
+    else
+      status = "miss";
+  }
+
+  public void changeState(string state){
+    timeStatus = state;
   }
 
   IEnumerator FadeIn()
@@ -95,5 +112,4 @@ public class NoteDiamond : MonoBehaviour
       yield return new WaitForSeconds(.001f);
     }
   }
-
 }
