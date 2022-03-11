@@ -1328,7 +1328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   again: {fileID: 0}
-  nextColor: {r: 0, g: 0, b: 0, a: 0}
+  nextColor: {r: 0.43137255, g: 0.88235295, b: 1, a: 0}
 --- !u!1001 &2726596539827710252
 PrefabInstance:
   m_ObjectHideFlags: 0

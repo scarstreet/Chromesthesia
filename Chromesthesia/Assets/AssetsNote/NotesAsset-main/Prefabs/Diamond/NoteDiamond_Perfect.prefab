@@ -1415,7 +1415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   again: {fileID: 1278560318573899504, guid: e08c69148fc757044bb92af7c2c41ec2, type: 3}
-  nextColor: {r: 0, g: 0, b: 0, a: 0}
+  nextColor: {r: 1, g: 0.9019608, b: 0.39215687, a: 0}
 --- !u!1 &5440500124878177013
 GameObject:
   m_ObjectHideFlags: 0

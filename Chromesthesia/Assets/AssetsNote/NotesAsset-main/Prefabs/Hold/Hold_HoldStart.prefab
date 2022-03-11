@@ -347,6 +347,7 @@ GameObject:
   - component: {fileID: 8352524436369004553}
   - component: {fileID: 4195037252182830968}
   - component: {fileID: 4397047394222039047}
+  - component: {fileID: 3847411374702353364}
   m_Layer: 0
   m_Name: Hold_HoldStart
   m_TagString: Untagged
@@ -405,6 +406,26 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &3847411374702353364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7551970938954819331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 235ccb24edd42a746beb28de1758750c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdDuration: 5000
+  timeStatus: noInput
+  dirStatus: 
+  status: 
+  perfect: {fileID: 4055103485004937997, guid: 4d46854d58d5d4942b1933ac20d35c3c, type: 3}
+  good: {fileID: 2047814215754629394, guid: 7f996b7665e763047a6e86b9ba410ca3, type: 3}
+  miss: {fileID: 6036812546695217688, guid: 14b69635f918a494d95a88d28b33a269, type: 3}
+  death: {fileID: 5416047314546798867, guid: 8dd2bbb7d07ffb1479bf8c6aaaf9b6f8, type: 3}
 --- !u!1 &7804709780971924571
 GameObject:
   m_ObjectHideFlags: 0

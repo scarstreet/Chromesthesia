@@ -42,7 +42,6 @@ public class NoteDiamond : MonoBehaviour
   {
     NoteDiamondResult resultScript;
     statusDetermine(dirStatus);
-    Debug.Log(status);
     // TODO - consider both timing/direction and 
     if (status.Contains("miss") || timeStatus.Contains("noInput"))
     {
