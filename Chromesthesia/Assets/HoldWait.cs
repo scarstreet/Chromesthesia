@@ -28,17 +28,21 @@ public class HoldWait : MonoBehaviour
 
   }
 
-  void changeDuration()
+  void changeDuration(string input)
   {
-    float speed = (float)(holdDuration / oriHoldDuration);
-    animator.speed = 1 / speed;
+      if(input.Contains("start")){
+        float speed = (float)(holdDuration / oriHoldDuration);
+        animator.speed = 1 / speed;
+      } else {
+      animator.speed = 1;
+    }
   }
 
   public void setState(string dirStatus)
   {
     NoteDiamondResult resultScript;
     statusDetermine(dirStatus);
-    if (dirStatus.Contains("noInput") || dirStatus.Contains("tooEarly") || status.Contains("miss"))
+    if (dirStatus.Contains("noInput") || status.Contains("miss"))
     {
       StartCoroutine(FlickerOut());
       resultScript = miss.GetComponent<NoteDiamondResult>();
