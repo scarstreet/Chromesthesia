@@ -493,7 +493,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1061129688
 PrefabInstance:
@@ -653,7 +653,7 @@ RectTransform:
   - {fileID: 575411458}
   - {fileID: 684306574}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -679,6 +679,7 @@ MonoBehaviour:
   score: 0
   tempo: 0
   circle: {fileID: 1278560318573899504, guid: e08c69148fc757044bb92af7c2c41ec2, type: 3}
+  hold: {fileID: 6967701114314300993, guid: 03a961fe6ba0dc14ba7dfa67abd73bd4, type: 3}
   time: 0
   timetext: {fileID: 684306575}
 --- !u!82 &1109297766

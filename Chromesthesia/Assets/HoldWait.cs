@@ -7,7 +7,7 @@ public class HoldWait : MonoBehaviour
   // Start is called before the first frame update
   public double holdDuration = 5000;
   private double oriHoldDuration = 5000;
-  public string timeStatus = "noInput";
+  public string timeStatus = "miss";
   public string dirStatus = "";
   public string status = "";
   Animator animator;
@@ -31,15 +31,19 @@ public class HoldWait : MonoBehaviour
   void changeDuration(string input)
   {
       if(input.Contains("start")){
-        float speed = (float)(holdDuration / oriHoldDuration);
-        animator.speed = 1 / speed;
+      float speed = (float)(holdDuration / oriHoldDuration);
+      animator.speed = 1 / speed;
       } else {
       animator.speed = 1;
-    }
+      }
   }
 
+  public void setTimeStat(string state) {
+    timeStatus = state;
+  }
   public void setState(string dirStatus)
   {
+    Debug.Log("HIII");
     NoteDiamondResult resultScript;
     statusDetermine(dirStatus);
     if (dirStatus.Contains("noInput") || status.Contains("miss"))
