@@ -86,6 +86,7 @@ public class NoteDiamond : MonoBehaviour
       status = "good";
     else
       status = "miss";
+    Debug.Log("dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status);
   }
 
   public void changeTimeState(string state){
