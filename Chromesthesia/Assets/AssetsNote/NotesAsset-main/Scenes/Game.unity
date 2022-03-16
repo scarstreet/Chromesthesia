@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hold_Spawn
       objectReference: {fileID: 0}
+    - target: {fileID: 6967701114314300993, guid: 03a961fe6ba0dc14ba7dfa67abd73bd4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8905272366716608843, guid: 03a961fe6ba0dc14ba7dfa67abd73bd4, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -502,17 +506,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: NoteDiamond
       objectReference: {fileID: 0}
+    - target: {fileID: 1278560318573899504, guid: e08c69148fc757044bb92af7c2c41ec2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4531444454160087315, guid: e08c69148fc757044bb92af7c2c41ec2, type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4531444454160087315, guid: e08c69148fc757044bb92af7c2c41ec2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.257846
+      value: -6.03
       objectReference: {fileID: 0}
     - target: {fileID: 4531444454160087315, guid: e08c69148fc757044bb92af7c2c41ec2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5003771
+      value: 2.52
       objectReference: {fileID: 0}
     - target: {fileID: 4531444454160087315, guid: e08c69148fc757044bb92af7c2c41ec2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -664,6 +672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c547b020669b5f41b0c4c57b93104a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delaystart: 1.4
   audiosource: {fileID: 0}
   highscore: 0000
   currentscore: {fileID: 575411459}

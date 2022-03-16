@@ -7,6 +7,7 @@ using System.IO;
 
 public class GameMaster : MonoBehaviour
 {
+  public float delaystart;
   public AudioSource audiosource;
   public string highscore;
   public Text currentscore;
@@ -20,26 +21,26 @@ public class GameMaster : MonoBehaviour
     public string color;
     public float posx, posy;
     public string direction;
-    public double duration;
+    public double timeEnd;
     public double time;
     public Note()
     {
-      this.type = type;
+      this.type = 0;
       this.color = "#FFFFFF";
       this.posx = 0;
       this.posy = 0;
       this.direction = "";
-      this.duration = duration;
+      this.timeEnd = 0;
       this.time = 0;
     }
-    public Note(int type, string color, float posx, float posy, string direction, double duration, double time)
+    public Note(int type, string color, float posx, float posy, string direction, double timeEnd, double time)
     {
       this.type = type;
       this.color = color;
       this.posx = posx;
       this.posy = posy;
       this.direction = direction;
-      this.duration = duration;
+      this.timeEnd = timeEnd;
       this.time = time;
     }
     public void setGameObject(GameObject obj)
@@ -61,11 +62,12 @@ public class GameMaster : MonoBehaviour
 
   void Start()
   {
+    delaystart = 2f;
     //string highscorepath = Application.persistentDataPath + "";
-    string audiopath = "Beatmap/Body_Talk";
+    string audiopath = "Beatmap/Body Talk";
     audiosource = GetComponent<AudioSource>();
     audiosource.clip = Resources.Load<AudioClip>(audiopath);
-    audiosource.Play();
+    StartCoroutine(startsong());
     //highscore = Resources.Load<audiosource>(audiosource);
     score = 0;
     time = Time.timeAsDouble;
@@ -83,9 +85,9 @@ public class GameMaster : MonoBehaviour
       float posx = Convert.ToSingle(list[2]);
       float posy = Convert.ToSingle(list[3]);
       string direction = list[4];
-      double duration = Convert.ToDouble(list[5]);
+      double timeEnd = Convert.ToDouble(list[5]);
       double time = Convert.ToDouble(list[6]);
-      que.Enqueue(new Note(type, color, posx, posy, direction, duration, time));
+      que.Enqueue(new Note(type, color, posx, posy, direction, timeEnd, time));
     }
     currentscore.text = score.ToString();
   }
@@ -116,7 +118,7 @@ public class GameMaster : MonoBehaviour
           */
           create.transform.position = new Vector3(que.Peek().posx, que.Peek().posy, 1);
           create.transform.rotation = Quaternion.Euler(0, 0, assignrotate(que.Peek().direction[0]));
-          Note temp = new Note(que.Peek().type, que.Peek().color, que.Peek().posx, que.Peek().posy, que.Peek().direction, que.Peek().duration, que.Peek().time + 1f);
+          Note temp = new Note(que.Peek().type, que.Peek().color, que.Peek().posx, que.Peek().posy, que.Peek().direction, que.Peek().timeEnd, que.Peek().time + 1f);
           temp.setGameObject(create); //assigning which gameobject to the temp
           isoutthere.Enqueue(temp); //showing the note and put in the queue
           Temp.Add(temp); //the list note of which when there are multiple touchable at the same time
@@ -143,7 +145,7 @@ public class GameMaster : MonoBehaviour
       {
         Touch[] touches = Input.touches;
         Vector2 startPos = touches[i].rawPosition; //the first time the touch connected
-        if (touches[i].phase == TouchPhase.Ended && (touches[i].deltaPosition.x < -0.15 || touches[i].deltaPosition.x > 0.15 || touches[i].deltaPosition.y > 0.15 || touches[i].deltaPosition.x < -0.15))
+        if (touches[i].phase == TouchPhase.Ended && (touches[i].deltaPosition.x < -0.01 || touches[i].deltaPosition.x > 0.01 || touches[i].deltaPosition.y > 0.01 || touches[i].deltaPosition.x < -0.01))
         {
           double timetouched = time;
           Vector2 endPos = Input.touches[i].position; //noting the endposition of the touch
@@ -277,6 +279,12 @@ public class GameMaster : MonoBehaviour
     return result;
   }
 
+  IEnumerator startsong()
+  {
+    yield return new WaitForSeconds(delaystart);
+    audiosource.Play();
+  }
+  
   IEnumerator songfinished()
   {
     yield return new WaitForSeconds(5);
