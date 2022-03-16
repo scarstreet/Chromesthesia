@@ -49,7 +49,7 @@ public class NoteDiamond : MonoBehaviour
       resultScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextAnimation = miss;
-      if(timeStatus.Contains("noInput")) {
+      if(dirStatus.Contains("noInput")) {
         // Debug.Log(gameObject + "!!! Dequeueing !!!");
         GameMaster.touchable.Dequeue();
       }
