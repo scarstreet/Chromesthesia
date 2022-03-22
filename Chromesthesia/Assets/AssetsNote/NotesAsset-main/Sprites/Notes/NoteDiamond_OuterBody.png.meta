@@ -133,7 +133,7 @@ TextureImporter:
         width: 184
         height: 368
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,6 +141,27 @@ TextureImporter:
       bones: []
       spriteID: de33de34a1ad5b1498a981b90eb34905
       internalID: 353136518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NoteDiamond_ArrowMask
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 445
+        width: 78
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0140396be557d9f46b304871fa3dab0e
+      internalID: -784665809
       vertices: []
       indices: 
       edges: []
@@ -158,6 +179,7 @@ TextureImporter:
     nameFileIdTable:
       NoteDiamond_OuterBody_0: 306603175
       NoteDiamond_OuterBodyHalf: 353136518
+      NoteDiamond_ArrowMask: -784665809
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
