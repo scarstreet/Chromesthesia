@@ -57,10 +57,10 @@ Explaination :
 0,#FFFFFF,2.5,2.5,w,0,27.90
 0,#FFFFFF,-2.5,-2.5,x,0,28.83
 0,#FFFFFF,2.5,-2.5,x,0,28.83
-1,#FFFFFF,-6,2.5,e,32.58,30.71
+1,#FFFFFF,-6,2.5,e,33.58,30.71,ORI DURATION IS 32.58
 0,#FFFFFF,0,0,w,0,31.60,remove for hold 
 0,#FFFFFF,0,0,w,0,32.58,remove for hold
-0,#FFFFFF,6,2.5,w,35.42,33.51
+1,#FFFFFF,6,2.5,w,36.42,33.51,ORI DURATION IS 35.42
 0,#FFFFFF,0,0,w,0,34.42,remove for hold
 0,#FFFFFF,0,0,w,0,35.42,remove for hold
 0,#FFFFFF,0,0,w,0,36.32

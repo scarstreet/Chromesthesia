@@ -51,7 +51,9 @@ public class NoteDiamond : MonoBehaviour
       deathScript.nextAnimation = miss;
       if(dirStatus.Contains("noInput")) {
         // Debug.Log(gameObject + "!!! Dequeueing !!!");
-        GameMaster.touchable.Dequeue();
+        if(GameMaster.touchable.Count>0) {
+          GameMaster.touchable.Dequeue();
+        }
       }
     }
     else if (status.Contains("good"))
@@ -86,7 +88,7 @@ public class NoteDiamond : MonoBehaviour
       status = "good";
     else
       status = "miss";
-    Debug.Log("dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status);
+    Debug.Log("SWIPE || dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status);
   }
 
   public void changeTimeState(string state){

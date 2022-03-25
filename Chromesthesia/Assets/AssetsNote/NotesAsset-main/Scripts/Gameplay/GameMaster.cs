@@ -56,7 +56,8 @@ public class GameMaster : MonoBehaviour
     {
       return obj;
     }
-    public void setHoldProperties(int fingerId) {
+    public void setHoldProperties(int fingerId)
+    {
       this.fingerId = fingerId;
       this.timePressed = Time.timeAsDouble;
       double remainDur = this.timeEnd - this.time;
@@ -64,11 +65,11 @@ public class GameMaster : MonoBehaviour
 
       HoldSpawn objScript = this.obj.GetComponent<HoldSpawn>();
       HoldWait script = objScript.HoldStart.GetComponent<HoldWait>();
-      script.holdDuration = remainDur*1000;
+      script.holdDuration = remainDur * 1000;
 
       GameObject temp = objScript.HoldStart;
       Vector3 tempPos = objScript.gameObject.transform.position;
-      Quaternion tempRot= objScript.gameObject.transform.rotation;
+      Quaternion tempRot = objScript.gameObject.transform.rotation;
       objScript.setState("touched"); // here lies the previous hold object, dead
       this.obj = Instantiate(temp, tempPos, tempRot); // reincarnate to become holdWait
     }
@@ -87,7 +88,7 @@ public class GameMaster : MonoBehaviour
   {
     delaystart = 2f;
     //string highscorepath = Application.persistentDataPath + "";
-    string audiopath = "Beatmap/Body Talk";
+    string audiopath = "Beatmap/queuenumber";
     audiosource = GetComponent<AudioSource>();
     audiosource.clip = Resources.Load<AudioClip>(audiopath);
     StartCoroutine(startsong());
@@ -143,7 +144,8 @@ public class GameMaster : MonoBehaviour
           Temp.Add(temp); //the list note of which when there are multiple touchable at the same time
           last = temp;
           que.Dequeue();
-          if(temp.type == 1) {
+          if (temp.type == 1)
+          {
             existingHolds.Add(temp);
           }
         }
@@ -161,6 +163,7 @@ public class GameMaster : MonoBehaviour
         }
       }
     }
+
     if (Input.touchCount > 0)
     {
       for (int i = 0; i < Input.touchCount; i++)
@@ -169,18 +172,20 @@ public class GameMaster : MonoBehaviour
         Vector2 startPos = touches[i].rawPosition; //the first time the touch connected
         if (touches[i].phase == TouchPhase.Stationary)
         {
-          bool holdExists = false;
-          // Debug.Log(existingHolds.Count);
-          foreach(Note note in existingHolds) {
-            if(touchable.Contains(note)) {
-              Debug.Log(touches[i].fingerId);
+          Debug.Log(touches[i].fingerId + "IS HOLD!!!!!!!!!!");
+          foreach (Note note in existingHolds)
+          {
+            if (touchable.Contains(note) && waitingHolds.FindIndex((n) => n.fingerId == touches[i].fingerId) == -1)
+            {
+              // Debug.Log(touches[i].fingerId);
               note.setHoldProperties(touches[i].fingerId);
               HoldSpawn script = note.obj.GetComponent<HoldSpawn>();
               waitingHolds.Add(note);
               touchable = new Queue<Note>(touchable.Where(x => x != note)); // remove from original 
             }
           }
-        } else if (touches[i].phase == TouchPhase.Ended && (touches[i].deltaPosition.x < -0.01 || touches[i].deltaPosition.x > 0.01 || touches[i].deltaPosition.y > 0.01 || touches[i].deltaPosition.x < -0.01))
+        }
+        else if (touches[i].phase == TouchPhase.Ended && (touches[i].deltaPosition.x < -0.01 || touches[i].deltaPosition.x > 0.01 || touches[i].deltaPosition.y > 0.01 || touches[i].deltaPosition.x < -0.01))
         {
           double timetouched = time;
           Vector2 endPos = Input.touches[i].position; //noting the endposition of the touch
@@ -188,15 +193,24 @@ public class GameMaster : MonoBehaviour
           double angle = rad * (180 / Math.PI); //check the angle and change it to degrees from radian
 
           int holdIndex = waitingHolds.FindIndex((note) => note.fingerId == touches[i].fingerId);
-          if(holdIndex != -1){ // IF HOLD'S SWIPE
+          if (holdIndex != -1)
+          { // IF HOLD'S SWIPE
+            Debug.Log(touches[i].fingerId + "IS SWIPED!!!!!!!!!!");
+            Debug.Log(checkDir(angle));
             Note held = waitingHolds[holdIndex];
             HoldWait script = held.obj.GetComponent<HoldWait>();
             script.setState(directionJudgement(angle, held.time));
             waitingHolds.Remove(held);
-          } else { // IF SWIPE
-            NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
-            s.setState(directionJudgement(angle, touchable.Peek().time));
-            touchable.Dequeue();
+          }
+          else
+          { // IF SWIPE
+            if (touchable.Count > 0)
+            {
+              Debug.Log("SWIPE SWIPE");
+              NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
+              s.setState(directionJudgement(angle, touchable.Peek().time));
+              touchable.Dequeue();
+            }
           }
         }
       }
@@ -329,7 +343,7 @@ public class GameMaster : MonoBehaviour
     yield return new WaitForSeconds(delaystart);
     audiosource.Play();
   }
-  
+
   IEnumerator songfinished()
   {
     yield return new WaitForSeconds(5);
