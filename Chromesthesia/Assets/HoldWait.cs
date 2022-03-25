@@ -43,7 +43,6 @@ public class HoldWait : MonoBehaviour
   }
   public void setState(string dirStatus)
   {
-    Debug.Log("HIII");
     NoteDiamondResult resultScript;
     statusDetermine(dirStatus);
     if (dirStatus.Contains("noInput") || status.Contains("miss"))
@@ -55,7 +54,20 @@ public class HoldWait : MonoBehaviour
       deathScript.nextAnimation = miss;
       if (dirStatus.Contains("noInput"))
       {
-        GameMaster.touchable.Dequeue();
+        double time = Time.timeAsDouble;
+        if (GameMaster.waitingHolds.Count > 0)
+        {
+          int index = GameMaster.waitingHolds.FindIndex((note) => time >= note.timeEnd);
+          if (index != -1)
+          {
+            while (index != -1)
+            {
+              index = GameMaster.waitingHolds.FindIndex((note) => time >= note.timeEnd);
+              Debug.Log(index);
+              GameMaster.waitingHolds.Remove(GameMaster.waitingHolds[index]);
+            }
+          }
+        }
       }
     }
     else
@@ -99,6 +111,7 @@ public class HoldWait : MonoBehaviour
       status = "good";
     else
       status = "miss";
+    Debug.Log("HOLD || dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status);
   }
   IEnumerator FlickerOut()
   {

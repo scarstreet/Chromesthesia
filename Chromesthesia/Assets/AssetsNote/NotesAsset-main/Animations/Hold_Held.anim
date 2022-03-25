@@ -1038,23 +1038,16 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 4
+  - time: 3.6666667
     functionName: setTimeStat
     data: good
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 4.5
+  - time: 4.7
     functionName: setTimeStat
     data: perfect
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 5.4
-    functionName: setTimeStat
-    data: good
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
@@ -1066,7 +1059,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 5.8
+  - time: 5.9166665
+    functionName: setTimeStat
+    data: good
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 5.9666667
     functionName: setTimeStat
     data: miss
     objectReferenceParameter: {fileID: 0}
