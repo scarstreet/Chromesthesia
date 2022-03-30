@@ -59,14 +59,16 @@ public class GameMaster : MonoBehaviour
     public void setHoldProperties(int fingerId)
     {
       this.fingerId = fingerId;
-      this.timePressed = Time.timeAsDouble;
+      this.timePressed = Time.timeAsDouble + 0f;
       double remainDur = this.timeEnd - this.time;
+      Debug.Log($"{remainDur} = {this.timeEnd} - {this.time}");
       remainDur = remainDur - (this.timePressed - this.time) - 0.5;
+      Debug.Log($"{remainDur} = remainDur - ({this.timePressed} - {this.time}) - 0.5;");
 
       HoldSpawn objScript = this.obj.GetComponent<HoldSpawn>();
       HoldWait script = objScript.HoldStart.GetComponent<HoldWait>();
       script.holdDuration = remainDur * 1000;
-
+      Debug.Log($"{script.holdDuration} = {remainDur} * 1000; || END.");
       GameObject temp = objScript.HoldStart;
       Vector3 tempPos = objScript.gameObject.transform.position;
       Quaternion tempRot = objScript.gameObject.transform.rotation;
@@ -88,15 +90,15 @@ public class GameMaster : MonoBehaviour
   {
     delaystart = 2f;
     //string highscorepath = Application.persistentDataPath + "";
-    string audiopath = "Beatmap/queuenumber";
+    string audiopath = "Beatmap/Body Talk";
     audiosource = GetComponent<AudioSource>();
     audiosource.clip = Resources.Load<AudioClip>(audiopath);
     StartCoroutine(startsong());
     //highscore = Resources.Load<audiosource>(audiosource);
     score = 0;
-    time = Time.timeAsDouble;
+    time = Time.timeAsDouble + 0f; //remove 0f after you finish debugging
     timetext.text = time.ToString();
-    TextAsset theList = Resources.Load<TextAsset>("Beatmap/holdTest"); //read a textfile from "path" note that it only reads from folder Resources, so you have to put everything (that you said to Load) in resources folder, however you may make any folder inside th resouce folder.
+    TextAsset theList = Resources.Load<TextAsset>("Beatmap/queuenumber"); //read a textfile from "path" note that it only reads from folder Resources, so you have to put everything (that you said to Load) in resources folder, however you may make any folder inside th resouce folder.
     string text = theList.text;
     string[] words = text.Split('\n');
     List<string> wordlist = new List<string>(words);
@@ -111,7 +113,8 @@ public class GameMaster : MonoBehaviour
       string direction = list[4];
       double timeEnd = Convert.ToDouble(list[5]);
       double time = Convert.ToDouble(list[6]);
-      que.Enqueue(new Note(type, color, posx, posy, direction, timeEnd, time));
+      if(time>0f)//remove after you finish debugging
+          que.Enqueue(new Note(type, color, posx, posy, direction, timeEnd, time));
     }
     currentscore.text = score.ToString();
   }
@@ -119,7 +122,7 @@ public class GameMaster : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    time = Time.timeAsDouble;
+    time = Time.timeAsDouble + 0f;
     timetext.text = time.ToString();
     if (que.Count == 0)
     {
@@ -137,7 +140,7 @@ public class GameMaster : MonoBehaviour
           circle.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
           create.transform.position = new Vector3(que.Peek().posx, que.Peek().posy, 1);
           create.transform.rotation = Quaternion.Euler(0, 0, assignrotate(que.Peek().direction[0]));
-          Note temp = new Note(que.Peek().type, que.Peek().color, que.Peek().posx, que.Peek().posy, que.Peek().direction, que.Peek().timeEnd, que.Peek().time + 1f);
+          Note temp = new Note(que.Peek().type, que.Peek().color, que.Peek().posx, que.Peek().posy, que.Peek().direction, que.Peek().timeEnd, que.Peek().time + 1f); //changed to 1.5f (trying)
           temp.timeSpawned = Time.timeAsDouble;
           temp.setGameObject(create); //assigning which gameobject to the temp
           isoutthere.Enqueue(temp); //showing the note and put in the queue
@@ -185,7 +188,7 @@ public class GameMaster : MonoBehaviour
             }
           }
         }
-        else if (touches[i].phase == TouchPhase.Ended && (touches[i].deltaPosition.x < -0.01 || touches[i].deltaPosition.x > 0.01 || touches[i].deltaPosition.y > 0.01 || touches[i].deltaPosition.x < -0.01))
+        else if ((touches[i].phase == TouchPhase.Ended) && (touches[i].deltaPosition!=touches[i].rawPosition))
         {
           double timetouched = time;
           Vector2 endPos = Input.touches[i].position; //noting the endposition of the touch
@@ -196,7 +199,7 @@ public class GameMaster : MonoBehaviour
           if (holdIndex != -1)
           { // IF HOLD'S SWIPE
             Debug.Log(touches[i].fingerId + "IS SWIPED!!!!!!!!!!");
-            Debug.Log(checkDir(angle));
+            Debug.Log(checkDir(angle) + "direction = " + angle);
             Note held = waitingHolds[holdIndex];
             HoldWait script = held.obj.GetComponent<HoldWait>();
             script.setState(directionJudgement(angle, held.time));
@@ -270,6 +273,7 @@ public class GameMaster : MonoBehaviour
       dir = "x";
     else if (angle >= -67.5 && angle < -22.5) // down right
       dir = "c";
+    Debug.Log(angle + " " + dir);
     return dir;
   }
 
@@ -341,12 +345,13 @@ public class GameMaster : MonoBehaviour
   IEnumerator startsong()
   {
     yield return new WaitForSeconds(delaystart);
+    audiosource.time = 0f; //0f is for debugging,remove after use
     audiosource.Play();
   }
 
   IEnumerator songfinished()
   {
-    yield return new WaitForSeconds(5);
+    yield return new WaitForSeconds(7);
     audiosource.Stop();
   }
 }
