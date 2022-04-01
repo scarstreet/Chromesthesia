@@ -8,18 +8,15 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/AssetsNote/NotesAsset-main/Scenes/Game.unity
     guid: 9ecb964c77a6a3544a754a22d0867162
   - enabled: 1
-    path: Assets/AssetsUI/Assets-main/Scenes/GameScreen.unity
-    guid: 68d3ba5417323cf4e86c8615a02eae97
+    path: Assets/AssetsUI/Assets-main/Scenes/MainTitleScreen.unity
+    guid: 693870fd24cd9aa4fb816db5bdf9b51c
   - enabled: 1
     path: Assets/AssetsUI/Assets-main/Scenes/LoadingScene.unity
     guid: db4b467f23af82a41935ada62805924a
-  - enabled: 1
-    path: Assets/AssetsUI/Assets-main/Scenes/MainTitleScreen.unity
-    guid: 693870fd24cd9aa4fb816db5bdf9b51c
   - enabled: 1
     path: Assets/AssetsUI/Assets-main/Scenes/PauseScreen.unity
     guid: d8079c50e3970cd42974559c76f5f444
@@ -32,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/AssetsUI/Assets-main/Scenes/SongSelect.unity
     guid: 4ea5b22c81b38b645aa90a38a0f972a7
+  - enabled: 1
+    path: Assets/AssetsUI/Assets-main/Scenes/GameScreen.unity
+    guid: 68d3ba5417323cf4e86c8615a02eae97
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 2052e2aa913a75344b9be69a02c50f28, type: 2}
     com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 791f2ac7fa910d34fbb66e501e54e475, type: 2}
