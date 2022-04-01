@@ -36,7 +36,7 @@ public class SongInfo
   string title;
   string artist;
   Score easy, normal, hard; // Highscores for each difficulty
-  string BM_easyPath, BM_normalPath, BM_hardPath;
+  public string BM_easyPath, BM_normalPath, BM_hardPath;
   public string getTitle() { return title; }
   public string getArtist() { return artist; }
   public Sprite getImage() { return image; }
@@ -140,6 +140,16 @@ public class SongSelectScript : MonoBehaviour
       easyText.color = new Color((100f / 255f), (100f / 255f), (100f / 255f), 1);
       normalText.color = new Color((100f / 255f), (100f / 255f), (100f / 255f), 1);
       hardText.color = new Color((255f / 255f), (255f / 255f), (255f / 255f), 1);
+    }
+  }
+
+  public static string beatmapPath() {
+    if(currentDifficulty.Contains("EASY")) {
+      return currentSong.BM_easyPath;
+    } else if (currentDifficulty.Contains("NORMAL")) {
+      return currentSong.BM_normalPath;
+    } else {
+      return currentSong.BM_hardPath;
     }
   }
   /***************************************************************************
