@@ -456,6 +456,7 @@ GameObject:
   - component: {fileID: 1206594306}
   - component: {fileID: 1206594305}
   - component: {fileID: 1206594309}
+  - component: {fileID: 1206594310}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -564,9 +565,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitionPanel: {fileID: 2136140175}
-  progressBar: {fileID: 797304366}
   difficulty: {fileID: 500870077}
   song: {fileID: 1049139276}
+--- !u!95 &1206594310
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206594304}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7e6bc72fd920ee84fa128ae40572451b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1364270533
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,37 +8,39 @@ using UnityEngine.SceneManagement;
 
 public class GameScript : MonoBehaviour
 {
-  public static bool gameIsPaused;
-  public static bool gameCompleted;
+  public static bool gameIsPaused = false;
+  public static bool gameCompleted = false;
+  public static bool gameStarted = false;
+  public static float songProgress = 0;
   public Image transitionPanel;
-  public Image progressBar;
   public Text difficulty;
   public Text song;
-  double gameStartTime;
-  int totalWidth;
-  public static bool songStarted = false;
+  Animator animator;
+  static double gameStartTime;
+  double duration = 10; // SONG DURATION IN SECONDS
   void Start()
   {
-    gameIsPaused = false;
-    gameCompleted = false;
-    transitionPanel.CrossFadeAlpha(0, 0.25f, false);
-    totalWidth = Screen.width;
-    songStarted = true;
-    progressBar.transform.localScale = new Vector3(0, 0, 0);
     difficulty.text = SongSelectScript.currentDifficulty;
     song.text = SongSelectScript.currentSong.getTitle() + " - " + SongSelectScript.currentSong.getArtist();
-    gameStartTime = Time.timeAsDouble;
+    animator = gameObject.GetComponent<Animator>();
+    animator.speed = 0;
+    StartCoroutine(postStart());
   }
 
   // Update is called once per frame
   void Update()
   {
-    double progress = Time.timeAsDouble / (gameStartTime + 5);
-    progressBar.transform.localScale = new Vector3((float)progress, 1, 0);
-    if ((Time.timeAsDouble >= gameStartTime + 5) && !gameCompleted)
+    if (gameStarted && !gameIsPaused)
     {
-      gameCompleted = true;
-      StartCoroutine(toScoreScreen());
+      songProgress = (float)(Time.timeAsDouble - gameStartTime) / (float)(gameStartTime + duration);
+      // Debug.Log(songProgress);
+      animator.SetFloat("RunnerProgress", songProgress);
+      if (songProgress >= 1 && !gameCompleted)
+      {
+        gameCompleted = true;
+        Debug.Log("FINISHED AT = " + songProgress);
+        StartCoroutine(toScoreScreen());
+      }
     }
   }
 
@@ -46,6 +48,7 @@ public class GameScript : MonoBehaviour
   {
     // TODO - pause the game
     gameIsPaused = true;
+    animator.speed = 0;
     SceneManager.LoadScene("PauseScreen", LoadSceneMode.Additive);
   }
   private bool IsPointerOverUIObject()
@@ -58,7 +61,40 @@ public class GameScript : MonoBehaviour
     EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
     return results.Count > 0;
   }
-  IEnumerator toScoreScreen() {
+  IEnumerator postStart()
+  {
+    for (int i = 0; i < 3; i++)
+    {
+      if (i == 0)
+      {
+        transitionPanel.CrossFadeAlpha(0, 0.5f, false);
+        yield return new WaitForSeconds(.5f);
+      }
+      else if (i == 1)
+      {
+        // TODO - 321 count down
+        yield return new WaitForSeconds(0f);
+      }
+      else
+      {
+        if (!gameStarted)
+        {
+          animator.SetFloat("RunnerProgress", 0);
+          gameStartTime = Time.timeAsDouble;
+          Debug.Log("START TIME  = " + gameStartTime);
+          Debug.Log("Progress start  = " + ((Time.timeAsDouble - gameStartTime) / (gameStartTime + duration)));
+          gameStarted = true;
+          double animTime = 5;
+          animator.speed = (float)(animTime / duration);
+        } else if(gameIsPaused) {
+          // TODO - take care of pause progress
+        }
+      }
+      yield return new WaitForSeconds(0f);
+    }
+  }
+  IEnumerator toScoreScreen()
+  {
     bool fadeDone = false;
     while (!fadeDone)
     {
