@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
+
+
 public class MainTitleScript : MonoBehaviour
 {
+  public Image transitionPanel;
   // Start is called before the first frame update
   void Start()
   {
-
+    transitionPanel.CrossFadeAlpha(0, 0.25f, false);
   }
 
   // Update is called once per frame
@@ -17,12 +21,14 @@ public class MainTitleScript : MonoBehaviour
   {
     if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
     {
-      SceneManager.LoadScene("SongSelect", LoadSceneMode.Single);
+      StartCoroutine(changeScene("SongSelect"));
+      // SceneManager.LoadScene("SongSelect", LoadSceneMode.Single);
     }
   }
 
-  public void toSettings(){
-    SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
+  public void toSettings()
+  {
+    StartCoroutine(changeScene("SettingsScene"));
   }
   private bool IsPointerOverUIObject()
   {
@@ -33,5 +39,18 @@ public class MainTitleScript : MonoBehaviour
     var results = new List<RaycastResult>();
     EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
     return results.Count > 0;
+  }
+
+  IEnumerator changeScene(string scene) {
+    bool fadeDone = false;
+    while(!fadeDone) {
+      transitionPanel.CrossFadeAlpha(1, 0.25f, false);
+      fadeDone = true;
+      yield return new WaitForSeconds(.25f);
+    }
+    if(scene.Contains("SettingsScene")) {
+      SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
+    }
+    SceneManager.LoadScene(scene, LoadSceneMode.Single);
   }
 }
