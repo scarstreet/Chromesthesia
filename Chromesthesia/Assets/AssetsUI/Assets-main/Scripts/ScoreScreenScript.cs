@@ -1,14 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class ScoreScreenScript : MonoBehaviour
 {
-  // Start is called before the first frame update
+  public Image transitionPanel;
+  public Text difficulty;
+  public Text songTitle;
+  public Text artistName;
+  public Button playAgainBtn;
+  public Button songListBtn;
+  public Button settingsBtn;
+  Animator animator;
   void Start()
   {
+    GameScript.gameCompleted = false;
+    GameScript.gameIsPaused = false;
+    GameScript.gameStarted = false;
+    transitionPanel.CrossFadeAlpha(0, 0.25f, false);
+    animator = gameObject.GetComponent<Animator>();
+    difficulty.text = SongSelectScript.currentDifficulty;
+    songTitle.text = SongSelectScript.currentSong.getTitle();
+    artistName.text = SongSelectScript.currentSong.getArtist();
+    playAgainBtn.enabled = false;
+    songListBtn.enabled = false;
+    settingsBtn.enabled = false;
+  }
+  public void stopAnimations() {
+    animator.speed = 0;
+    playAgainBtn.enabled = true;
+    songListBtn.enabled = true;
+    settingsBtn.enabled = true;
   }
 
   // Update is called once per frame
@@ -17,15 +42,15 @@ public class ScoreScreenScript : MonoBehaviour
   }
   public void toSettings()
   {
-    SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
+    StartCoroutine(changeScene("SettingsScene"));
   }
 
   public void toSongList() {
-    SceneManager.LoadScene("SongList", LoadSceneMode.Single);
+    StartCoroutine(changeScene("SongSelect"));
   }
 
   public void playAgainPressed(){
-    SceneManager.LoadScene("GameScreen", LoadSceneMode.Single);
+    StartCoroutine(changeScene("GameScreen"));
   }
 
   private bool IsPointerOverUIObject()
@@ -37,5 +62,20 @@ public class ScoreScreenScript : MonoBehaviour
     var results = new List<RaycastResult>();
     EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
     return results.Count > 0;
+  }
+  IEnumerator changeScene(string scene)
+  {
+    bool fadeDone = false;
+    while (!fadeDone)
+    {
+      transitionPanel.CrossFadeAlpha(1, 0.25f, false);
+      fadeDone = true;
+      yield return new WaitForSeconds(.25f);
+    }
+    if (scene.Contains("SettingsScene"))
+    {
+      SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
+    }
+    SceneManager.LoadScene(scene, LoadSceneMode.Single);
   }
 }

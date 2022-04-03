@@ -9,11 +9,11 @@ using System;
 public class Score
 {
   bool notPlayedYet = false;
-  int score = 0;
-  int combo = 0;
-  double accuracy = 0;
+  public int score = 0;
+  public int combo = 0;
+  public double accuracy = 0;
   int miss = 0, good = 0, perfect = 0;
-  string rating = "";
+  public string rating = "";
   public Score(string i_new, string i_score, string i_miss, string i_good, string i_perfect, string i_combo, string i_acc, string i_rating)
   {
     if (i_new.Contains("true"))
@@ -27,6 +27,10 @@ public class Score
     combo = Convert.ToInt16(i_combo.Split('=')[1]);
     accuracy = Convert.ToDouble(i_acc.Split('=')[1]);
     rating = i_rating.Split('=')[1];
+    if (rating.Contains('0'))
+    {
+      rating = "";
+    }
     // Debug.Log(score + " " + miss + " " + good + " " + perfect + " " + combo + " " + accuracy + " " + rating + " " + notPlayedYet);
   }
 }
@@ -35,7 +39,7 @@ public class SongInfo
   Sprite image;
   string title;
   string artist;
-  Score easy, normal, hard; // Highscores for each difficulty
+  public Score easy, normal, hard; // Highscores for each difficulty
   public string BM_easyPath, BM_normalPath, BM_hardPath;
   public string getTitle() { return title; }
   public string getArtist() { return artist; }
@@ -78,13 +82,15 @@ public class SongSelectScript : MonoBehaviour
 {
   public static string currentDifficulty = "EASY"; //"EASY","NORMAL" or "HARD"
   private List<SongInfo> allSongs;
+  public static bool justStarted = true;
   public static SongInfo currentSong;
-  public static SongInfo nextSong;
-  public static SongInfo prevSong;
+  public SongInfo nextSong;
+  public SongInfo prevSong;
   // vvv UI ELEMENTS vvv ========================================================
   public Image currentSongImage;
   public Image nextSongImage;
   public Image prevSongImage;
+  public Image transitionPanel;
 
   public Text songTitle;
   public Text artistName;
@@ -93,6 +99,11 @@ public class SongSelectScript : MonoBehaviour
   public Text easyText;
   public Text normalText;
   public Text hardText;
+  public Text highscore;
+  public Text combo;
+  public Text accuracy;
+  public Text rating;
+
   public void getAllSongs()
   {
     List<SongInfo> list = new List<SongInfo>();
@@ -106,7 +117,15 @@ public class SongSelectScript : MonoBehaviour
     }
     allSongs = list;
   }
-  public void songUIfade(float fade) {
+  public void scoreUIfade(float fade)
+  {
+    highscore.CrossFadeAlpha(fade, 0.25f, false);
+    combo.CrossFadeAlpha(fade, 0.25f, false);
+    accuracy.CrossFadeAlpha(fade, 0.25f, false);
+    rating.CrossFadeAlpha(fade, 0.25f, false);
+  }
+  public void songUIfade(float fade)
+  {
     songTitle.CrossFadeAlpha(fade, 0.25f, false);
     artistName.CrossFadeAlpha(fade, 0.25f, false);
     nextSongText.CrossFadeAlpha(fade, 0.25f, false);
@@ -114,6 +133,10 @@ public class SongSelectScript : MonoBehaviour
     currentSongImage.CrossFadeAlpha(fade, 0.25f, false);
     nextSongImage.CrossFadeAlpha(fade, 0.25f, false);
     prevSongImage.CrossFadeAlpha(fade, 0.25f, false);
+    highscore.CrossFadeAlpha(fade, 0.25f, false);
+    combo.CrossFadeAlpha(fade, 0.25f, false);
+    accuracy.CrossFadeAlpha(fade, 0.25f, false);
+    rating.CrossFadeAlpha(fade, 0.25f, false);
   }
   public void updateUI()
   {
@@ -124,31 +147,50 @@ public class SongSelectScript : MonoBehaviour
     prevSongImage.sprite = prevSong.getImage();
     nextSongText.text = nextSong.getTitle() + " - " + nextSong.getArtist();
     prevSongText.text = prevSong.getTitle() + " - " + prevSong.getArtist();
-    if(currentDifficulty.Contains("EASY")) {
+    if (currentDifficulty.Contains("EASY"))
+    {
       easyText.color = new Color((255f / 255f), (255f / 255f), (255f / 255f), 1);
       normalText.color = new Color((100f / 255f), (100f / 255f), (100f / 255f), 1);
       hardText.color = new Color((100f / 255f), (100f / 255f), (100f / 255f), 1);
+      highscore.text = currentSong.easy.score.ToString();
+      combo.text = currentSong.easy.combo.ToString();
+      accuracy.text = currentSong.easy.accuracy.ToString() + '%';
+      rating.text = currentSong.easy.rating;
     }
     if (currentDifficulty.Contains("NORMAL"))
     {
       easyText.color = new Color((100f / 255f), (100f / 255f), (100f / 255f), 1);
       normalText.color = new Color((255f / 255f), (255f / 255f), (255f / 255f), 1);
       hardText.color = new Color((100f / 255f), (100f / 255f), (100f / 255f), 1);
+      highscore.text = currentSong.normal.score.ToString();
+      combo.text = currentSong.normal.combo.ToString();
+      accuracy.text = currentSong.normal.accuracy.ToString() + '%';
+      rating.text = currentSong.normal.rating;
     }
     if (currentDifficulty.Contains("HARD"))
     {
       easyText.color = new Color((100f / 255f), (100f / 255f), (100f / 255f), 1);
       normalText.color = new Color((100f / 255f), (100f / 255f), (100f / 255f), 1);
       hardText.color = new Color((255f / 255f), (255f / 255f), (255f / 255f), 1);
+      highscore.text = currentSong.hard.score.ToString();
+      combo.text = currentSong.hard.combo.ToString();
+      accuracy.text = currentSong.hard.accuracy.ToString() + '%';
+      rating.text = currentSong.hard.rating;
     }
   }
 
-  public static string beatmapPath() {
-    if(currentDifficulty.Contains("EASY")) {
+  public static string beatmapPath()
+  {
+    if (currentDifficulty.Contains("EASY"))
+    {
       return currentSong.BM_easyPath;
-    } else if (currentDifficulty.Contains("NORMAL")) {
+    }
+    else if (currentDifficulty.Contains("NORMAL"))
+    {
       return currentSong.BM_normalPath;
-    } else {
+    }
+    else
+    {
       return currentSong.BM_hardPath;
     }
   }
@@ -158,10 +200,16 @@ public class SongSelectScript : MonoBehaviour
   public void Start()
   {
     getAllSongs();
-    currentSong = allSongs[0];
-    nextSong = 1 >= allSongs.Count ? allSongs[allSongs.Count - 1] : allSongs[1];
-    prevSong = allSongs[allSongs.Count - 1];
+    if (justStarted)
+    {
+      currentSong = allSongs[0];
+      justStarted = false;
+    }
+    int index = allSongs.FindIndex((i) => i.getTitle() == currentSong.getTitle());
+    nextSong = index + 1 == allSongs.Count ? allSongs[0] : allSongs[index + 1];
+    prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
     updateUI();
+    transitionPanel.CrossFadeAlpha(0, 0.25f, false);
   }
 
   // Update is called once per frame
@@ -169,15 +217,18 @@ public class SongSelectScript : MonoBehaviour
   {
     if (Input.touchCount > 0 && IsPointerOverUIObject() == false)
     {
-
       Touch touch = Input.GetTouch(0);
-      if (touch.phase == TouchPhase.Ended && (touch.deltaPosition != touch.rawPosition)) {
+      if (touch.phase == TouchPhase.Ended && (touch.deltaPosition != touch.rawPosition))
+      {
         double rad = Mathf.Atan2(touch.deltaPosition.y, touch.deltaPosition.x);
         double angle = rad * (180 / Math.PI); //check the angle and change it to degrees from radian
         string dir = checkDir(angle);
-        if(dir.Contains('a') || dir.Contains('q') || dir.Contains('z')) {
+        if (dir.Contains('a') || dir.Contains('q') || dir.Contains('z'))
+        {
           nextSongPressed();
-        } else if (dir.Contains('d') || dir.Contains('e') || dir.Contains('c')) {
+        }
+        else if (dir.Contains('d') || dir.Contains('e') || dir.Contains('c'))
+        {
           previousSongPressed();
         }
       }
@@ -187,6 +238,7 @@ public class SongSelectScript : MonoBehaviour
   {
     currentDifficulty = selected;
     updateUI();
+    StartCoroutine(changeDifficulty());
   }
 
   private string checkDir(double angle)
@@ -221,16 +273,34 @@ public class SongSelectScript : MonoBehaviour
     StartCoroutine(changeSong("next"));
   }
 
-  IEnumerator changeSong(string which) {
-    songUIfade(0);
+  IEnumerator changeDifficulty()
+  {
+    scoreUIfade(0);
     bool faded = false;
-    while(!faded) {
+    while (!faded)
+    {
       faded = true;
       yield return new WaitForSeconds(.25f);
     }
-    if(which.Contains("next")) {
+    updateUI();
+    songUIfade(1);
+  }
+
+  IEnumerator changeSong(string which)
+  {
+    songUIfade(0);
+    bool faded = false;
+    while (!faded)
+    {
+      faded = true;
+      yield return new WaitForSeconds(.25f);
+    }
+    if (which.Contains("next"))
+    {
       currentSong = nextSong;
-    } else {
+    }
+    else
+    {
       currentSong = prevSong;
     }
     int index = allSongs.FindIndex(song => song == currentSong);
@@ -239,16 +309,14 @@ public class SongSelectScript : MonoBehaviour
     updateUI();
     songUIfade(1);
   }
-
-
   public void playPressed()
   {
-    SceneManager.LoadScene("GameScreen", LoadSceneMode.Single);
+    StartCoroutine(changeScene("GameScreen"));
   }
 
   public void toSettings()
   {
-    SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
+    StartCoroutine(changeScene("SettingsScene"));
   }
   private bool IsPointerOverUIObject()
   {
@@ -259,5 +327,20 @@ public class SongSelectScript : MonoBehaviour
     var results = new List<RaycastResult>();
     EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
     return results.Count > 0;
+  }
+  IEnumerator changeScene(string scene)
+  {
+    bool fadeDone = false;
+    while (!fadeDone)
+    {
+      transitionPanel.CrossFadeAlpha(1, 0.25f, false);
+      fadeDone = true;
+      yield return new WaitForSeconds(.25f);
+    }
+    if (scene.Contains("SettingsScene"))
+    {
+      SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
+    }
+    SceneManager.LoadScene(scene, LoadSceneMode.Single);
   }
 }
