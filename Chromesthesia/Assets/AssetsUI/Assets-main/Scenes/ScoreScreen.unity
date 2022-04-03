@@ -265,7 +265,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 124189bf42967e849b997bef9167787b, type: 3}
     m_FontSize: 19
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 120
@@ -317,8 +317,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1863374395}
-  m_RootOrder: 7
+  m_Father: {fileID: 1206594308}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -481,7 +481,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 124189bf42967e849b997bef9167787b, type: 3}
     m_FontSize: 19
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 120
@@ -935,7 +935,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1206594308}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -955,7 +955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1201,7 +1201,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 124189bf42967e849b997bef9167787b, type: 3}
     m_FontSize: 37
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 120
@@ -1709,6 +1709,7 @@ GameObject:
   - component: {fileID: 1206594306}
   - component: {fileID: 1206594305}
   - component: {fileID: 1206594309}
+  - component: {fileID: 1206594310}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -1791,6 +1792,8 @@ RectTransform:
   m_Children:
   - {fileID: 2010643820}
   - {fileID: 1863374395}
+  - {fileID: 2031331612}
+  - {fileID: 158093569}
   - {fileID: 572653350}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -1816,6 +1819,29 @@ MonoBehaviour:
   difficulty: {fileID: 1555484046}
   songTitle: {fileID: 1530453016}
   artistName: {fileID: 1534919209}
+  playAgainBtn: {fileID: 949682007}
+  songListBtn: {fileID: 913661010}
+  settingsBtn: {fileID: 158093570}
+--- !u!95 &1206594310
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206594304}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8ad83427870e6d5479f2c7282d6e4f4b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1375032384
 GameObject:
   m_ObjectHideFlags: 0
@@ -1945,7 +1971,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 124189bf42967e849b997bef9167787b, type: 3}
     m_FontSize: 19
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 120
@@ -2265,7 +2291,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 124189bf42967e849b997bef9167787b, type: 3}
     m_FontSize: 22
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 120
@@ -2320,8 +2346,6 @@ RectTransform:
   - {fileID: 1895942379}
   - {fileID: 605363345}
   - {fileID: 2020067880}
-  - {fileID: 158093569}
-  - {fileID: 2031331612}
   m_Father: {fileID: 1206594308}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2399,7 +2423,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 124189bf42967e849b997bef9167787b, type: 3}
     m_FontSize: 22
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 120
@@ -2627,12 +2651,12 @@ RectTransform:
   m_Children:
   - {fileID: 949682006}
   - {fileID: 913661009}
-  m_Father: {fileID: 1863374395}
-  m_RootOrder: 8
+  m_Father: {fileID: 1206594308}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 36}
+  m_AnchoredPosition: {x: 0.00012207031, y: 36}
   m_SizeDelta: {x: 1600, y: 100}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &2031331613

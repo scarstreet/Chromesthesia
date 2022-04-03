@@ -11,12 +11,26 @@ public class ScoreScreenScript : MonoBehaviour
   public Text difficulty;
   public Text songTitle;
   public Text artistName;
+  public Button playAgainBtn;
+  public Button songListBtn;
+  public Button settingsBtn;
+  Animator animator;
   void Start()
   {
     transitionPanel.CrossFadeAlpha(0, 0.25f, false);
+    animator = gameObject.GetComponent<Animator>();
     difficulty.text = SongSelectScript.currentDifficulty;
     songTitle.text = SongSelectScript.currentSong.getTitle();
     artistName.text = SongSelectScript.currentSong.getArtist();
+    playAgainBtn.enabled = false;
+    songListBtn.enabled = false;
+    settingsBtn.enabled = false;
+  }
+  public void stopAnimations() {
+    animator.speed = 0;
+    playAgainBtn.enabled = true;
+    songListBtn.enabled = true;
+    settingsBtn.enabled = true;
   }
 
   // Update is called once per frame
