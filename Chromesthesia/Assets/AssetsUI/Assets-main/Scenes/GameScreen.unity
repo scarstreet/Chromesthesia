@@ -459,7 +459,7 @@ GameObject:
   - component: {fileID: 1206594310}
   m_Layer: 0
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -564,6 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8075043eeea53d244b94830e658fa414, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  countdown: {fileID: 8975445325118957975, guid: e81767645f1fca24b9ce87409b23bbcb, type: 3}
   transitionPanel: {fileID: 2136140175}
   difficulty: {fileID: 500870077}
   song: {fileID: 1049139276}

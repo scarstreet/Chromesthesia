@@ -16,7 +16,8 @@ public class PauseScript : MonoBehaviour
   void Start()
   {
     pauseOpen = true;
-    if(SceneManager.GetActiveScene().name != "SettingsScene" && SceneManager.GetActiveScene().name!= "PauseScreen"){
+    if (SceneManager.GetActiveScene().name != "SettingsScene" && SceneManager.GetActiveScene().name != "PauseScreen")
+    {
       prevActiveScene = SceneManager.GetActiveScene().name;
       SceneManager.UnloadSceneAsync(prevActiveScene);
     }
@@ -25,7 +26,8 @@ public class PauseScript : MonoBehaviour
     song.text = SongSelectScript.currentSong.getTitle() + " - " + SongSelectScript.currentSong.getArtist();
   }
 
-  private void OnDestroy() {
+  private void OnDestroy()
+  {
     pauseOpen = false;
   }
 
@@ -45,6 +47,7 @@ public class PauseScript : MonoBehaviour
   public void restartPressed()
   {
     // TODO - the restart
+    GameScript.resetStates();
     StartCoroutine(changeScene("GameScreen"));
   }
   public void giveUpPressed()
@@ -68,7 +71,7 @@ public class PauseScript : MonoBehaviour
     bool fadeDone = false;
     while (!fadeDone)
     {
-      transitionPanel.CrossFadeAlpha(1, 0.25f, false);
+      transitionPanel.CrossFadeAlpha(1, 0.5f, false);
       fadeDone = true;
       yield return new WaitForSeconds(.25f);
     }
