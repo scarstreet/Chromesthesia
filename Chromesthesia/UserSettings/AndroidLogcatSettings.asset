@@ -1,9 +1,9 @@
 {
-    "m_SelectedDeviceId": "9HSGSKW4KZZP5PZX",
+    "m_SelectedDeviceId": "A6PFFYFIEMAUOBCQ",
     "m_SelectedPackage": {
-        "deviceId": "9HSGSKW4KZZP5PZX",
+        "deviceId": "A6PFFYFIEMAUOBCQ",
         "name": "com.DefaultCompany.com.unity.template.mobile2D",
-        "processId": 5329,
+        "processId": 32395,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -11,61 +11,37 @@
         {
             "deviceId": "A6PFFYFIEMAUOBCQ",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 32208,
-            "exited": true
-        },
-        {
-            "deviceId": "A6PFFYFIEMAUOBCQ",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 3060,
-            "exited": true
-        },
-        {
-            "deviceId": "A6PFFYFIEMAUOBCQ",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 9775,
-            "exited": true
-        },
-        {
-            "deviceId": "A6PFFYFIEMAUOBCQ",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 10728,
-            "exited": true
-        },
-        {
-            "deviceId": "A6PFFYFIEMAUOBCQ",
-            "name": "com.oppo.launcher",
-            "processId": 2300,
-            "exited": false
-        },
-        {
-            "deviceId": "A6PFFYFIEMAUOBCQ",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 2878,
-            "exited": true
-        },
-        {
-            "deviceId": "A6PFFYFIEMAUOBCQ",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 6659,
-            "exited": false
-        },
-        {
-            "deviceId": "A6PFFYFIEMAUOBCQ",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 12268,
-            "exited": false
-        },
-        {
-            "deviceId": "A6PFFYFIEMAUOBCQ",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 17895,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "A6PFFYFIEMAUOBCQ",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 29417,
+            "exited": true
+        },
+        {
+            "deviceId": "A6PFFYFIEMAUOBCQ",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 6896,
+            "exited": true
+        },
+        {
+            "deviceId": "A6PFFYFIEMAUOBCQ",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 9450,
+            "exited": true
+        },
+        {
+            "deviceId": "A6PFFYFIEMAUOBCQ",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 11067,
+            "exited": true
+        },
+        {
+            "deviceId": "A6PFFYFIEMAUOBCQ",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 32395,
             "exited": false
         },
         {
