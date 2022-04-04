@@ -211,7 +211,7 @@ public class SongSelectScript : MonoBehaviour
     nextSong = index + 1 == allSongs.Count ? allSongs[0] : allSongs[index + 1];
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
     updateUI();
-    transitionPanel.CrossFadeAlpha(0, 0.25f, false);
+    transitionPanel.CrossFadeAlpha(0, 0.5f, false);
   }
 
   // Update is called once per frame
@@ -313,6 +313,7 @@ public class SongSelectScript : MonoBehaviour
   }
   public void playPressed()
   {
+    GameScript.resetStates();
     StartCoroutine(changeScene("GameScreen"));
   }
 
@@ -335,7 +336,7 @@ public class SongSelectScript : MonoBehaviour
     bool fadeDone = false;
     while (!fadeDone)
     {
-      transitionPanel.CrossFadeAlpha(1, 0.25f, false);
+      transitionPanel.CrossFadeAlpha(1, 0.5f, false);
       fadeDone = true;
       yield return new WaitForSeconds(.25f);
     }

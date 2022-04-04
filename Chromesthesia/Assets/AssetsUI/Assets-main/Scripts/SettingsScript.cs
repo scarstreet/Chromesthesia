@@ -14,10 +14,11 @@ public class SettingsScript : MonoBehaviour
   public Image transitionPanel;
   void Start()
   {
-    transitionPanel.CrossFadeAlpha(0, 0.25f, false);
+    transitionPanel.CrossFadeAlpha(0, 0.5f, false);
     settingsOpen = true;
     prevActiveScene = SceneManager.GetActiveScene().name;
-    if(prevActiveScene.Contains("SettingsScene")) {
+    if (prevActiveScene.Contains("SettingsScene"))
+    {
       // TODO - MAKE A BETTER WAY TO STORE PREVIOUS SCREENS!!!
       prevActiveScene = "MainTitleScreen";
     }
@@ -52,7 +53,7 @@ public class SettingsScript : MonoBehaviour
     bool fadeDone = false;
     while (!fadeDone)
     {
-      transitionPanel.CrossFadeAlpha(1, 0.25f, false);
+      transitionPanel.CrossFadeAlpha(1, 0.5f, false);
       fadeDone = true;
       yield return new WaitForSeconds(.25f);
     }

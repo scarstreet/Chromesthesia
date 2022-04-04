@@ -17,10 +17,7 @@ public class ScoreScreenScript : MonoBehaviour
   Animator animator;
   void Start()
   {
-    GameScript.gameCompleted = false;
-    GameScript.gameIsPaused = false;
-    GameScript.gameStarted = false;
-    transitionPanel.CrossFadeAlpha(0, 0.25f, false);
+    transitionPanel.CrossFadeAlpha(0, 0.5f, false);
     animator = gameObject.GetComponent<Animator>();
     difficulty.text = SongSelectScript.currentDifficulty;
     songTitle.text = SongSelectScript.currentSong.getTitle();
@@ -29,8 +26,10 @@ public class ScoreScreenScript : MonoBehaviour
     songListBtn.enabled = false;
     settingsBtn.enabled = false;
   }
-  public void stopAnimations() {
+  public void stopAnimations()
+  {
     animator.speed = 0;
+    GameScript.resetStates();
     playAgainBtn.enabled = true;
     songListBtn.enabled = true;
     settingsBtn.enabled = true;
@@ -45,11 +44,13 @@ public class ScoreScreenScript : MonoBehaviour
     StartCoroutine(changeScene("SettingsScene"));
   }
 
-  public void toSongList() {
+  public void toSongList()
+  {
     StartCoroutine(changeScene("SongSelect"));
   }
 
-  public void playAgainPressed(){
+  public void playAgainPressed()
+  {
     StartCoroutine(changeScene("GameScreen"));
   }
 
@@ -68,7 +69,7 @@ public class ScoreScreenScript : MonoBehaviour
     bool fadeDone = false;
     while (!fadeDone)
     {
-      transitionPanel.CrossFadeAlpha(1, 0.25f, false);
+      transitionPanel.CrossFadeAlpha(1, 0.5f, false);
       fadeDone = true;
       yield return new WaitForSeconds(.25f);
     }

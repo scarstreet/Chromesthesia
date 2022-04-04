@@ -13,7 +13,7 @@ public class MainTitleScript : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    transitionPanel.CrossFadeAlpha(0, 0.25f, false);
+    transitionPanel.CrossFadeAlpha(0, 0.5f, false);
   }
 
   // Update is called once per frame
@@ -41,14 +41,17 @@ public class MainTitleScript : MonoBehaviour
     return results.Count > 0;
   }
 
-  IEnumerator changeScene(string scene) {
+  IEnumerator changeScene(string scene)
+  {
     bool fadeDone = false;
-    while(!fadeDone) {
-      transitionPanel.CrossFadeAlpha(1, 0.25f, false);
+    while (!fadeDone)
+    {
+      transitionPanel.CrossFadeAlpha(1, 0.5f, false);
       fadeDone = true;
       yield return new WaitForSeconds(.25f);
     }
-    if(scene.Contains("SettingsScene")) {
+    if (scene.Contains("SettingsScene"))
+    {
       SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
     }
     SceneManager.LoadScene(scene, LoadSceneMode.Single);
