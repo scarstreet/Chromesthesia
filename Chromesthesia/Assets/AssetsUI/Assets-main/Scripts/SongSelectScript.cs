@@ -46,8 +46,10 @@ public class SongInfo
   public Sprite getImage() { return image; }
   public SongInfo(string folder)
   {
+    Debug.Log("Songs/" + folder + "/info");
     TextAsset i = Resources.Load<TextAsset>("Songs/" + folder + "/info");
     List<string> info = new List<string>(i.text.Split('\n'));
+    Debug.Log(info);
 
     // BASIC INFO =================================================================
     title = info.Find(i => i.Contains("song-name")).Split("=")[1];
