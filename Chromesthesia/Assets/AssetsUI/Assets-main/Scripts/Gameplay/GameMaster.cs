@@ -98,8 +98,9 @@ public class GameMaster : MonoBehaviour
     score = 0;
     time = Time.timeAsDouble + 0f; //remove 0f after you finish debugging
     timetext.text = time.ToString();
-    TextAsset theList = Resources.Load<TextAsset>("Beatmap/queuenumber"); //read a textfile from "path" note that it only reads from folder Resources, so you have to put everything (that you said to Load) in resources folder, however you may make any folder inside th resouce folder.
+    TextAsset theList = Resources.Load<TextAsset>("Beatmap/beatmap-easy"); //read a textfile from "path" note that it only reads from folder Resources, so you have to put everything (that you said to Load) in resources folder, however you may make any folder inside th resouce folder.
     string text = theList.text;
+    Debug.Log(text);
     string[] words = text.Split('\n');
     List<string> wordlist = new List<string>(words);
     int bodyindex = wordlist.FindIndex(x => x.Contains("<body>")) + 1;
