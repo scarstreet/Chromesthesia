@@ -18,8 +18,7 @@ public class HoldDeath : MonoBehaviour
   void Update()
   {
 
-  }
-  public void displayNextState()
+  }  public void displayNextState()
   {
     transform.eulerAngles = new Vector3(0, 0, 0);
     NoteDiamondResult script;

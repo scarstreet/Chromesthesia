@@ -27,9 +27,7 @@ public class HoldSpawn : MonoBehaviour
   void Update()
   {
 
-  }
-
-  public void setState(string state)
+  }  public void setState(string state)
   {
     if (state.Contains("noInput"))
     {
@@ -38,7 +36,9 @@ public class HoldSpawn : MonoBehaviour
       script.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       Destroy(gameObject);
       Instantiate(HoldSpawnDeath, transform.position, transform.rotation);
-    } else {
+    }
+    else
+    {
       Destroy(gameObject);
       // Move this part to GameMaster.cs -----------------------------------------------
       // HoldWait script = HoldStart.GetComponent<HoldWait>();

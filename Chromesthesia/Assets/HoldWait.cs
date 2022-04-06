@@ -27,18 +27,21 @@ public class HoldWait : MonoBehaviour
   {
 
   }
-
   void changeDuration(string input)
   {
-      if(input.Contains("start")){
+    if (input.Contains("start"))
+    {
       float speed = (float)(holdDuration / oriHoldDuration);
       animator.speed = 1 / speed;
-      } else {
+    }
+    else
+    {
       animator.speed = 1;
-      }
+    }
   }
 
-  public void setTimeStat(string state) {
+  public void setTimeStat(string state)
+  {
     timeStatus = state;
   }
   public void setState(string dirStatus)
@@ -55,16 +58,16 @@ public class HoldWait : MonoBehaviour
       if (dirStatus.Contains("noInput"))
       {
         double time = Time.timeAsDouble;
-        if (GameMaster.waitingHolds.Count > 0)
+        if (GameScript.waitingHolds.Count > 0)
         {
-          int index = GameMaster.waitingHolds.FindIndex((note) => time >= note.timeEnd);
+          int index = GameScript.waitingHolds.FindIndex((note) => time >= note.timeEnd);
           if (index != -1)
           {
             while (index != -1)
             {
-              index = GameMaster.waitingHolds.FindIndex((note) => time >= note.timeEnd);
+              index = GameScript.waitingHolds.FindIndex((note) => time >= note.timeEnd);
               Debug.Log(index);
-              GameMaster.waitingHolds.Remove(GameMaster.waitingHolds[index]);
+              GameScript.waitingHolds.Remove(GameScript.waitingHolds[index]);
             }
           }
         }

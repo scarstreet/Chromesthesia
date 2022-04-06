@@ -282,7 +282,7 @@ public class SongSelectScript : MonoBehaviour
     while (!faded)
     {
       faded = true;
-      yield return new WaitForSeconds(.25f);
+      yield return new WaitForSecondsRealtime(.5f);
     }
     updateUI();
     songUIfade(1);
@@ -295,7 +295,7 @@ public class SongSelectScript : MonoBehaviour
     while (!faded)
     {
       faded = true;
-      yield return new WaitForSeconds(.25f);
+      yield return new WaitForSecondsRealtime(.5f);
     }
     if (which.Contains("next"))
     {
@@ -336,9 +336,9 @@ public class SongSelectScript : MonoBehaviour
     bool fadeDone = false;
     while (!fadeDone)
     {
-      transitionPanel.CrossFadeAlpha(1, 0.5f, false);
+      transitionPanel.CrossFadeAlpha(1, 0.5f, true);
       fadeDone = true;
-      yield return new WaitForSeconds(.25f);
+      yield return new WaitForSecondsRealtime(.5f);
     }
     if (scene.Contains("SettingsScene"))
     {

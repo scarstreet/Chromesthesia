@@ -53,9 +53,9 @@ public class SettingsScript : MonoBehaviour
     bool fadeDone = false;
     while (!fadeDone)
     {
-      transitionPanel.CrossFadeAlpha(1, 0.5f, false);
+      transitionPanel.CrossFadeAlpha(1, 0.5f, true);
       fadeDone = true;
-      yield return new WaitForSeconds(.25f);
+      yield return new WaitForSecondsRealtime(.5f);
     }
     SceneManager.LoadScene(scene, LoadSceneMode.Single);
   }
