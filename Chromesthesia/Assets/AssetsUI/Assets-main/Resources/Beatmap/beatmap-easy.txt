@@ -1,0 +1,95 @@
+<head>
+
+Song Title : 
+Duration :
+Tempo :
+Difficulty :
+Credits (If there is copyright) : 
+
+</head>
+
+/* 
+
+For body the format should be like this :
+
+type,color,posx,posy,direction,duration,time
+
+Explaination : 
+
+- Type has two integers, either 0 or 1, with 0 is swipe, and 1 is hold
+- Posx and posy means the position x and position y
+- Direction means which direction will you have to swipe to
+- Duration is for hold only, fill in 0 for swipe, means how long do we have to hold the note before swiping it
+- Time means when the note will be instantiated, in other words, where the note will be seen in the screen
+
+
+*/
+<body>
+0,#FFFFFF,0,1.5,w,0,0.8
+0,#FFFFFF,-1.5,0,a,0,2.57
+0,#FFFFFF,0,-1.5,x,0,4.48
+0,#FFFFFF,1.5,0,d,0,6.36
+0,#FFFFFF,0,1,w,0,8.18
+0,#FFFFFF,0,-1,w,0,10.09
+0,#FFFFFF,0,0,x,0,11.97
+0,#FFFFFF,-2,0,a,0,13.81
+0,#FFFFFF,2,0,d,0,13.81
+0,#FFFFFF,-4.5,1,a,0,15.69
+0,#FFFFFF,-1.5,-1,z,0,17.65
+0,#FFFFFF,1.5,-1,c,0,19.46
+1,#FFFFFF,4.5,1,d,24.11,21.40
+0,#FFFFFF,-4,2,c,0,24.11
+0,#FFFFFF,4,2,z,0,25.09
+0,#FFFFFF,0,0,w,0,26.89
+0,#FFFFFF,1,1,d,0,28.83
+0,#FFFFFF,-1,-1,a,0,28.83
+0,#FFFFFF,0,2,w,0,30.71
+0,#FFFFFF,0,-2,x,0,32.58
+1,#FFFFFF,-4.3,-2.5,w,39.11,33.51
+1,#FFFFFF,4.3,-2.5,w,39.11,33.51
+0,#FFFFFF,0,0,w,0,39.11
+0,#FFFFFF,0,0,a,0,41.02
+0,#FFFFFF,0,0,d,0,42.85
+0,#FFFFFF,1,0.3,q,0,44.76
+0,#FFFFFF,-1,-0.3,c,0,44.76
+0,#FFFFFF,-3.2,0,w,0,46.62
+0,#FFFFFF,-3.2,0,w,0,48.53
+0,#FFFFFF,3.2,0,x,0,50.40
+0,#FFFFFF,3.2,0,x,0,52.28
+1,#FFFFFF,-2.7,1,d,60.73,53.18
+1,#FFFFFF,2.7,-1,a,60.73,55.10
+0,#FFFFFF,-3.5,-0.75,a,0,60.73
+0,#FFFFFF,-3,0,q,0,61.61
+0,#FFFFFF,-2,0.75,w,0,62.54
+0,#FFFFFF,2,-1.75,x,0,64.88
+0,#FFFFFF,3,-1,c,0,65.78
+0,#FFFFFF,3.5,0.25,d,0,66.53
+0,#FFFFFF,0,0,w,0,68.20
+0,#FFFFFF,0,0,w,0,69.13
+0,#FFFFFF,0,0,x,0,69.83
+1,#FFFFFF,-1,0,a,76.59,71.44
+1,#FFFFFF,1,0,d,76.59,73.82
+0,#FFFFFF,0,2,w,0,75.65
+0,#FFFFFF,0,2,w,0,76.59
+0,#FFFFFF,0,-2,x,0,78.94
+0,#FFFFFF,0,-2,x,0,80.33
+0,#FFFFFF,-3,0,w,0,83.20
+0,#FFFFFF,3,0,w,0,84.12
+0,#FFFFFF,0,0,w,0,86.96
+0,#FFFFFF,-2,0,a,0,88.80
+0,#FFFFFF,2,0,d,0,88.80
+0,#FFFFFF,-4.5,0,a,0,90.68
+0,#FFFFFF,-1.5,0,a,0,92.54
+0,#FFFFFF,1.5,0,d,0,94.45
+0,#FFFFFF,4.5,0,d,0,96.32
+0,#FFFFFF,-3,-2,w,0,98.20
+0,#FFFFFF,3,-2,w,0,100.06
+0,#FFFFFF,0,1,x,0,101.97
+1,#FFFFFF,0,0,w,106.64,103.81
+0,#FFFFFF,0,0,w,0,105.69
+0,#FFFFFF,-2.7,1,d,0,107.60
+0,#FFFFFF,2.7,1,a,0,109.44
+0,#FFFFFF,0,0,w,0,111.34
+0,#FFFFFF,-2.7,0,d,0,113.18
+0,#FFFFFF,2.7,0,a,0,115.09
+1,#FFFFFF,2.7,0,a,120.81,116.97
