@@ -74,7 +74,7 @@ public class GameScript : MonoBehaviour
   public static List<(double timing, List<Note> notes)> sametime = new List<(double timing, List<Note> notes)>();
   public static List<Note> existingHolds = new List<Note>(), waitingHolds = new List<Note>();
   public static AudioSource audiosource;
-  public static Animator animator;
+  public Animator animator;
   public static bool gameIsPaused = false, gameCompleted = false, gameStarted = false;
   public static float songProgress = 0, elapsed = 0;
   public static int score, tempo;
@@ -94,6 +94,11 @@ public class GameScript : MonoBehaviour
     sametime = new List<(double timing, List<Note> notes)>();
     existingHolds = new List<Note>();
     waitingHolds = new List<Note>();
+    Time.timeScale = 1;
+    AudioListener.pause = false;
+    if(audiosource) {
+      audiosource.Stop();
+    }
     gameIsPaused = false;
     gameCompleted = false;
     gameStarted = false;
@@ -118,7 +123,6 @@ public class GameScript : MonoBehaviour
     //=====================================================================================
     if (!gameStarted)
     {
-      animator = GetComponent<Animator>();
       string audiopath = "Beatmap/Body Talk";
       audiosource = GetComponent<AudioSource>();
       audiosource.clip = Resources.Load<AudioClip>(audiopath);
@@ -407,8 +411,14 @@ public class GameScript : MonoBehaviour
   }
   IEnumerator startsong()
   {
-    yield return new WaitForSeconds(delaystart);
-    audiosource.time = 0f; //0f is for debugging,remove after use
+    if (!gameStarted)
+    {
+      yield return new WaitForSeconds(delaystart);
+    }
+    else
+    {
+      audiosource.time = songProgress * (float)duration; //0f is for debugging,remove after use
+    }
     audiosource.Play();
   }
 
@@ -423,6 +433,7 @@ public class GameScript : MonoBehaviour
     {
       if (i == 0)
       {
+        animator.SetFloat("runner", songProgress);
         transitionPanel.CrossFadeAlpha(0, 0.5f, true);
         yield return new WaitForSecondsRealtime(.5f);
       }
@@ -440,8 +451,8 @@ public class GameScript : MonoBehaviour
           time = Time.timeAsDouble + 0f; //remove 0f after you finish debugging
           timetext.text = time.ToString();
           gameStartTime = Time.timeAsDouble;
-          gameStarted = true;
           StartCoroutine(startsong());
+          gameStarted = true;
           // double animTime = 5;
           // animator.speed = (float)(animTime / duration);
         }

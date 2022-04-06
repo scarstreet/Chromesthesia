@@ -17,6 +17,7 @@ public class ScoreScreenScript : MonoBehaviour
   Animator animator;
   void Start()
   {
+    GameScript.resetStates();
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
     animator = gameObject.GetComponent<Animator>();
     difficulty.text = SongSelectScript.currentDifficulty;
@@ -29,7 +30,6 @@ public class ScoreScreenScript : MonoBehaviour
   public void stopAnimations()
   {
     animator.speed = 0;
-    GameScript.resetStates();
     playAgainBtn.enabled = true;
     songListBtn.enabled = true;
     settingsBtn.enabled = true;

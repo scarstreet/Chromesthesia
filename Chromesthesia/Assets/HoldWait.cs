@@ -25,7 +25,14 @@ public class HoldWait : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-
+    if (GameScript.gameStarted == false)
+    {
+      Destroy(gameObject);
+    }
+  }
+  void Awake()
+  {
+    DontDestroyOnLoad(gameObject);
   }
   void changeDuration(string input)
   {

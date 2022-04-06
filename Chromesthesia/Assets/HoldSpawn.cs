@@ -26,8 +26,16 @@ public class HoldSpawn : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-
-  }  public void setState(string state)
+    if (GameScript.gameStarted == false)
+    {
+      Destroy(gameObject);
+    }
+  }
+  void Awake()
+  {
+    DontDestroyOnLoad(gameObject);
+  }
+    public void setState(string state)
   {
     if (state.Contains("noInput"))
     {

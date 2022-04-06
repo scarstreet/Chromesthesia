@@ -37,7 +37,17 @@ public class NoteDiamond : MonoBehaviour
     float speed = (float)(duration / originalDuration); // TODO - make sure the inputted value good.
     animator.speed = 1 / speed;
   }
-
+  void Awake()
+  {
+    DontDestroyOnLoad(gameObject);
+  }
+  void Update()
+  {
+    if (GameScript.gameStarted == false)
+    {
+      Destroy(gameObject);
+    }
+  }
   public void setState(string dirStatus)
   {
     NoteDiamondResult resultScript;

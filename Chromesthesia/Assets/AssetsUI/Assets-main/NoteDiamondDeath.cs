@@ -10,7 +10,17 @@ public class NoteDiamondDeath : MonoBehaviour
   {
     gameObject.LeanColor(nextColor, 0.5f).setEaseOutQuad();
   }
-
+  void Awake()
+  {
+    DontDestroyOnLoad(gameObject);
+  }
+  void Update()
+  {
+    if (GameScript.gameStarted == false)
+    {
+      Destroy(gameObject);
+    }
+  }
   public void displayNextState()
   {
     Destroy(gameObject);

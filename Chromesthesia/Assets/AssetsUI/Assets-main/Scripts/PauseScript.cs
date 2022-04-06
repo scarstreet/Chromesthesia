@@ -53,6 +53,7 @@ public class PauseScript : MonoBehaviour
   public void giveUpPressed()
   {
     // TODO - clear all dem data
+    GameScript.resetStates();
     StartCoroutine(changeScene("SongSelect"));
     // SceneManager.LoadScene("SongSelect", LoadSceneMode.Single);
   }

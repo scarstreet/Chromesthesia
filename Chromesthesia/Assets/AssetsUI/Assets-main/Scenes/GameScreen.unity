@@ -565,6 +565,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8075043eeea53d244b94830e658fa414, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audiosource: {fileID: 1206594311}
+  animator: {fileID: 1206594310}
   highscore: 
   delaystart: 0
   difficulty: {fileID: 500870077}
