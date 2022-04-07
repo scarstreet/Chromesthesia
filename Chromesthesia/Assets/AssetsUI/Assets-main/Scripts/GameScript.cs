@@ -126,7 +126,7 @@ public class GameScript : MonoBehaviour
       string audiopath = "Beatmap/Body Talk";
       audiosource = GetComponent<AudioSource>();
       audiosource.clip = Resources.Load<AudioClip>(audiopath);
-      TextAsset theList = Resources.Load<TextAsset>("Beatmap/beatmap-easy"); //read a textfile from "path" note that it only reads from folder Resources, so you have to put everything (that you said to Load) in resources folder, however you may make any folder inside th resouce folder.
+      TextAsset theList = Resources.Load<TextAsset>("Beatmap/beatmap-hard"); //read a textfile from "path" note that it only reads from folder Resources, so you have to put everything (that you said to Load) in resources folder, however you may make any folder inside th resouce folder.
       string text = theList.text;
       // Debug.Log(text);
       string[] words = text.Split('\n');
@@ -136,6 +136,9 @@ public class GameScript : MonoBehaviour
       for (int i = bodyindex; i < wordlist.Count; i++) //read from after the <body> in the textfile and split it for later use
       {
         string[] list = wordlist[i].Split(',');
+        if(list.Length == 1) {
+          break;
+        }
         int type = Convert.ToInt16(list[0]);
         string color = list[1];
         float posx = Convert.ToSingle(list[2]);
