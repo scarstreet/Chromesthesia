@@ -1,13 +1,14 @@
 >> song-info
-song-name=song-1
-artist=DIO
-duration=3:15
+song-name=Body Talk
+artist=M2U
+duration=123
 
 >> files
 > beatmap-easy=beatmap-easy
 > beatmap-normal=beatmap-normal
 > beatmap-hard=beatmap-hard
 > image=image
+> audio=Body Talk
 
 >> score
 > Easy

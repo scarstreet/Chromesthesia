@@ -1,13 +1,14 @@
 >> song-info
 song-name=hello
 artist=ITSA ME, MARIO
-duration=1:24
+duration=123
 
 >> files
 > beatmap-easy=beatmap-easy
 > beatmap-normal=beatmap-normal
 > beatmap-hard=beatmap-hard
 > image=image
+> audio=Body Talk
 
 >> score
 > Easy

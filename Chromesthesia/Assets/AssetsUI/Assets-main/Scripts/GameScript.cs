@@ -78,7 +78,7 @@ public class GameScript : MonoBehaviour
   public static bool gameIsPaused = false, gameCompleted = false, gameStarted = false;
   public static float songProgress = 0, elapsed = 0;
   public static int score, tempo;
-  static double gameStartTime, time, duration = 130; // SONG DURATION IN SECONDS
+  static double gameStartTime, time, duration; // SONG DURATION IN SECONDS
   public string highscore;
   public float delaystart;
   public Text difficulty, song, currentscore, timetext;
@@ -104,7 +104,7 @@ public class GameScript : MonoBehaviour
     gameStarted = false;
     songProgress = 0;
     elapsed = 0;
-    duration = 130;
+    duration = SongSelectScript.currentSong.duration;
     score = 0;
     Destroy(self);
   }
@@ -123,10 +123,9 @@ public class GameScript : MonoBehaviour
     //=====================================================================================
     if (!gameStarted)
     {
-      string audiopath = "Beatmap/Body Talk";
       audiosource = GetComponent<AudioSource>();
-      audiosource.clip = Resources.Load<AudioClip>(audiopath);
-      TextAsset theList = Resources.Load<TextAsset>("Beatmap/beatmap-hard"); //read a textfile from "path" note that it only reads from folder Resources, so you have to put everything (that you said to Load) in resources folder, however you may make any folder inside th resouce folder.
+      audiosource.clip = SongSelectScript.currentSong.getAudio();
+      TextAsset theList = Resources.Load<TextAsset>(SongSelectScript.beatmapPath()); //read a textfile from "path" note that it only reads from folder Resources, so you have to put everything (that you said to Load) in resources folder, however you may make any folder inside th resouce folder.
       string text = theList.text;
       // Debug.Log(text);
       string[] words = text.Split('\n');
