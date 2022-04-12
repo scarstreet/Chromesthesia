@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class ScoreScreenScript : MonoBehaviour
 {
+  public Text highScore;
+  public Text score;
   public Image transitionPanel;
   public Text difficulty;
   public Text songTitle;

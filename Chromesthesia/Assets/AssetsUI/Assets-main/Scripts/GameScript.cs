@@ -12,6 +12,7 @@ public class GameScript : MonoBehaviour
 {
   public class Note
   {
+    public int score;
     public GameObject obj;
     public int type;
     public string color;
