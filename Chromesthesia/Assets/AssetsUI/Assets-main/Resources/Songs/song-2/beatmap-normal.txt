@@ -1,0 +1,32 @@
+<head>
+
+SongTitle:Body Talk
+Duration:123
+Tempo:128
+Difficulty:Easy
+Credits(If there is copyright):M2U, Cytus II, Rayark
+
+</head>
+
+/* 
+
+For body the format should be like this :
+
+type,color,posx,posy,direction,duration,time
+
+Explaination : 
+
+- Type has two integers, either 0 or 1, with 0 is swipe, and 1 is hold
+- Posx and posy means the position x and position y
+- Direction means which direction will you have to swipe to
+- Duration is for hold only, fill in 0 for swipe, means how long do we have to hold the note before swiping it
+- Time means when the note will be instantiated, in other words, where the note will be seen in the screen
+
+
+*/
+<body>
+0,#FFFFFF,0,-1.5,x,0,2
+0,#FFFFFF,0,1.5,w,0,2
+0,#FFFFFF,0,1.5,w,0,3
+0,#FFFFFF,0,1.5,w,0,4
+0,#FFFFFF,0,1.5,w,0,5

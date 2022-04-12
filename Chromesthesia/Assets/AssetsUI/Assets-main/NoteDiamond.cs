@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class NoteDiamond : MonoBehaviour
 {
+  public GameScript game;
   Renderer[] renderers;
   private IEnumerator coroutine;
   Animator animator;
-
   public GameObject perfect;
   public GameObject good;
   public GameObject miss;
@@ -55,6 +55,7 @@ public class NoteDiamond : MonoBehaviour
     // TODO - consider both timing/direction and 
     if (status.Contains("miss") || timeStatus.Contains("noInput"))
     {
+      GameScript.combo=0;
       resultScript = miss.GetComponent<NoteDiamondResult>();
       resultScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red

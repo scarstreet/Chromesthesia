@@ -70,7 +70,7 @@ public class GameScript : MonoBehaviour
       this.obj = Instantiate(temp, tempPos, tempRot); // reincarnate to become holdWait
     }
   }
-  public static double score;
+  public static double score,combo;
   public int count;
   public static Queue<Note> que = new Queue<Note>(), isoutthere = new Queue<Note>(), touchable = new Queue<Note>();
   public static List<(double timing, List<Note> notes)> sametime = new List<(double timing, List<Note> notes)>();
@@ -81,7 +81,7 @@ public class GameScript : MonoBehaviour
   public static float songProgress = 0, elapsed = 0;
   static double gameStartTime, time, duration; // SONG DURATION IN SECONDS
   public float delaystart;
-  public Text difficulty, song, currentscore, timetext;
+  public Text difficulty, song, currentscore, combotext;
   public GameObject circle, hold, countdown;
   public Image transitionPanel;
   // Start is called before the first frame update
@@ -90,6 +90,7 @@ public class GameScript : MonoBehaviour
   public static void resetStates()
   {
     score=0;
+    combo=0;
     que = new Queue<Note>();
     isoutthere = new Queue<Note>();
     touchable = new Queue<Note>();
@@ -117,6 +118,7 @@ public class GameScript : MonoBehaviour
   void Start()
   {
     score=0;
+    combo=0;
     self = gameObject;
     difficulty.text = SongSelectScript.currentDifficulty;
     song.text = SongSelectScript.currentSong.getTitle() + " - " + SongSelectScript.currentSong.getArtist();
@@ -170,7 +172,7 @@ public class GameScript : MonoBehaviour
       animator.SetFloat("runner", songProgress);
       // time = Time.timeAsDouble + 0f;
       time = songProgress * duration;
-      timetext.text = time.ToString();
+      combotext.text = combo.ToString();
       if (que.Count == 0)
       {
         StartCoroutine(songfinished());
@@ -213,7 +215,6 @@ public class GameScript : MonoBehaviour
           }
         }
       }
-
       if (Input.touchCount > 0)
       {
         for (int i = 0; i < Input.touchCount; i++)
@@ -273,6 +274,7 @@ public class GameScript : MonoBehaviour
       }
       // animator.SetFloat("RunnerProgress", songProgress);
     }
+    combotext.text = combo.ToString();
   }
 
   public void pauseGame()
@@ -375,8 +377,9 @@ public class GameScript : MonoBehaviour
         }
         result = "perfect";
         score += addscore;
+        combo++;
         Debug.Log(score);
-        currentscore.text = ((int)score).ToString();
+        currentscore.text = Math.Round(score,0).ToString();
       }
       else
       {
@@ -392,8 +395,8 @@ public class GameScript : MonoBehaviour
           { // to tolerate or to not tolerate
             result = "good";
             score += addscore*0.5;
-            Debug.Log(score);
-            currentscore.text = ((int)score).ToString();
+            combo++;
+            currentscore.text = Math.Round(score,0).ToString();
           }
           sametime[now].notes.Remove(sametime[now].notes[toRemove]);
           if (sametime[now].notes.Count == 0)
@@ -404,6 +407,7 @@ public class GameScript : MonoBehaviour
       }
       if (result.Contains("miss"))
       {
+        combo = 0;
         sametime[now].notes.Remove(sametime[now].notes[0]);
         if (sametime[now].notes.Count == 0)
         {
@@ -463,7 +467,7 @@ public class GameScript : MonoBehaviour
         if (!gameStarted)
         {
           time = Time.timeAsDouble + 0f; //remove 0f after you finish debugging
-          timetext.text = time.ToString();
+          combotext.text = combo.ToString();
           gameStartTime = Time.timeAsDouble;
           StartCoroutine(startsong());
           gameStarted = true;
