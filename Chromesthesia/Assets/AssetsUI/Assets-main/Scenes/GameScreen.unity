@@ -565,9 +565,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8075043eeea53d244b94830e658fa414, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audiosource: {fileID: 1206594311}
+  count: 0
   animator: {fileID: 1206594310}
-  highscore: 
   delaystart: 0
   difficulty: {fileID: 500870077}
   song: {fileID: 1049139276}
@@ -949,7 +948,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -20}
+  m_AnchoredPosition: {x: 25, y: -25}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1718150631

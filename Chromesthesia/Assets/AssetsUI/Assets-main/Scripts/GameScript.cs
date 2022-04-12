@@ -80,13 +80,13 @@ public class GameScript : MonoBehaviour
   public static bool gameIsPaused = false, gameCompleted = false, gameStarted = false;
   public static float songProgress = 0, elapsed = 0;
   static double gameStartTime, time, duration; // SONG DURATION IN SECONDS
-  public string highscore;
   public float delaystart;
   public Text difficulty, song, currentscore, timetext;
   public GameObject circle, hold, countdown;
   public Image transitionPanel;
   // Start is called before the first frame update
   public static GameObject self;
+  public double addscore;
   public static void resetStates()
   {
     score=0;
@@ -120,12 +120,12 @@ public class GameScript : MonoBehaviour
     self = gameObject;
     difficulty.text = SongSelectScript.currentDifficulty;
     song.text = SongSelectScript.currentSong.getTitle() + " - " + SongSelectScript.currentSong.getArtist();
-    //string highscorepath = Application.persistentDataPath + "";
     Time.timeScale = 0;
     // animator.speed = 0;
     //=====================================================================================
     if (!gameStarted)
     {
+      currentscore.text = ((int)score).ToString();
       audiosource = GetComponent<AudioSource>();
       audiosource.clip = SongSelectScript.currentSong.getAudio();
       TextAsset theList = Resources.Load<TextAsset>(SongSelectScript.beatmapPath()); //read a textfile from "path" note that it only reads from folder Resources, so you have to put everything (that you said to Load) in resources folder, however you may make any folder inside th resouce folder.
@@ -152,9 +152,9 @@ public class GameScript : MonoBehaviour
           que.Enqueue(new Note(type, color, posx, posy, direction, timeEnd, time));
           count++;
       }
-      Debug.Log("Count = " + count);
-      // Debug.Log("hi?");
-      currentscore.text = score.ToString();
+      addscore = (double)1000000/count;
+      Debug.Log("Count = " + count*addscore + " " + (double)(1/count));
+      currentscore.text = ((int)score).ToString();
     }
     //=======================================================================================
     StartCoroutine(postStart());
@@ -374,7 +374,9 @@ public class GameScript : MonoBehaviour
           sametime.Remove(sametime[now]);
         }
         result = "perfect";
-        score += (1000000/count);
+        score += addscore;
+        Debug.Log(score);
+        currentscore.text = ((int)score).ToString();
       }
       else
       {
@@ -389,7 +391,9 @@ public class GameScript : MonoBehaviour
           if (angle <= adjacentAngle + toleranceAngle || angle >= adjacentAngle - toleranceAngle)
           { // to tolerate or to not tolerate
             result = "good";
-            score += (1000000/count)*0.7;
+            score += addscore*0.5;
+            Debug.Log(score);
+            currentscore.text = ((int)score).ToString();
           }
           sametime[now].notes.Remove(sametime[now].notes[toRemove]);
           if (sametime[now].notes.Count == 0)
