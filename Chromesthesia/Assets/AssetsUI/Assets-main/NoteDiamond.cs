@@ -81,7 +81,6 @@ public class NoteDiamond : MonoBehaviour
       resultScript.nextColor = new Color((255f / 255f), (230f / 255f), (100f / 255f), 1); // sum light yello
       deathScript.nextColor = new Color((255f / 255f), (230f / 255f), (100f / 255f), 1); // sum light yello
       deathScript.nextAnimation = perfect;
-      // GameScript.touchable.Dequeue();
     }
     else
     {

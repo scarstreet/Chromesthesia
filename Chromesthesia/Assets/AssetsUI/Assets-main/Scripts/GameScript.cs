@@ -12,7 +12,6 @@ public class GameScript : MonoBehaviour
 {
   public class Note
   {
-    public int score;
     public GameObject obj;
     public int type;
     public string color;
@@ -71,6 +70,8 @@ public class GameScript : MonoBehaviour
       this.obj = Instantiate(temp, tempPos, tempRot); // reincarnate to become holdWait
     }
   }
+  public static double score;
+  public int count;
   public static Queue<Note> que = new Queue<Note>(), isoutthere = new Queue<Note>(), touchable = new Queue<Note>();
   public static List<(double timing, List<Note> notes)> sametime = new List<(double timing, List<Note> notes)>();
   public static List<Note> existingHolds = new List<Note>(), waitingHolds = new List<Note>();
@@ -78,7 +79,6 @@ public class GameScript : MonoBehaviour
   public Animator animator;
   public static bool gameIsPaused = false, gameCompleted = false, gameStarted = false;
   public static float songProgress = 0, elapsed = 0;
-  public static int score, tempo;
   static double gameStartTime, time, duration; // SONG DURATION IN SECONDS
   public string highscore;
   public float delaystart;
@@ -89,6 +89,7 @@ public class GameScript : MonoBehaviour
   public static GameObject self;
   public static void resetStates()
   {
+    score=0;
     que = new Queue<Note>();
     isoutthere = new Queue<Note>();
     touchable = new Queue<Note>();
@@ -115,6 +116,7 @@ public class GameScript : MonoBehaviour
   }
   void Start()
   {
+    score=0;
     self = gameObject;
     difficulty.text = SongSelectScript.currentDifficulty;
     song.text = SongSelectScript.currentSong.getTitle() + " - " + SongSelectScript.currentSong.getArtist();
@@ -148,7 +150,9 @@ public class GameScript : MonoBehaviour
         double time = Convert.ToDouble(list[6]);
         if (time > 0f)//remove after you finish debugging
           que.Enqueue(new Note(type, color, posx, posy, direction, timeEnd, time));
+          count++;
       }
+      Debug.Log("Count = " + count);
       // Debug.Log("hi?");
       currentscore.text = score.ToString();
     }
@@ -240,7 +244,8 @@ public class GameScript : MonoBehaviour
 
             int holdIndex = waitingHolds.FindIndex((note) => note.fingerId == touches[i].fingerId);
             if (holdIndex != -1)
-            { // IF HOLD'S SWIPE
+            { 
+              // IF HOLD'S SWIPE
               // Debug.Log(touches[i].fingerId + "IS SWIPED!!!!!!!!!!");
               // Debug.Log(checkDir(angle) + "direction = " + angle);
               Note held = waitingHolds[holdIndex];
@@ -369,6 +374,7 @@ public class GameScript : MonoBehaviour
           sametime.Remove(sametime[now]);
         }
         result = "perfect";
+        score += (1000000/count);
       }
       else
       {
@@ -383,6 +389,7 @@ public class GameScript : MonoBehaviour
           if (angle <= adjacentAngle + toleranceAngle || angle >= adjacentAngle - toleranceAngle)
           { // to tolerate or to not tolerate
             result = "good";
+            score += (1000000/count)*0.7;
           }
           sametime[now].notes.Remove(sametime[now].notes[toRemove]);
           if (sametime[now].notes.Count == 0)
