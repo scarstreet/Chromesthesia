@@ -1,10 +1,9 @@
 <head>
-
-Song Title : 
-Duration :
-Tempo :
-Difficulty :
-Credits (If there is copyright) : 
+SongTitle:Body Talk
+Duration:123
+Tempo:128
+Difficulty:Normal
+Credits(If there is copyright):M2U, Cytus II, Rayark
 
 </head>
 

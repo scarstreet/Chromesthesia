@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class ScoreScreenScript : MonoBehaviour
 {
+  public Text highScore;
+  public Text score;
   public Image transitionPanel;
   public Text difficulty;
   public Text songTitle;
@@ -17,6 +19,7 @@ public class ScoreScreenScript : MonoBehaviour
   Animator animator;
   void Start()
   {
+    GameScript.resetStates();
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
     animator = gameObject.GetComponent<Animator>();
     difficulty.text = SongSelectScript.currentDifficulty;
@@ -29,7 +32,6 @@ public class ScoreScreenScript : MonoBehaviour
   public void stopAnimations()
   {
     animator.speed = 0;
-    GameScript.resetStates();
     playAgainBtn.enabled = true;
     songListBtn.enabled = true;
     settingsBtn.enabled = true;
@@ -69,9 +71,9 @@ public class ScoreScreenScript : MonoBehaviour
     bool fadeDone = false;
     while (!fadeDone)
     {
-      transitionPanel.CrossFadeAlpha(1, 0.5f, false);
+      transitionPanel.CrossFadeAlpha(1, 0.5f, true);
       fadeDone = true;
-      yield return new WaitForSeconds(.25f);
+      yield return new WaitForSecondsRealtime(.5f);
     }
     if (scene.Contains("SettingsScene"))
     {

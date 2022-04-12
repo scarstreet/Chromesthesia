@@ -12,6 +12,17 @@ public class NoteDiamondResult : MonoBehaviour
     gameObject.LeanColor(nextColor, 0f).setEaseOutQuad();
     StartCoroutine(FlickerOut());
   }
+  void Awake()
+  {
+    DontDestroyOnLoad(gameObject);
+  }
+  void Update()
+  {
+    if (GameScript.gameStarted == false)
+    {
+      Destroy(gameObject);
+    }
+  }
   IEnumerator FlickerOut()
   {
     bool wait = true;

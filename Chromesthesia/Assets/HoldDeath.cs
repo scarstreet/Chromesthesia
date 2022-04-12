@@ -17,9 +17,15 @@ public class HoldDeath : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-
+    if(GameScript.gameStarted == false){
+      Destroy(gameObject);
+    }
   }
-  public void displayNextState()
+  void Awake()
+  {
+    DontDestroyOnLoad(gameObject);
+  } 
+   public void displayNextState()
   {
     transform.eulerAngles = new Vector3(0, 0, 0);
     NoteDiamondResult script;

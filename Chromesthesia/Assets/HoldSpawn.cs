@@ -26,10 +26,16 @@ public class HoldSpawn : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-
+    if (GameScript.gameStarted == false)
+    {
+      Destroy(gameObject);
+    }
   }
-
-  public void setState(string state)
+  void Awake()
+  {
+    DontDestroyOnLoad(gameObject);
+  }
+    public void setState(string state)
   {
     if (state.Contains("noInput"))
     {
@@ -38,7 +44,9 @@ public class HoldSpawn : MonoBehaviour
       script.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       Destroy(gameObject);
       Instantiate(HoldSpawnDeath, transform.position, transform.rotation);
-    } else {
+    }
+    else
+    {
       Destroy(gameObject);
       // Move this part to GameMaster.cs -----------------------------------------------
       // HoldWait script = HoldStart.GetComponent<HoldWait>();

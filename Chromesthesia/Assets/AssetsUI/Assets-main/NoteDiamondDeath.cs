@@ -10,8 +10,19 @@ public class NoteDiamondDeath : MonoBehaviour
   {
     gameObject.LeanColor(nextColor, 0.5f).setEaseOutQuad();
   }
-
-  public void displayNextState() {
+  void Awake()
+  {
+    DontDestroyOnLoad(gameObject);
+  }
+  void Update()
+  {
+    if (GameScript.gameStarted == false)
+    {
+      Destroy(gameObject);
+    }
+  }
+  public void displayNextState()
+  {
     Destroy(gameObject);
     transform.eulerAngles = new Vector3(0, 0, 0);
     Instantiate(nextAnimation, transform.position, transform.rotation);

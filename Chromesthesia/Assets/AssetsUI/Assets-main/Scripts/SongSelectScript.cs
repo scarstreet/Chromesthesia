@@ -37,13 +37,16 @@ public class Score
 public class SongInfo
 {
   Sprite image;
+  AudioClip audio;
   string title;
   string artist;
+  public double duration;
   public Score easy, normal, hard; // Highscores for each difficulty
   public string BM_easyPath, BM_normalPath, BM_hardPath;
   public string getTitle() { return title; }
   public string getArtist() { return artist; }
   public Sprite getImage() { return image; }
+  public AudioClip getAudio() { return audio; }
   public SongInfo(string folder)
   {
     Debug.Log("Songs/" + folder + "/info");
@@ -54,6 +57,7 @@ public class SongInfo
     // BASIC INFO =================================================================
     title = info.Find(i => i.Contains("song-name")).Split("=")[1];
     artist = info.Find(i => i.Contains("artist")).Split("=")[1];
+    duration = Convert.ToDouble(info.Find(i => i.Contains("duration")).Split("=")[1]);
 
     // SCORES =====================================================================
     int e_id = info.FindIndex(i => i.Contains("> Easy")); // Easy index
@@ -77,6 +81,11 @@ public class SongInfo
     string imagePath = info.Find(i => i.Contains("> image")).Split("=")[1];
     imagePath = "Songs/" + folder + "/" + imagePath;
     image = Resources.Load<Sprite>(imagePath);
+
+    // AUDIO =====================================================================
+    string audioPath = info.Find(i => i.Contains("> audio")).Split("=")[1];
+    audioPath = "Songs/" + folder + "/" + audioPath;
+    audio = Resources.Load<AudioClip>(audioPath);
   }
 }
 
@@ -282,7 +291,7 @@ public class SongSelectScript : MonoBehaviour
     while (!faded)
     {
       faded = true;
-      yield return new WaitForSeconds(.25f);
+      yield return new WaitForSecondsRealtime(.5f);
     }
     updateUI();
     songUIfade(1);
@@ -295,7 +304,7 @@ public class SongSelectScript : MonoBehaviour
     while (!faded)
     {
       faded = true;
-      yield return new WaitForSeconds(.25f);
+      yield return new WaitForSecondsRealtime(.5f);
     }
     if (which.Contains("next"))
     {
@@ -336,9 +345,9 @@ public class SongSelectScript : MonoBehaviour
     bool fadeDone = false;
     while (!fadeDone)
     {
-      transitionPanel.CrossFadeAlpha(1, 0.5f, false);
+      transitionPanel.CrossFadeAlpha(1, 0.5f, true);
       fadeDone = true;
-      yield return new WaitForSeconds(.25f);
+      yield return new WaitForSecondsRealtime(.5f);
     }
     if (scene.Contains("SettingsScene"))
     {

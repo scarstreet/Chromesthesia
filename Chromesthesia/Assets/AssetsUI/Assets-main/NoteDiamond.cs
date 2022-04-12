@@ -25,7 +25,7 @@ public class NoteDiamond : MonoBehaviour
   private float totalFrame = 150;
   private float spawnFrame = 40;
   public string timeStatus = "noInput"; // ''/'miss'/'good'/'perfect'
-  public string status="";
+  public string status = "";
   // Start is called before the first frame update
   void Start()
   {
@@ -37,7 +37,17 @@ public class NoteDiamond : MonoBehaviour
     float speed = (float)(duration / originalDuration); // TODO - make sure the inputted value good.
     animator.speed = 1 / speed;
   }
-  
+  void Awake()
+  {
+    DontDestroyOnLoad(gameObject);
+  }
+  void Update()
+  {
+    if (GameScript.gameStarted == false)
+    {
+      Destroy(gameObject);
+    }
+  }
   public void setState(string dirStatus)
   {
     NoteDiamondResult resultScript;
@@ -49,10 +59,12 @@ public class NoteDiamond : MonoBehaviour
       resultScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextAnimation = miss;
-      if(dirStatus.Contains("noInput")) {
+      if (dirStatus.Contains("noInput"))
+      {
         // Debug.Log(gameObject + "!!! Dequeueing !!!");
-        if(GameMaster.touchable.Count>0) {
-          GameMaster.touchable.Dequeue();
+        if (GameScript.touchable.Count > 0)
+        {
+          GameScript.touchable.Dequeue();
         }
       }
     }
@@ -69,7 +81,7 @@ public class NoteDiamond : MonoBehaviour
       resultScript.nextColor = new Color((255f / 255f), (230f / 255f), (100f / 255f), 1); // sum light yello
       deathScript.nextColor = new Color((255f / 255f), (230f / 255f), (100f / 255f), 1); // sum light yello
       deathScript.nextAnimation = perfect;
-      // GameMaster.touchable.Dequeue();
+      // GameScript.touchable.Dequeue();
     }
     else
     {
@@ -79,19 +91,21 @@ public class NoteDiamond : MonoBehaviour
     Instantiate(death, transform.position, transform.rotation);
   }
 
-  void statusDetermine(string dirStatus){
-    if(timeStatus.Contains("perfect") && dirStatus.Contains("perfect"))
+  void statusDetermine(string dirStatus)
+  {
+    if (timeStatus.Contains("perfect") && dirStatus.Contains("perfect"))
       status = "perfect";
-    else if((timeStatus.Contains("perfect") || timeStatus.Contains("good")) && (dirStatus.Contains("good") || dirStatus.Contains("perfect")))
+    else if ((timeStatus.Contains("perfect") || timeStatus.Contains("good")) && (dirStatus.Contains("good") || dirStatus.Contains("perfect")))
       status = "good";
-    else if(timeStatus.Contains("good") && dirStatus.Contains("good"))
+    else if (timeStatus.Contains("good") && dirStatus.Contains("good"))
       status = "good";
     else
       status = "miss";
     Debug.Log("SWIPE || dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status);
   }
 
-  public void changeTimeState(string state){
+  public void changeTimeState(string state)
+  {
     timeStatus = state;
   }
 

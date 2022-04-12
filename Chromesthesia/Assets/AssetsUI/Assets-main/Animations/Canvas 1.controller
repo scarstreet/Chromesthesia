@@ -45,10 +45,10 @@ AnimatorState:
   m_TimeParameterActive: 1
   m_Motion: {fileID: 7400000, guid: ce5e8226e53fb6e4b85e147ab5298b2f, type: 2}
   m_Tag: 
-  m_SpeedParameter: RunnerProgress
+  m_SpeedParameter: runner
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
-  m_TimeParameter: RunnerProgress
+  m_TimeParameter: runner
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -58,12 +58,12 @@ AnimatorController:
   m_Name: Canvas 1
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: RunnerProgress
+  - m_Name: runner
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
