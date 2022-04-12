@@ -1815,13 +1815,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b3853daacbad04ab961ce9ce38ddb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transitionPanel: {fileID: 572653351}
+  highScore: {fileID: 31540860}
+  combo: {fileID: 605363346}
+  score: {fileID: 31540860}
+  perfect: {fileID: 1943620523}
+  good: {fileID: 332507938}
+  miss: {fileID: 1067872399}
   difficulty: {fileID: 1555484046}
   songTitle: {fileID: 1530453016}
   artistName: {fileID: 1534919209}
+  transitionPanel: {fileID: 572653351}
   playAgainBtn: {fileID: 949682007}
   songListBtn: {fileID: 913661010}
   settingsBtn: {fileID: 158093570}
+  game: {fileID: 0}
 --- !u!95 &1206594310
 Animator:
   serializedVersion: 4

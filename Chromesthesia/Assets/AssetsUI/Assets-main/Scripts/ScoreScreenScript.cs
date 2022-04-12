@@ -8,17 +8,48 @@ using UnityEngine.SceneManagement;
 public class ScoreScreenScript : MonoBehaviour
 {
   public Text highScore;
+  public Text combo;
   public Text score;
-  public Image transitionPanel;
+  public Text perfect;
+  public Text good;
+  public Text miss;
   public Text difficulty;
   public Text songTitle;
   public Text artistName;
+  public Image transitionPanel;
   public Button playAgainBtn;
   public Button songListBtn;
   public Button settingsBtn;
   Animator animator;
+  /*
+
+
+
+  THERE IS A TO DO LIST HERE, CHECK IT OUT - FOR XEVENST
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  */
   void Start()
   {
+    //TODO : BUILD TEXT FOR HIGHSCORE
+    score.text = GameScript.score.ToString();
+    combo.text = GameScript.maxcombo.ToString();
+    perfect.text = GameScript.perfectcount.ToString();
+    good.text = GameScript.goodcount.ToString();
+    miss.text = (GameScript.count-GameScript.perfectcount-GameScript.goodcount).ToString();
     GameScript.resetStates();
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
     animator = gameObject.GetComponent<Animator>();
@@ -28,6 +59,7 @@ public class ScoreScreenScript : MonoBehaviour
     playAgainBtn.enabled = false;
     songListBtn.enabled = false;
     settingsBtn.enabled = false;
+    //combo is not static!!!! wait
   }
   public void stopAnimations()
   {

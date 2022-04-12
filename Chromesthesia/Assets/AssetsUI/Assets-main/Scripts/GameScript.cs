@@ -7,7 +7,32 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
+/*
 
+THERE IS A TO DO LIST HERE,CHECK IT OUT -FOR XEVENST
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
 public class GameScript : MonoBehaviour
 {
   public class Note
@@ -70,8 +95,8 @@ public class GameScript : MonoBehaviour
       this.obj = Instantiate(temp, tempPos, tempRot); // reincarnate to become holdWait
     }
   }
-  public static double score,combo;
-  public int count;
+  public static double score,combo,maxcombo,perfectcount,goodcount,misscount;
+  public static int count;
   public static Queue<Note> que = new Queue<Note>(), isoutthere = new Queue<Note>(), touchable = new Queue<Note>();
   public static List<(double timing, List<Note> notes)> sametime = new List<(double timing, List<Note> notes)>();
   public static List<Note> existingHolds = new List<Note>(), waitingHolds = new List<Note>();
@@ -91,6 +116,11 @@ public class GameScript : MonoBehaviour
   {
     score=0;
     combo=0;
+    maxcombo=0;
+    perfectcount=0;
+    goodcount=0;
+    misscount=0;
+    count=0;
     que = new Queue<Note>();
     isoutthere = new Queue<Note>();
     touchable = new Queue<Note>();
@@ -119,6 +149,11 @@ public class GameScript : MonoBehaviour
   {
     score=0;
     combo=0;
+    maxcombo=0;
+    perfectcount=0;
+    goodcount=0;
+    misscount=0;
+    count=0;
     self = gameObject;
     difficulty.text = SongSelectScript.currentDifficulty;
     song.text = SongSelectScript.currentSong.getTitle() + " - " + SongSelectScript.currentSong.getArtist();
@@ -155,7 +190,7 @@ public class GameScript : MonoBehaviour
           count++;
       }
       addscore = (double)1000000/count;
-      Debug.Log("Count = " + count*addscore + " " + (double)(1/count));
+      Debug.Log("Count = " + count);
       currentscore.text = ((int)score).ToString();
     }
     //=======================================================================================
@@ -261,6 +296,10 @@ public class GameScript : MonoBehaviour
                 // Debug.Log("SWIPE SWIPE");
                 NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
                 s.setState(directionJudgement(angle, touchable.Peek().time));
+                /*
+                TODO : FIX THE PERFECT GOOD MISS SCORE AND COMBO HERE CAUSE IT BUGS WHEN IT'S UP THERE
+                HOW? DIRECTIONJUDGEMENT IS THE LAST JUDGEMENT MEANING THAT IT IS DEFINED LASTLY HERE, SO THIS IS THE FACTOR, THE POINT IS JUST MOVE IT HERE
+                */
                 touchable.Dequeue();
               }
             }
@@ -376,8 +415,11 @@ public class GameScript : MonoBehaviour
           sametime.Remove(sametime[now]);
         }
         result = "perfect";
+        perfectcount++;
         score += addscore;
         combo++;
+        if(combo>maxcombo)
+          maxcombo++;
         Debug.Log(score);
         currentscore.text = Math.Round(score,0).ToString();
       }
@@ -394,8 +436,11 @@ public class GameScript : MonoBehaviour
           if (angle <= adjacentAngle + toleranceAngle || angle >= adjacentAngle - toleranceAngle)
           { // to tolerate or to not tolerate
             result = "good";
+            goodcount++;
             score += addscore*0.5;
             combo++;
+            if(combo>maxcombo)
+              maxcombo++;
             currentscore.text = Math.Round(score,0).ToString();
           }
           sametime[now].notes.Remove(sametime[now].notes[toRemove]);
@@ -405,7 +450,7 @@ public class GameScript : MonoBehaviour
           }
         }
       }
-      if (result.Contains("miss"))
+      if (result.Contains("miss") || result.Contains("noInput"))
       {
         combo = 0;
         sametime[now].notes.Remove(sametime[now].notes[0]);
