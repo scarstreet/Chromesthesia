@@ -44,7 +44,8 @@ public class ScoreScreenScript : MonoBehaviour
   */
   void Start()
   {
-    //TODO : BUILD TEXT FOR HIGHSCORE
+    TextAsset mappath = Resources.Load<TextAsset>(SongSelectScript.beatmapPath());
+    Debug.Log(mappath); 
     score.text = GameScript.score.ToString();
     combo.text = GameScript.maxcombo.ToString();
     perfect.text = GameScript.perfectcount.ToString();
