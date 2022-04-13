@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class ScoreScreenScript : MonoBehaviour
 {
@@ -44,8 +45,15 @@ public class ScoreScreenScript : MonoBehaviour
   */
   void Start()
   {
-    TextAsset mappath = Resources.Load<TextAsset>(SongSelectScript.beatmapPath());
-    Debug.Log(mappath); 
+    Debug.Log(SongSelectScript.currentSong.getInfoPath());
+    if(GameScript.score > SongSelectScript.currentSong.easy.score && SongSelectScript.currentDifficulty=="EASY")
+    {
+      Debug.Log(SongSelectScript.currentSong.getInfoPath().Contains("easyscore="));
+      List<string> current = new List<string>();
+      Debug.Log(current);
+      SongSelectScript.currentSong.easy.score = ((int)GameScript.score);
+    }
+    
     score.text = GameScript.score.ToString();
     combo.text = GameScript.maxcombo.ToString();
     perfect.text = GameScript.perfectcount.ToString();

@@ -40,6 +40,7 @@ public class SongInfo
   AudioClip audio;
   string title;
   string artist;
+  string infopath;
   public double duration;
   public Score easy, normal, hard; // Highscores for each difficulty
   public string BM_easyPath, BM_normalPath, BM_hardPath;
@@ -47,8 +48,10 @@ public class SongInfo
   public string getArtist() { return artist; }
   public Sprite getImage() { return image; }
   public AudioClip getAudio() { return audio; }
-  public SongInfo(string folder)
+  public string getInfoPath() { return infopath; }
+  public SongInfo(string folder,string mapPath)
   {
+    infopath = "Songs/" + folder + "/info.txt";
     Debug.Log("Songs/" + folder + "/info");
     TextAsset i = Resources.Load<TextAsset>("Songs/" + folder + "/info");
     List<string> info = new List<string>(i.text.Split('\n'));
@@ -91,6 +94,7 @@ public class SongInfo
 
 public class SongSelectScript : MonoBehaviour
 {
+  public static string mapPath;
   public static string currentDifficulty = "EASY"; //"EASY","NORMAL" or "HARD"
   private List<SongInfo> allSongs;
   public static bool justStarted = true;
@@ -102,7 +106,6 @@ public class SongSelectScript : MonoBehaviour
   public Image nextSongImage;
   public Image prevSongImage;
   public Image transitionPanel;
-
   public Text songTitle;
   public Text artistName;
   public Text nextSongText;
@@ -124,7 +127,7 @@ public class SongSelectScript : MonoBehaviour
     List<string> songFolderList = new List<string>(folders);
     foreach (string folder in songFolderList)
     {
-      list.Add(new SongInfo(folder));
+      list.Add(new SongInfo(folder,mapPath));
     }
     allSongs = list;
   }
