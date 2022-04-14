@@ -8,6 +8,7 @@ using System.IO;
 
 public class ScoreScreenScript : MonoBehaviour
 {
+  public Text ddebug;
   public Text highScore;
   public Text combo;
   public Text score;
@@ -25,7 +26,9 @@ public class ScoreScreenScript : MonoBehaviour
   Animator animator;
   void Start()
   {
-    Debug.Log(SongSelectScript.currentSong.getInfoPath());
+    Debug.Log("QWQ " + Application.persistentDataPath);
+    Debug.Log("QAQ " + Application.dataPath);
+    Debug.Log("QAAQ " + Application.dataPath+"/HighScores/"+ SongSelectScript.currentSong.getTitle()+"/info.txt");
     SongSelectScript.currentSong.setScore(new Score((int)GameScript.score, GameScript.misscount, GameScript.goodcount, GameScript.perfectcount, GameScript.combo, GameScript.accuracy,SongSelectScript.getRating()));
     //====================================================
     score.text = GameScript.score.ToString();
@@ -36,6 +39,7 @@ public class ScoreScreenScript : MonoBehaviour
     rating.text = SongSelectScript.getRating();
     //====================================================
     SongSelectScript.currentSong.saveScore();
+    ddebug.text = Application.persistentDataPath;
     GameScript.resetStates();
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
     animator = gameObject.GetComponent<Animator>();

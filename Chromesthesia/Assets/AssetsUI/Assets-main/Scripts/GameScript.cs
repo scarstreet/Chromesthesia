@@ -98,7 +98,6 @@ public class GameScript : MonoBehaviour
     misscount=0;
     count=0;
     accuracy=0f;
-    // Debug.Log("ACCU : " + accuracy);
     que = new Queue<Note>();
     isoutthere = new Queue<Note>();
     touchable = new Queue<Note>();
