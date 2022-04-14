@@ -98,7 +98,7 @@ public class GameScript : MonoBehaviour
     misscount=0;
     count=0;
     accuracy=0f;
-    Debug.Log("ACCU : " + accuracy);
+    // Debug.Log("ACCU : " + accuracy);
     que = new Queue<Note>();
     isoutthere = new Queue<Note>();
     touchable = new Queue<Note>();
@@ -168,7 +168,7 @@ public class GameScript : MonoBehaviour
           count++;
       }
       addscore = (double)1000000/count;
-      Debug.Log("Count = " + count);
+      // Debug.Log("Count = " + count);
       currentscore.text = ((int)score).ToString();
     }
     //=======================================================================================

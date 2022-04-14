@@ -35,6 +35,7 @@ public class ScoreScreenScript : MonoBehaviour
     miss.text = (GameScript.count-GameScript.perfectcount-GameScript.goodcount).ToString();
     rating.text = SongSelectScript.getRating();
     //====================================================
+    SongSelectScript.currentSong.saveScore();
     GameScript.resetStates();
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
     animator = gameObject.GetComponent<Animator>();
@@ -100,5 +101,5 @@ public class ScoreScreenScript : MonoBehaviour
     }
     SceneManager.LoadScene(scene, LoadSceneMode.Single);
   }
-  
+
 }

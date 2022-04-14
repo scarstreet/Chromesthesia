@@ -12,7 +12,7 @@ public class Score
   public int score = 0;
   public int combo = 0;
   public double accuracy = 0;
-  int miss = 0, good = 0, perfect = 0;
+  public int miss = 0, good = 0, perfect = 0;
   public string rating = "";
   public Score(int i_score, int i_miss, int i_good, int i_perfect, int i_combo, double i_acc,string i_rating)
   {
@@ -62,8 +62,7 @@ public class SongInfo
   public string getInfoPath() { return infopath; }
   public SongInfo(string folder)
   {
-    infopath = "Songs/" + folder + "/info.txt";
-    // Debug.Log("Songs/" + folder + "/info");
+    infopath = "Songs/" + folder + "/info";
     TextAsset i = Resources.Load<TextAsset>("Songs/" + folder + "/info");
     List<string> info = new List<string>(i.text.Split('\n'));
     Debug.Log(info);
@@ -112,11 +111,11 @@ public class SongInfo
   }
   public void saveScore()
   {
-    TextAsset info = Resources.Load<TextAsset>(infopath);
-    Debug.Log(i);
+    TextAsset info = Resources.Load<TextAsset>(SongSelectScript.currentSong.infopath);
+    List<string> i= new List<string>(info.text.Split('\n'));  
     if(SongSelectScript.currentDifficulty.Contains("EASY"))
     {
-      info.FindIndex(i => i.Contains("> Easy"));
+      int index = i.FindIndex(info => info.Contains("> Easy"));
       bool i1 = easy.notPlayedYet;
       int i2 = easy.score;
       int i3 = easy.miss;
@@ -124,19 +123,19 @@ public class SongInfo
       int i5 = easy.perfect;
       int i6 = easy.combo;
       double i7 = easy.accuracy;
-      double i8 = easy.rating;
-      info[i+1] = $"new={i1}";
-      info[i+2] = $"score={i2}";
-      info[i+3] = $"miss={i3}";
-      info[i+4] = $"good={i4}";
-      info[i+5] = $"perfect={i5}";
-      info[i+6] = $"combo={i6}";
-      info[i+7] = $"accuracy={i7}";
-      info[i+8] = $"rating={i8}";
+      string i8 = easy.rating;
+      i[index+1] = $"new={i1}";
+      i[index+2] = $"score={i2}";
+      i[index+3] = $"miss={i3}";
+      i[index+4] = $"good={i4}";
+      i[index+5] = $"perfect={i5}";
+      i[index+6] = $"combo={i6}";
+      i[index+7] = $"accuracy={i7}";
+      i[index+8] = $"rating={i8}";
     }
     else if(SongSelectScript.currentDifficulty.Contains("NORMAL"))
     {
-      info.FindIndex(i => i.Contains("> Normal"));
+      int index = i.FindIndex(info => info.Contains("> Normal"));
       bool i1 = normal.notPlayedYet;
       int i2 = normal.score;
       int i3 = normal.miss;
@@ -144,19 +143,19 @@ public class SongInfo
       int i5 = normal.perfect;
       int i6 = normal.combo;
       double i7 = normal.accuracy;
-      double i8 = normal.rating;
-      info[i+1] = $"new={i1}";
-      info[i+2] = $"score={i2}";
-      info[i+3] = $"miss={i3}";
-      info[i+4] = $"good={i4}";
-      info[i+5] = $"perfect={i5}";
-      info[i+6] = $"combo={i6}";
-      info[i+7] = $"accuracy={i7}";
-      info[i+8] = $"rating={i8}";
+      string i8 = normal.rating;
+      i[index+1] = $"new={i1}";
+      i[index+2] = $"score={i2}";
+      i[index+3] = $"miss={i3}";
+      i[index+4] = $"good={i4}";
+      i[index+5] = $"perfect={i5}";
+      i[index+6] = $"combo={i6}";
+      i[index+7] = $"accuracy={i7}";
+      i[index+8] = $"rating={i8}";
     }
     else if(SongSelectScript.currentDifficulty.Contains("HARD"))
     {
-      info.FindIndex(i => i.Contains("> Hard"));
+      int index = i.FindIndex(ii => ii.Contains("> Hard"));
       bool i1 = hard.notPlayedYet;
       int i2 = hard.score;
       int i3 = hard.miss;
@@ -164,15 +163,15 @@ public class SongInfo
       int i5 = hard.perfect;
       int i6 = hard.combo;
       double i7 = hard.accuracy;
-      double i8 = hard.rating;
-      info[i+1] = $"new={i1}";
-      info[i+2] = $"score={i2}";
-      info[i+3] = $"miss={i3}";
-      info[i+4] = $"good={i4}";
-      info[i+5] = $"perfect={i5}";
-      info[i+6] = $"combo={i6}";
-      info[i+7] = $"accuracy={i7}";
-      info[i+8] = $"rating={i8}";
+      string i8 = hard.rating;
+      i[index+1] = $"new={i1}";
+      i[index+2] = $"score={i2}";
+      i[index+3] = $"miss={i3}";
+      i[index+4] = $"good={i4}";
+      i[index+5] = $"perfect={i5}";
+      i[index+6] = $"combo={i6}";
+      i[index+7] = $"accuracy={i7}";
+      i[index+8] = $"rating={i8}";
       /*
         THERE IS A TO DO LIST HERE, CHECK IT OUT - FOR XEVENST
 
@@ -181,8 +180,9 @@ public class SongInfo
         3. make else if statements for normal and hard
       */
     }
-    string.Join("", info);
-    Debug.Log(info);
+    string.Join("", i);
+    File.WriteAllText
+
   }
   // public setScore(int newscore,int newcombo,double newaccuracy,int newmiss,int newgood,int newperfect,string  currentDiff) //only if highscore
 }
