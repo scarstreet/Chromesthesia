@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using System;
+using System.IO;
 
 public class Score
 {
@@ -63,6 +64,7 @@ public class SongInfo
   public SongInfo(string folder)
   {
     infopath = "Songs/" + folder + "/info";
+    Debug.Log(infopath);
     TextAsset i = Resources.Load<TextAsset>("Songs/" + folder + "/info");
     List<string> info = new List<string>(i.text.Split('\n'));
     Debug.Log(info);
@@ -112,10 +114,12 @@ public class SongInfo
   public void saveScore()
   {
     TextAsset info = Resources.Load<TextAsset>(SongSelectScript.currentSong.infopath);
-    List<string> i= new List<string>(info.text.Split('\n'));  
+    Debug.Log(Application.dataPath + "/AssetsUI/Assets-main/Resources/" + SongSelectScript.currentSong.infopath+".txt");
+    Debug.Log(info);
+    List<string> i = new List<string>(info.text.Split('\n'));  
     if(SongSelectScript.currentDifficulty.Contains("EASY"))
     {
-      int index = i.FindIndex(info => info.Contains("> Easy"));
+      int index = i.FindIndex(ii => ii.Contains("> Easy"));
       bool i1 = easy.notPlayedYet;
       int i2 = easy.score;
       int i3 = easy.miss;
@@ -135,7 +139,7 @@ public class SongInfo
     }
     else if(SongSelectScript.currentDifficulty.Contains("NORMAL"))
     {
-      int index = i.FindIndex(info => info.Contains("> Normal"));
+      int index = i.FindIndex(ii => ii.Contains("> Normal"));
       bool i1 = normal.notPlayedYet;
       int i2 = normal.score;
       int i3 = normal.miss;
@@ -180,9 +184,12 @@ public class SongInfo
         3. make else if statements for normal and hard
       */
     }
-    string.Join("", i);
-    File.WriteAllText
-
+    string newFile = string.Join("\n", i);
+    Debug.Log(newFile);
+    // masalah writenya doang ya?think so
+    File.Create(Application.dataPath + "/AssetsUI/Assets-main/Resources/" + SongSelectScript.currentSong.infopath+".txt").Close();
+    // File.WriteAllText(SongSelectScript.currentSong.infopath,newFile); QmQ )www
+    File.WriteAllText(Application.dataPath + "/AssetsUI/Assets-main/Resources/" + SongSelectScript.currentSong.infopath+".txt",newFile);
   }
   // public setScore(int newscore,int newcombo,double newaccuracy,int newmiss,int newgood,int newperfect,string  currentDiff) //only if highscore
 }
@@ -357,38 +364,29 @@ public class SongSelectScript : MonoBehaviour
   {
     currentDifficulty = selected;
     updateUI();
+    // getAllSongs(); //:D?
     StartCoroutine(changeDifficulty());
   }
 
   private string checkDir(double angle)
   {
     string dir = "";
-    if (angle >= -22.5 && angle < 22.5) // right
+    if (angle >= -90 && angle < 90) // right
       dir = "d";
-    else if (angle >= 22.5 && angle < 67.5) // up right
-      dir = "e";
-    else if (angle >= 67.5 && angle < 112.5) // up
-      dir = "w";
-    else if (angle >= 112.5 && angle < 157.5) // up left
-      dir = "q";
-    else if ((angle >= 157.5 && angle <= 180) || (angle < -157.5 && angle >= -180)) // left
+    else
       dir = "a";
-    else if (angle >= -157.5 && angle < -112.5) // down left
-      dir = "z";
-    else if (angle >= -112.5 && angle < -67.5) // down
-      dir = "x";
-    else if (angle >= -67.5 && angle < -22.5) // down right
-      dir = "c";
     return dir;
   }
 
   public void previousSongPressed()
   {
+    // getAllSongs();
     StartCoroutine(changeSong("prev"));
   }
 
   public void nextSongPressed()
   {
+    // getAllSongs();//should be ok, I think..
     StartCoroutine(changeSong("next"));
   }
 
