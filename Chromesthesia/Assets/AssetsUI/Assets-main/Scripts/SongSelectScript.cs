@@ -173,13 +173,6 @@ public class SongInfo
       i[index+6] = $"combo={i6}";
       i[index+7] = $"accuracy={i7}";
       i[index+8] = $"rating={i8}";
-      /*
-        THERE IS A TO DO LIST HERE, CHECK IT OUT - FOR XEVENST
-
-        1. turn info to string, use a function called join, use '\n' as the joiner thingy
-        2. write info back to the file
-        3. make else if statements for normal and hard
-      */
     }
     string newFile = string.Join("\n", i);
     Debug.Log(newFile);
@@ -189,15 +182,15 @@ public class SongInfo
     }
     else
     {
-      File.Create(Application.persistentDataPath+"/HighScores/"+ SongSelectScript.currentSong.title+"/info.txt").Close();
-      File.WriteAllText(Application.dataPath+"/HighScores/"+ SongSelectScript.currentSong.title+"/info.txt",newFile);
+      File.Create(Application.persistentDataPath +"/HighScores/" + SongSelectScript.currentSong.title +"/info.txt").Close();
+      File.WriteAllText(Application.dataPath+"/HighScores/" + SongSelectScript.currentSong.title+"/info.txt",newFile);
     }
   }
-  // public setScore(int newscore,int newcombo,double newaccuracy,int newmiss,int newgood,int newperfect,string  currentDiff) //only if highscore
 }
 
 public class SongSelectScript : MonoBehaviour
 {
+  public string songinfopath;
   public Text ddebug;
   public static string mapPath;
   public static int currentSongIndex;
@@ -240,7 +233,6 @@ public class SongSelectScript : MonoBehaviour
       int index = allSongs.FindIndex((i) => i.getTitle() == currentSong.getTitle());
       allSongs[index] = currentSong;
     }
-
     Debug.Log("SONG GOTTED");
   }
   public void scoreUIfade(float fade)
@@ -346,9 +338,9 @@ public class SongSelectScript : MonoBehaviour
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
     updateUI();
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
-    string path = Application.persistentDataPath + "/HighScores/"+ SongSelectScript.currentSong.getTitle() + "/info.txt";
-    ddebug.text = path;
-    string texting = File.ReadAllText(path);
+    songinfopath = Application.persistentDataPath + "/HighScores/"+ SongSelectScript.currentSong.getTitle() + "/info.txt";
+    ddebug.text = songinfopath;
+    string texting = File.ReadAllText(songinfopath);
     Debug.Log("text : " + texting);
     Debug.Log("STREAM : " + Application.streamingAssetsPath);
   }
@@ -379,7 +371,6 @@ public class SongSelectScript : MonoBehaviour
   {
     currentDifficulty = selected;
     updateUI();
-    // getAllSongs(); //:D?
     StartCoroutine(changeDifficulty());
   }
 
@@ -395,13 +386,11 @@ public class SongSelectScript : MonoBehaviour
 
   public void previousSongPressed()
   {
-    // getAllSongs();
     StartCoroutine(changeSong("prev"));
   }
 
   public void nextSongPressed()
   {
-    // getAllSongs();//should be ok, I think..
     StartCoroutine(changeSong("next"));
   }
 
@@ -438,6 +427,11 @@ public class SongSelectScript : MonoBehaviour
     int index = allSongs.FindIndex(song => song == currentSong);
     nextSong = index + 1 == allSongs.Count ? allSongs[0] : allSongs[index + 1];
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
+    // songinfopath = Application.persistentDataPath + "/HighScores/"+ SongSelectScript.currentSong.getTitle() + "/info.txt";
+    // ddebug.text = songinfopath;
+    // string texting = File.ReadAllText(songinfopath);
+    // Debug.Log("text : " + texting);
+    // Debug.Log("STREAM : " + Application.streamingAssetsPath);
     updateUI();
     songUIfade(1);
   }
