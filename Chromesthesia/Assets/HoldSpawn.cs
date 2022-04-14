@@ -5,6 +5,7 @@ using UnityEngine;
 public class HoldSpawn : MonoBehaviour
 {
   // Start is called before the first frame update
+  public Color bgColor;
   public GameObject HoldStart;
   public GameObject HoldSpawnDeath;
   Renderer[] renderers;

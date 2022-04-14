@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NoteDiamond : MonoBehaviour
 {
+  public Color bgColor = new Color(1f,1f,1f);
   public GameScript game;
   Renderer[] renderers;
   private IEnumerator coroutine;
@@ -29,6 +30,7 @@ public class NoteDiamond : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
+    game = GameScript.self.GetComponent<GameScript>();
     timeStatus = "noInput";
     deathScript = death.GetComponent<NoteDiamondDeath>();
     renderers = GetComponentsInChildren<Renderer>();
@@ -87,6 +89,7 @@ public class NoteDiamond : MonoBehaviour
     {
       Debug.Log("omegeh, Note has bad timeStatus. This should not happen");
     }
+    game.changeParticleColour(bgColor);
     Destroy(gameObject);
     Instantiate(death, transform.position, transform.rotation);
   }
@@ -101,7 +104,7 @@ public class NoteDiamond : MonoBehaviour
       status = "good";
     else
       status = "miss";
-    Debug.Log("SWIPE || dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status);
+    // Debug.Log("SWIPE || dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status);
   }
 
   public void changeTimeState(string state)

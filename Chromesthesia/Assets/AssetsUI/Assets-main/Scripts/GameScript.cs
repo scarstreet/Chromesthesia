@@ -62,6 +62,7 @@ public class GameScript : MonoBehaviour
       HoldSpawn objScript = this.obj.GetComponent<HoldSpawn>();
       HoldWait script = objScript.HoldStart.GetComponent<HoldWait>();
       script.holdDuration = remainDur * 1000;
+      script.bgColor = objScript.bgColor;
       // Debug.Log($"{script.holdDuration} = {remainDur} * 1000; || END.");
       GameObject temp = objScript.HoldStart;
       Vector3 tempPos = objScript.gameObject.transform.position;
@@ -70,43 +71,47 @@ public class GameScript : MonoBehaviour
       this.obj = Instantiate(temp, tempPos, tempRot); // reincarnate to become holdWait
     }
   }
-  public static double score,accuracy;
-  public static int combo,maxcombo,perfectcount,goodcount,misscount;
-  public static int count;
   public static Queue<Note> que = new Queue<Note>(), isoutthere = new Queue<Note>(), touchable = new Queue<Note>();
   public static List<(double timing, List<Note> notes)> sametime = new List<(double timing, List<Note> notes)>();
   public static List<Note> existingHolds = new List<Note>(), waitingHolds = new List<Note>();
-  public static AudioSource audiosource;
-  public Animator animator;
   public static bool gameIsPaused = false, gameCompleted = false, gameStarted = false;
+  public static int combo, maxcombo, perfectcount, goodcount, misscount;
   public static float songProgress = 0, elapsed = 0;
+  public static double score, accuracy;
+  public static int count;
   static double gameStartTime, time, duration; // SONG DURATION IN SECONDS
   public float delaystart;
   public Text difficulty, song, currentscore, combotext;
-  public GameObject circle, hold, countdown;
-  public Image transitionPanel;
-  // Start is called before the first frame update
+  public GameObject circle, hold, countdown, particles;
+  public static List<GameObject> particleList;
+  public static AudioSource audiosource;
+  public Image backgroundPanel, transitionPanel;
   public static GameObject self;
+  public Animator animator;
+  // Start is called before the first frame update
   public double addscore;
   public static void resetStates()
   {
-    score=0;
-    combo=0;
-    maxcombo=0;
-    perfectcount=0;
-    goodcount=0;
-    misscount=0;
-    count=0;
-    accuracy=0f;
+    score = 0;
+    combo = 0;
+    maxcombo = 0;
+    perfectcount = 0;
+    goodcount = 0;
+    misscount = 0;
+    count = 0;
+    accuracy = 0f;
+    // Debug.Log("ACCU : " + accuracy);
     que = new Queue<Note>();
     isoutthere = new Queue<Note>();
     touchable = new Queue<Note>();
     sametime = new List<(double timing, List<Note> notes)>();
     existingHolds = new List<Note>();
     waitingHolds = new List<Note>();
+    // backgroundPanel = GameObject.FindGameObjectWithTag("Finish").GetComponent<Image>();
     Time.timeScale = 1;
     AudioListener.pause = false;
-    if(audiosource) {
+    if (audiosource)
+    {
       audiosource.Stop();
     }
     gameIsPaused = false;
@@ -124,15 +129,22 @@ public class GameScript : MonoBehaviour
   }
   void Start()
   {
-    score=0;
-    combo=0;
-    maxcombo=0;
-    perfectcount=0;
-    goodcount=0;
-    misscount=0;
-    count=0;
+    score = 0;
+    combo = 0;
+    maxcombo = 0;
+    perfectcount = 0;
+    goodcount = 0;
+    misscount = 0;
+    count = 0;
     self = gameObject;
     difficulty.text = SongSelectScript.currentDifficulty;
+    Transform[] transformList = particles.GetComponentsInChildren<Transform>();
+    particleList = new List<GameObject>();
+    Debug.Log(transformList.Length);
+    foreach (Transform t in transformList)
+    {
+      particleList.Add(t.gameObject);
+    }
     song.text = SongSelectScript.currentSong.getTitle() + " - " + SongSelectScript.currentSong.getArtist();
     Time.timeScale = 0;
     // animator.speed = 0;
@@ -152,7 +164,8 @@ public class GameScript : MonoBehaviour
       for (int i = bodyindex; i < wordlist.Count; i++) //read from after the <body> in the textfile and split it for later use
       {
         string[] list = wordlist[i].Split(',');
-        if(list.Length == 1) {
+        if (list.Length == 1)
+        {
           break;
         }
         int type = Convert.ToInt16(list[0]);
@@ -164,9 +177,9 @@ public class GameScript : MonoBehaviour
         double time = Convert.ToDouble(list[6]);
         if (time > 0f)//remove after you finish debugging
           que.Enqueue(new Note(type, color, posx, posy, direction, timeEnd, time));
-          count++;
+        count++;
       }
-      addscore = (double)1000000/count;
+      addscore = (double)1000000 / count;
       // Debug.Log("Count = " + count);
       currentscore.text = ((int)score).ToString();
     }
@@ -198,6 +211,16 @@ public class GameScript : MonoBehaviour
           while (que.Count != 0 && que.Peek().time <= time)
           {
             GameObject create = que.Peek().type == 0 ? Instantiate(circle) : Instantiate(hold);
+            if (que.Peek().type == 0)
+            {
+              NoteDiamond script = create.GetComponent<NoteDiamond>();
+              ColorUtility.TryParseHtmlString(que.Peek().color, out script.bgColor);
+            }
+            else
+            {
+              HoldSpawn script = create.GetComponent<HoldSpawn>();
+              ColorUtility.TryParseHtmlString(que.Peek().color, out script.bgColor);
+            }
             circle.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
             create.transform.position = new Vector3(que.Peek().posx, que.Peek().posy, 1);
             create.transform.rotation = Quaternion.Euler(0, 0, assignrotate(que.Peek().direction[0]));
@@ -257,7 +280,7 @@ public class GameScript : MonoBehaviour
 
             int holdIndex = waitingHolds.FindIndex((note) => note.fingerId == touches[i].fingerId);
             if (holdIndex != -1)
-            { 
+            {
               // IF HOLD'S SWIPE
               // Debug.Log(touches[i].fingerId + "IS SWIPED!!!!!!!!!!");
               // Debug.Log(checkDir(angle) + "direction = " + angle);
@@ -395,10 +418,10 @@ public class GameScript : MonoBehaviour
         perfectcount++;
         score += addscore;
         combo++;
-        if(combo>maxcombo)
+        if (combo > maxcombo)
           maxcombo++;
         Debug.Log(score);
-        currentscore.text = Math.Round(score,0).ToString();
+        currentscore.text = Math.Round(score, 0).ToString();
       }
       else
       {
@@ -414,11 +437,11 @@ public class GameScript : MonoBehaviour
           { // to tolerate or to not tolerate
             result = "good";
             goodcount++;
-            score += addscore*0.5;
+            score += addscore * 0.5;
             combo++;
-            if(combo>maxcombo)
+            if (combo > maxcombo)
               maxcombo++;
-            currentscore.text = Math.Round(score,0).ToString();
+            currentscore.text = Math.Round(score, 0).ToString();
           }
           sametime[now].notes.Remove(sametime[now].notes[toRemove]);
           if (sametime[now].notes.Count == 0)
@@ -517,5 +540,14 @@ public class GameScript : MonoBehaviour
     }
     SceneManager.LoadScene("ScoreScreen", LoadSceneMode.Single);
     Destroy(gameObject);
+  }
+
+  public void changeParticleColour(Color color)
+  {
+    backgroundPanel.CrossFadeColor(color, .2f, false, false);
+    foreach (GameObject p in particleList)
+    {
+      LeanTween.color(p, color, .2f);
+    }
   }
 }

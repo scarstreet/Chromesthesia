@@ -5,6 +5,8 @@ using UnityEngine;
 public class HoldWait : MonoBehaviour
 {
   // Start is called before the first frame update
+  public Color bgColor;
+  public GameScript game;
   public double holdDuration = 5000;
   private double oriHoldDuration = 5000;
   public string timeStatus = "miss";
@@ -18,6 +20,7 @@ public class HoldWait : MonoBehaviour
   private NoteDiamondDeath deathScript;
   void Start()
   {
+    game = GameScript.self.GetComponent<GameScript>();
     deathScript = death.GetComponent<NoteDiamondDeath>();
     animator = gameObject.GetComponent<Animator>();
   }
@@ -79,6 +82,7 @@ public class HoldWait : MonoBehaviour
           }
         }
       }
+      game.changeParticleColour(bgColor);
     }
     else
     {
