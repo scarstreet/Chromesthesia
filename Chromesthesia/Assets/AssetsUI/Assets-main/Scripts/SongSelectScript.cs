@@ -346,7 +346,11 @@ public class SongSelectScript : MonoBehaviour
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
     updateUI();
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
-    ddebug.text = Application.persistentDataPath + "/HighScores/"+ SongSelectScript.currentSong.getTitle() + "/data.txt";
+    string path = Application.persistentDataPath + "/HighScores/"+ SongSelectScript.currentSong.getTitle() + "/info.txt";
+    ddebug.text = path;
+    string texting = File.ReadAllText(path);
+    Debug.Log("text : " + texting);
+    Debug.Log("STREAM : " + Application.streamingAssetsPath);
   }
 
   // Update is called once per frame
