@@ -15,6 +15,7 @@ public class ScoreScreenScript : MonoBehaviour
   public Text good;
   public Text miss;
   public Text difficulty;
+  public Text rating;
   public Text songTitle;
   public Text artistName;
   public Image transitionPanel;
@@ -22,43 +23,18 @@ public class ScoreScreenScript : MonoBehaviour
   public Button songListBtn;
   public Button settingsBtn;
   Animator animator;
-  /*
-
-
-
-  THERE IS A TO DO LIST HERE, CHECK IT OUT - FOR XEVENST
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  */
   void Start()
   {
     Debug.Log(SongSelectScript.currentSong.getInfoPath());
-    if(GameScript.score > SongSelectScript.currentSong.easy.score && SongSelectScript.currentDifficulty=="EASY")
-    {
-      Debug.Log(SongSelectScript.currentSong.getInfoPath().Contains("easyscore="));
-      List<string> current = new List<string>();
-      Debug.Log(current);
-      SongSelectScript.currentSong.easy.score = ((int)GameScript.score);
-    }
-    
+    SongSelectScript.currentSong.setScore(new Score((int)GameScript.score, GameScript.misscount, GameScript.goodcount, GameScript.perfectcount, GameScript.combo, GameScript.accuracy,SongSelectScript.getRating()));
+    //====================================================
     score.text = GameScript.score.ToString();
     combo.text = GameScript.maxcombo.ToString();
     perfect.text = GameScript.perfectcount.ToString();
     good.text = GameScript.goodcount.ToString();
     miss.text = (GameScript.count-GameScript.perfectcount-GameScript.goodcount).ToString();
+    rating.text = SongSelectScript.getRating();
+    //====================================================
     GameScript.resetStates();
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
     animator = gameObject.GetComponent<Animator>();
@@ -68,7 +44,6 @@ public class ScoreScreenScript : MonoBehaviour
     playAgainBtn.enabled = false;
     songListBtn.enabled = false;
     settingsBtn.enabled = false;
-    //combo is not static!!!! wait
   }
   public void stopAnimations()
   {
@@ -81,7 +56,9 @@ public class ScoreScreenScript : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+
   }
+
   public void toSettings()
   {
     StartCoroutine(changeScene("SettingsScene"));
@@ -107,6 +84,7 @@ public class ScoreScreenScript : MonoBehaviour
     EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
     return results.Count > 0;
   }
+
   IEnumerator changeScene(string scene)
   {
     bool fadeDone = false;
@@ -122,4 +100,5 @@ public class ScoreScreenScript : MonoBehaviour
     }
     SceneManager.LoadScene(scene, LoadSceneMode.Single);
   }
+  
 }

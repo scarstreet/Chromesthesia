@@ -8,12 +8,23 @@ using System;
 
 public class Score
 {
-  bool notPlayedYet = false;
+  public bool notPlayedYet = false;
   public int score = 0;
   public int combo = 0;
   public double accuracy = 0;
   int miss = 0, good = 0, perfect = 0;
   public string rating = "";
+  public Score(int i_score, int i_miss, int i_good, int i_perfect, int i_combo, double i_acc,string i_rating)
+  {
+    notPlayedYet = false;
+    score = i_score;
+    miss = i_miss;
+    good = i_good;
+    perfect = i_perfect;
+    combo = i_combo;
+    accuracy = i_acc;
+    rating = i_rating;
+  }
   public Score(string i_new, string i_score, string i_miss, string i_good, string i_perfect, string i_combo, string i_acc, string i_rating)
   {
     if (i_new.Contains("true"))
@@ -49,10 +60,10 @@ public class SongInfo
   public Sprite getImage() { return image; }
   public AudioClip getAudio() { return audio; }
   public string getInfoPath() { return infopath; }
-  public SongInfo(string folder,string mapPath)
+  public SongInfo(string folder)
   {
     infopath = "Songs/" + folder + "/info.txt";
-    Debug.Log("Songs/" + folder + "/info");
+    // Debug.Log("Songs/" + folder + "/info");
     TextAsset i = Resources.Load<TextAsset>("Songs/" + folder + "/info");
     List<string> info = new List<string>(i.text.Split('\n'));
     Debug.Log(info);
@@ -90,6 +101,90 @@ public class SongInfo
     audioPath = "Songs/" + folder + "/" + audioPath;
     audio = Resources.Load<AudioClip>(audioPath);
   }
+    public void setScore(Score newscore) //only if highscore
+  {
+    if(SongSelectScript.currentDifficulty.Contains("EASY") && easy.score < newscore.score)
+      easy = newscore;
+    else if(SongSelectScript.currentDifficulty.Contains("NORMAL") && normal.score < newscore.score)
+      normal = newscore;
+    else if(SongSelectScript.currentDifficulty.Contains("HARD") && hard.score < newscore.score)
+      hard = newscore;
+  }
+  public void saveScore()
+  {
+    TextAsset info = Resources.Load<TextAsset>(infopath);
+    Debug.Log(i);
+    if(SongSelectScript.currentDifficulty.Contains("EASY"))
+    {
+      info.FindIndex(i => i.Contains("> Easy"));
+      bool i1 = easy.notPlayedYet;
+      int i2 = easy.score;
+      int i3 = easy.miss;
+      int i4 = easy.good;
+      int i5 = easy.perfect;
+      int i6 = easy.combo;
+      double i7 = easy.accuracy;
+      double i8 = easy.rating;
+      info[i+1] = $"new={i1}";
+      info[i+2] = $"score={i2}";
+      info[i+3] = $"miss={i3}";
+      info[i+4] = $"good={i4}";
+      info[i+5] = $"perfect={i5}";
+      info[i+6] = $"combo={i6}";
+      info[i+7] = $"accuracy={i7}";
+      info[i+8] = $"rating={i8}";
+    }
+    else if(SongSelectScript.currentDifficulty.Contains("NORMAL"))
+    {
+      info.FindIndex(i => i.Contains("> Normal"));
+      bool i1 = normal.notPlayedYet;
+      int i2 = normal.score;
+      int i3 = normal.miss;
+      int i4 = normal.good;
+      int i5 = normal.perfect;
+      int i6 = normal.combo;
+      double i7 = normal.accuracy;
+      double i8 = normal.rating;
+      info[i+1] = $"new={i1}";
+      info[i+2] = $"score={i2}";
+      info[i+3] = $"miss={i3}";
+      info[i+4] = $"good={i4}";
+      info[i+5] = $"perfect={i5}";
+      info[i+6] = $"combo={i6}";
+      info[i+7] = $"accuracy={i7}";
+      info[i+8] = $"rating={i8}";
+    }
+    else if(SongSelectScript.currentDifficulty.Contains("HARD"))
+    {
+      info.FindIndex(i => i.Contains("> Hard"));
+      bool i1 = hard.notPlayedYet;
+      int i2 = hard.score;
+      int i3 = hard.miss;
+      int i4 = hard.good;
+      int i5 = hard.perfect;
+      int i6 = hard.combo;
+      double i7 = hard.accuracy;
+      double i8 = hard.rating;
+      info[i+1] = $"new={i1}";
+      info[i+2] = $"score={i2}";
+      info[i+3] = $"miss={i3}";
+      info[i+4] = $"good={i4}";
+      info[i+5] = $"perfect={i5}";
+      info[i+6] = $"combo={i6}";
+      info[i+7] = $"accuracy={i7}";
+      info[i+8] = $"rating={i8}";
+      /*
+        THERE IS A TO DO LIST HERE, CHECK IT OUT - FOR XEVENST
+
+        1. turn info to string, use a function called join, use '\n' as the joiner thingy
+        2. write info back to the file
+        3. make else if statements for normal and hard
+      */
+    }
+    string.Join("", info);
+    Debug.Log(info);
+  }
+  // public setScore(int newscore,int newcombo,double newaccuracy,int newmiss,int newgood,int newperfect,string  currentDiff) //only if highscore
 }
 
 public class SongSelectScript : MonoBehaviour
@@ -127,7 +222,7 @@ public class SongSelectScript : MonoBehaviour
     List<string> songFolderList = new List<string>(folders);
     foreach (string folder in songFolderList)
     {
-      list.Add(new SongInfo(folder,mapPath));
+      list.Add(new SongInfo(folder));
     }
     allSongs = list;
   }
@@ -191,6 +286,16 @@ public class SongSelectScript : MonoBehaviour
       accuracy.text = currentSong.hard.accuracy.ToString() + '%';
       rating.text = currentSong.hard.rating;
     }
+  }
+
+  public static string getRating()
+  {
+    if(GameScript.score>950000)return "S";
+    else if(GameScript.score>930000)return "A+";
+    else if(GameScript.score>900000)return "A";
+    else if(GameScript.score>800000)return "B";
+    else if(GameScript.score>700000)return "C";
+    else return "F";
   }
 
   public static string beatmapPath()

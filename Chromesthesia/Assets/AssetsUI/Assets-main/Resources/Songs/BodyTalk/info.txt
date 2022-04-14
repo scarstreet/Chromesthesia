@@ -13,7 +13,7 @@ duration=123
 >> score
 > Easy
 new=true
-easyscore=0
+score=0
 miss=0
 good=0
 perfect=0
@@ -23,7 +23,7 @@ rating=0
 
 > Normal
 new=true
-normalscore=0
+score=0
 miss=0
 good=0
 perfect=0
@@ -33,7 +33,7 @@ rating=0
 
 > Hard
 new=true
-hardscore=0
+score=0
 miss=0
 good=0
 perfect=0
