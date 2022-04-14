@@ -7,32 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
-/*
 
-THERE IS A TO DO LIST HERE,CHECK IT OUT -FOR XEVENST
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
 public class GameScript : MonoBehaviour
 {
   public class Note
@@ -95,7 +70,8 @@ public class GameScript : MonoBehaviour
       this.obj = Instantiate(temp, tempPos, tempRot); // reincarnate to become holdWait
     }
   }
-  public static double score,combo,maxcombo,perfectcount,goodcount,misscount;
+  public static double score,accuracy;
+  public static int combo,maxcombo,perfectcount,goodcount,misscount;
   public static int count;
   public static Queue<Note> que = new Queue<Note>(), isoutthere = new Queue<Note>(), touchable = new Queue<Note>();
   public static List<(double timing, List<Note> notes)> sametime = new List<(double timing, List<Note> notes)>();
@@ -121,6 +97,8 @@ public class GameScript : MonoBehaviour
     goodcount=0;
     misscount=0;
     count=0;
+    accuracy=0f;
+    // Debug.Log("ACCU : " + accuracy);
     que = new Queue<Note>();
     isoutthere = new Queue<Note>();
     touchable = new Queue<Note>();
@@ -190,7 +168,7 @@ public class GameScript : MonoBehaviour
           count++;
       }
       addscore = (double)1000000/count;
-      Debug.Log("Count = " + count);
+      // Debug.Log("Count = " + count);
       currentscore.text = ((int)score).ToString();
     }
     //=======================================================================================
@@ -224,7 +202,7 @@ public class GameScript : MonoBehaviour
             circle.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
             create.transform.position = new Vector3(que.Peek().posx, que.Peek().posy, 1);
             create.transform.rotation = Quaternion.Euler(0, 0, assignrotate(que.Peek().direction[0]));
-            Note temp = new Note(que.Peek().type, que.Peek().color, que.Peek().posx, que.Peek().posy, que.Peek().direction, que.Peek().timeEnd, que.Peek().time + 1f); //changed to 1.5f (trying)
+            Note temp = new Note(que.Peek().type, que.Peek().color, que.Peek().posx, que.Peek().posy, que.Peek().direction, que.Peek().timeEnd, que.Peek().time + 1.5f); //changed to 1.5f (trying)
             temp.timeSpawned = Time.timeAsDouble;
             temp.setGameObject(create); //assigning which gameobject to the temp
             isoutthere.Enqueue(temp); //showing the note and put in the queue

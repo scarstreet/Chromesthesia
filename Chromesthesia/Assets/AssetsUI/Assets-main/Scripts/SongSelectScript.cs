@@ -5,15 +5,27 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using System;
+using System.IO;
 
 public class Score
 {
-  bool notPlayedYet = false;
+  public bool notPlayedYet = false;
   public int score = 0;
   public int combo = 0;
   public double accuracy = 0;
-  int miss = 0, good = 0, perfect = 0;
+  public int miss = 0, good = 0, perfect = 0;
   public string rating = "";
+  public Score(int i_score, int i_miss, int i_good, int i_perfect, int i_combo, double i_acc,string i_rating)
+  {
+    notPlayedYet = false;
+    score = i_score;
+    miss = i_miss;
+    good = i_good;
+    perfect = i_perfect;
+    combo = i_combo;
+    accuracy = i_acc;
+    rating = i_rating;
+  }
   public Score(string i_new, string i_score, string i_miss, string i_good, string i_perfect, string i_combo, string i_acc, string i_rating)
   {
     if (i_new.Contains("true"))
@@ -49,10 +61,10 @@ public class SongInfo
   public Sprite getImage() { return image; }
   public AudioClip getAudio() { return audio; }
   public string getInfoPath() { return infopath; }
-  public SongInfo(string folder,string mapPath)
+  public SongInfo(string folder)
   {
-    infopath = "Songs/" + folder + "/info.txt";
-    Debug.Log("Songs/" + folder + "/info");
+    infopath = "Songs/" + folder + "/info";
+    Debug.Log(infopath);
     TextAsset i = Resources.Load<TextAsset>("Songs/" + folder + "/info");
     List<string> info = new List<string>(i.text.Split('\n'));
     Debug.Log(info);
@@ -90,6 +102,96 @@ public class SongInfo
     audioPath = "Songs/" + folder + "/" + audioPath;
     audio = Resources.Load<AudioClip>(audioPath);
   }
+    public void setScore(Score newscore) //only if highscore
+  {
+    if(SongSelectScript.currentDifficulty.Contains("EASY") && easy.score < newscore.score)
+      easy = newscore;
+    else if(SongSelectScript.currentDifficulty.Contains("NORMAL") && normal.score < newscore.score)
+      normal = newscore;
+    else if(SongSelectScript.currentDifficulty.Contains("HARD") && hard.score < newscore.score)
+      hard = newscore;
+  }
+  public void saveScore()
+  {
+    TextAsset info = Resources.Load<TextAsset>(SongSelectScript.currentSong.infopath);
+    Debug.Log(Application.dataPath + "/AssetsUI/Assets-main/Resources/" + SongSelectScript.currentSong.infopath+".txt");
+    Debug.Log(info);
+    List<string> i = new List<string>(info.text.Split('\n'));  
+    if(SongSelectScript.currentDifficulty.Contains("EASY"))
+    {
+      int index = i.FindIndex(ii => ii.Contains("> Easy"));
+      bool i1 = easy.notPlayedYet;
+      int i2 = easy.score;
+      int i3 = easy.miss;
+      int i4 = easy.good;
+      int i5 = easy.perfect;
+      int i6 = easy.combo;
+      double i7 = easy.accuracy;
+      string i8 = easy.rating;
+      i[index+1] = $"new={i1}";
+      i[index+2] = $"score={i2}";
+      i[index+3] = $"miss={i3}";
+      i[index+4] = $"good={i4}";
+      i[index+5] = $"perfect={i5}";
+      i[index+6] = $"combo={i6}";
+      i[index+7] = $"accuracy={i7}";
+      i[index+8] = $"rating={i8}";
+    }
+    else if(SongSelectScript.currentDifficulty.Contains("NORMAL"))
+    {
+      int index = i.FindIndex(ii => ii.Contains("> Normal"));
+      bool i1 = normal.notPlayedYet;
+      int i2 = normal.score;
+      int i3 = normal.miss;
+      int i4 = normal.good;
+      int i5 = normal.perfect;
+      int i6 = normal.combo;
+      double i7 = normal.accuracy;
+      string i8 = normal.rating;
+      i[index+1] = $"new={i1}";
+      i[index+2] = $"score={i2}";
+      i[index+3] = $"miss={i3}";
+      i[index+4] = $"good={i4}";
+      i[index+5] = $"perfect={i5}";
+      i[index+6] = $"combo={i6}";
+      i[index+7] = $"accuracy={i7}";
+      i[index+8] = $"rating={i8}";
+    }
+    else if(SongSelectScript.currentDifficulty.Contains("HARD"))
+    {
+      int index = i.FindIndex(ii => ii.Contains("> Hard"));
+      bool i1 = hard.notPlayedYet;
+      int i2 = hard.score;
+      int i3 = hard.miss;
+      int i4 = hard.good;
+      int i5 = hard.perfect;
+      int i6 = hard.combo;
+      double i7 = hard.accuracy;
+      string i8 = hard.rating;
+      i[index+1] = $"new={i1}";
+      i[index+2] = $"score={i2}";
+      i[index+3] = $"miss={i3}";
+      i[index+4] = $"good={i4}";
+      i[index+5] = $"perfect={i5}";
+      i[index+6] = $"combo={i6}";
+      i[index+7] = $"accuracy={i7}";
+      i[index+8] = $"rating={i8}";
+      /*
+        THERE IS A TO DO LIST HERE, CHECK IT OUT - FOR XEVENST
+
+        1. turn info to string, use a function called join, use '\n' as the joiner thingy
+        2. write info back to the file
+        3. make else if statements for normal and hard
+      */
+    }
+    string newFile = string.Join("\n", i);
+    Debug.Log(newFile);
+    // masalah writenya doang ya?think so
+    File.Create(Application.dataPath + "/AssetsUI/Assets-main/Resources/" + SongSelectScript.currentSong.infopath+".txt").Close();
+    // File.WriteAllText(SongSelectScript.currentSong.infopath,newFile); QmQ )www
+    File.WriteAllText(Application.dataPath + "/AssetsUI/Assets-main/Resources/" + SongSelectScript.currentSong.infopath+".txt",newFile);
+  }
+  // public setScore(int newscore,int newcombo,double newaccuracy,int newmiss,int newgood,int newperfect,string  currentDiff) //only if highscore
 }
 
 public class SongSelectScript : MonoBehaviour
@@ -127,7 +229,7 @@ public class SongSelectScript : MonoBehaviour
     List<string> songFolderList = new List<string>(folders);
     foreach (string folder in songFolderList)
     {
-      list.Add(new SongInfo(folder,mapPath));
+      list.Add(new SongInfo(folder));
     }
     allSongs = list;
   }
@@ -193,6 +295,16 @@ public class SongSelectScript : MonoBehaviour
     }
   }
 
+  public static string getRating()
+  {
+    if(GameScript.score>950000)return "S";
+    else if(GameScript.score>930000)return "A+";
+    else if(GameScript.score>900000)return "A";
+    else if(GameScript.score>800000)return "B";
+    else if(GameScript.score>700000)return "C";
+    else return "F";
+  }
+
   public static string beatmapPath()
   {
     if (currentDifficulty.Contains("EASY"))
@@ -252,38 +364,29 @@ public class SongSelectScript : MonoBehaviour
   {
     currentDifficulty = selected;
     updateUI();
+    // getAllSongs(); //:D?
     StartCoroutine(changeDifficulty());
   }
 
   private string checkDir(double angle)
   {
     string dir = "";
-    if (angle >= -22.5 && angle < 22.5) // right
+    if (angle >= -90 && angle < 90) // right
       dir = "d";
-    else if (angle >= 22.5 && angle < 67.5) // up right
-      dir = "e";
-    else if (angle >= 67.5 && angle < 112.5) // up
-      dir = "w";
-    else if (angle >= 112.5 && angle < 157.5) // up left
-      dir = "q";
-    else if ((angle >= 157.5 && angle <= 180) || (angle < -157.5 && angle >= -180)) // left
+    else
       dir = "a";
-    else if (angle >= -157.5 && angle < -112.5) // down left
-      dir = "z";
-    else if (angle >= -112.5 && angle < -67.5) // down
-      dir = "x";
-    else if (angle >= -67.5 && angle < -22.5) // down right
-      dir = "c";
     return dir;
   }
 
   public void previousSongPressed()
   {
+    // getAllSongs();
     StartCoroutine(changeSong("prev"));
   }
 
   public void nextSongPressed()
   {
+    // getAllSongs();//should be ok, I think..
     StartCoroutine(changeSong("next"));
   }
 
