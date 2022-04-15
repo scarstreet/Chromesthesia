@@ -52,7 +52,6 @@ public class SongInfo
   AudioClip audio;
   string title;
   string artist;
-  public string infopath;
   public double duration;
   public Score easy, normal, hard; // Highscores for each difficulty
   public string BM_easyPath, BM_normalPath, BM_hardPath;
@@ -60,29 +59,41 @@ public class SongInfo
   public string getArtist() { return artist; }
   public Sprite getImage() { return image; }
   public AudioClip getAudio() { return audio; }
-  public string getInfoPath() { return infopath; }
   public SongInfo(string folder)
   {
-    infopath = "Songs/" + folder + "/info";
-    Debug.Log(infopath);
     TextAsset i = Resources.Load<TextAsset>("Songs/" + folder + "/info");
     List<string> info = new List<string>(i.text.Split('\n'));
-    Debug.Log(info);
 
     // BASIC INFO =================================================================
     title = info.Find(i => i.Contains("song-name")).Split("=")[1];
     artist = info.Find(i => i.Contains("artist")).Split("=")[1];
     duration = Convert.ToDouble(info.Find(i => i.Contains("duration")).Split("=")[1]);
 
+    // CHECK HIGHSCORE ============================================================
+    string folderpath = Application.persistentDataPath;
+    string songinfopath = Application.persistentDataPath + "/" + title + ".txt";
+    SongSelectScript.ddebug.text = songinfopath;
+    if(!File.Exists(songinfopath))
+    {
+        Debug.Log("FILE NOT FOUND");
+        SongSelectScript.dddebug.text = "FILE NOT FOUND";
+        TextAsset getTemplate = Resources.Load<TextAsset>("ScoreTemplate/info");
+        string toWrite = getTemplate.text;
+        Directory.CreateDirectory(folderpath);
+        File.WriteAllText(songinfopath,toWrite);
+    }
+    string Anotherinfo = File.ReadAllText(songinfopath);
+    List<string> information = new List<string>(Anotherinfo.Split('\n'));
+
     // SCORES =====================================================================
-    int e_id = info.FindIndex(i => i.Contains("> Easy")); // Easy index
-    easy = new Score(info[e_id + 1], info[e_id + 2], info[e_id + 3], info[e_id + 4], info[e_id + 5], info[e_id + 6], info[e_id + 7], info[e_id + 8]);
+    int e_id = information.FindIndex(i => i.Contains("> Easy")); // Easy index
+    easy = new Score(information[e_id + 1], information[e_id + 2], information[e_id + 3], information[e_id + 4], information[e_id + 5], information[e_id + 6], information[e_id + 7], information[e_id + 8]);
 
-    int n_id = info.FindIndex(i => i.Contains("> Normal")); // Normal index
-    normal = new Score(info[n_id + 1], info[n_id + 2], info[n_id + 3], info[n_id + 4], info[n_id + 5], info[n_id + 6], info[n_id + 7], info[n_id + 8]);
+    int n_id = information.FindIndex(i => i.Contains("> Normal")); // Normal index
+    normal = new Score(information[n_id + 1], information[n_id + 2], information[n_id + 3], information[n_id + 4], information[n_id + 5], information[n_id + 6], information[n_id + 7], information[n_id + 8]);
 
-    int h_id = info.FindIndex(i => i.Contains("> Hard")); // Hard index
-    hard = new Score(info[h_id + 1], info[h_id + 2], info[h_id + 3], info[h_id + 4], info[h_id + 5], info[h_id + 6], info[h_id + 7], info[h_id + 8]);
+    int h_id = information.FindIndex(i => i.Contains("> Hard")); // Hard index
+    hard = new Score(information[h_id + 1], information[h_id + 2], information[h_id + 3], information[h_id + 4], information[h_id + 5], information[h_id + 6], information[h_id + 7], information[h_id + 8]);
 
     // FILES ======================================================================
     BM_easyPath = info.Find(i => i.Contains("> beatmap-easy")).Split("=")[1];
@@ -102,7 +113,7 @@ public class SongInfo
     audioPath = "Songs/" + folder + "/" + audioPath;
     audio = Resources.Load<AudioClip>(audioPath);
   }
-    public void setScore(Score newscore) //only if highscore
+  public void setScore(Score newscore) //only if highscore
   {
     if(SongSelectScript.currentDifficulty.Contains("EASY") && easy.score < newscore.score)
       easy = newscore;
@@ -113,10 +124,10 @@ public class SongInfo
   }
   public void saveScore()
   {
-    TextAsset info = Resources.Load<TextAsset>(SongSelectScript.currentSong.infopath);
-    Debug.Log(Application.dataPath+"/HighScores/"+SongSelectScript.currentSong.title+"/info.txt");
+    string songinfopath = Application.persistentDataPath + "/" + title + ".txt";
+    string info = File.ReadAllText(songinfopath);
+    List<string> i = new List<string>(info.Split('\n'));
     Debug.Log(info);
-    List<string> i = new List<string>(info.text.Split('\n'));  
     if(SongSelectScript.currentDifficulty.Contains("EASY"))
     {
       int index = i.FindIndex(ii => ii.Contains("> Easy"));
@@ -176,22 +187,14 @@ public class SongInfo
     }
     string newFile = string.Join("\n", i);
     Debug.Log(newFile);
-    if(!File.Exists(Application.persistentDataPath+"/HighScores/"+ SongSelectScript.currentSong.title+"/info.txt"))
-    {
-      File.WriteAllText(Application.persistentDataPath+"/HighScores/"+ SongSelectScript.currentSong.title+"/info.txt",newFile);
-    }
-    else
-    {
-      File.Create(Application.persistentDataPath +"/HighScores/" + SongSelectScript.currentSong.title +"/info.txt").Close();
-      File.WriteAllText(Application.dataPath+"/HighScores/" + SongSelectScript.currentSong.title+"/info.txt",newFile);
-    }
+    File.WriteAllText(songinfopath,newFile);
   }
 }
 
 public class SongSelectScript : MonoBehaviour
 {
-  public string songinfopath;
-  public Text ddebug;
+  public static Text ddebug;
+  public static Text dddebug;
   public static string mapPath;
   public static int currentSongIndex;
   public static string currentDifficulty = "EASY"; //"EASY","NORMAL" or "HARD"
@@ -233,7 +236,6 @@ public class SongSelectScript : MonoBehaviour
       int index = allSongs.FindIndex((i) => i.getTitle() == currentSong.getTitle());
       allSongs[index] = currentSong;
     }
-    Debug.Log("SONG GOTTED");
   }
   public void scoreUIfade(float fade)
   {
@@ -327,6 +329,9 @@ public class SongSelectScript : MonoBehaviour
   ****************************************************************************/
   public void Start()
   {
+    GameObject[] list = GameObject.FindGameObjectsWithTag("ddebug");
+    ddebug = list[0].GetComponent<Text>();
+    dddebug = list[1].GetComponent<Text>();
     getAllSongs();
     if (justStarted)
     {
@@ -338,11 +343,6 @@ public class SongSelectScript : MonoBehaviour
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
     updateUI();
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
-    songinfopath = Application.persistentDataPath + "/HighScores/"+ SongSelectScript.currentSong.getTitle() + "/info.txt";
-    ddebug.text = songinfopath;
-    string texting = File.ReadAllText(songinfopath);
-    Debug.Log("text : " + texting);
-    Debug.Log("STREAM : " + Application.streamingAssetsPath);
   }
 
   // Update is called once per frame
@@ -427,11 +427,6 @@ public class SongSelectScript : MonoBehaviour
     int index = allSongs.FindIndex(song => song == currentSong);
     nextSong = index + 1 == allSongs.Count ? allSongs[0] : allSongs[index + 1];
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
-    // songinfopath = Application.persistentDataPath + "/HighScores/"+ SongSelectScript.currentSong.getTitle() + "/info.txt";
-    // ddebug.text = songinfopath;
-    // string texting = File.ReadAllText(songinfopath);
-    // Debug.Log("text : " + texting);
-    // Debug.Log("STREAM : " + Application.streamingAssetsPath);
     updateUI();
     songUIfade(1);
   }
