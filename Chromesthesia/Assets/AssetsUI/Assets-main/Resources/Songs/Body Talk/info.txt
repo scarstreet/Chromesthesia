@@ -9,34 +9,3 @@ duration=123
 > beatmap-hard=beatmap-hard
 > image=image
 > audio=Body Talk
-
->> score
-> Easy
-new=False
-score=794117
-miss=0
-good=12
-perfect=48
-combo=4
-accuracy=0
-rating=C
-
-> Normal
-new=False
-score=791338
-miss=0
-good=27
-perfect=87
-combo=0
-accuracy=0
-rating=C
-
-> Hard
-new=true
-score=0
-miss=0
-good=0
-perfect=0
-combo=0
-accuracy=0
-rating=0
