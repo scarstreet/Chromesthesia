@@ -47,12 +47,14 @@ public class PauseScript : MonoBehaviour
   public void restartPressed()
   {
     // TODO - the restart
+    GameScript.self.GetComponent<GameScript>().changeParticleColour(new Color(1f, 1f, 1f));
     GameScript.resetStates();
     StartCoroutine(changeScene("GameScreen"));
   }
   public void giveUpPressed()
   {
     // TODO - clear all dem data
+    GameScript.self.GetComponent<GameScript>().changeParticleColour(new Color(1f, 1f, 1f));
     GameScript.resetStates();
     StartCoroutine(changeScene("SongSelect"));
     // SceneManager.LoadScene("SongSelect", LoadSceneMode.Single);
