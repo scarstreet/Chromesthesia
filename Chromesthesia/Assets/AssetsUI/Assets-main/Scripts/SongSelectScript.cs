@@ -108,7 +108,10 @@ public class SongInfo
     // AUDIO =====================================================================
     string audioPath = info.Find(i => i.Contains("> audio")).Split("=")[1];
     audioPath = "Songs/" + folder + "/" + audioPath;
+    // audioPath = "Songs/song-3/Body Talk";
     audio = Resources.Load<AudioClip>(audioPath);
+    Debug.Log(audioPath);
+    Debug.Log(audio);
   }
   public void setScore(Score newscore) //only if highscore
   {

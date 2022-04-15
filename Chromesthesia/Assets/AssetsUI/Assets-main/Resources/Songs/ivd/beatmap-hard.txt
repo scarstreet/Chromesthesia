@@ -1,10 +1,10 @@
 <head>
 
-SongTitle:Body Talk
+SongTitle:il vento d'oro
 Duration:123
 Tempo:128
 Difficulty:Easy
-Credits(If there is copyright):M2U, Cytus II, Rayark
+Credits(If there is copyright):
 
 </head>
 
@@ -25,12 +25,12 @@ Explaination :
 
 */
 <body>
-0,#7472e5,0,-1.5,x,0,2
-0,#7472e5,0,1.5,w,0,2
-0,#7472e5,0,1.5,w,0,3
-0,#7371e4,0,1.5,w,0,4
-0,#7372e5,0,1.5,w,0,5
-0,#7372e5,0,1.5,w,0,6
-0,#7472e5,0,1.5,w,0,7
-0,#7573e5,0,1.5,w,0,8
-0,#7499e6,0,1.5,w,0,9
+0,#9b4ac6,0,-1.5,x,0,2
+0,#9b4ac6,0,1.5,w,0,2
+0,#a555cf,0,1.5,w,0,3
+0,#a858d1,0,1.5,w,0,4
+0,#a656cf,0,1.5,w,0,5
+0,#62d9d4,0,1.5,w,0,6
+0,#f6ee8c,0,1.5,w,0,7
+0,#9bffca,0,1.5,w,0,8
+0,#74e6e1,0,1.5,w,0,9

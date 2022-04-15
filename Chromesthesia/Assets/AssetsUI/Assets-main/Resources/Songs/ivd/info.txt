@@ -1,11 +1,11 @@
 >> song-info
-song-name=song-2
-artist=STILL DIO
-duration=7
+song-name=Il Vento D'oro
+artist=Yugo Kanno
+duration=13
 
 >> files
 > beatmap-easy=beatmap-easy
 > beatmap-normal=beatmap-normal
 > beatmap-hard=beatmap-hard
 > image=image
-> audio=Body Talk
+> audio=a
