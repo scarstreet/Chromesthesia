@@ -72,11 +72,8 @@ public class SongInfo
     // CHECK HIGHSCORE ============================================================
     string folderpath = Application.persistentDataPath;
     string songinfopath = Application.persistentDataPath + "/" + title + ".txt";
-    SongSelectScript.ddebug.text = songinfopath;
     if(!File.Exists(songinfopath))
     {
-        Debug.Log("FILE NOT FOUND");
-        SongSelectScript.dddebug.text = "FILE NOT FOUND";
         TextAsset getTemplate = Resources.Load<TextAsset>("ScoreTemplate/info");
         string toWrite = getTemplate.text;
         Directory.CreateDirectory(folderpath);
@@ -193,8 +190,6 @@ public class SongInfo
 
 public class SongSelectScript : MonoBehaviour
 {
-  public static Text ddebug;
-  public static Text dddebug;
   public static string mapPath;
   public static int currentSongIndex;
   public static string currentDifficulty = "EASY"; //"EASY","NORMAL" or "HARD"
@@ -329,9 +324,6 @@ public class SongSelectScript : MonoBehaviour
   ****************************************************************************/
   public void Start()
   {
-    GameObject[] list = GameObject.FindGameObjectsWithTag("ddebug");
-    ddebug = list[0].GetComponent<Text>();
-    dddebug = list[1].GetComponent<Text>();
     getAllSongs();
     if (justStarted)
     {
