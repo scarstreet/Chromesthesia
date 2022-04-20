@@ -5,103 +5,101 @@ using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
-    // SerializeField is for a private variable which will also show up in the editor 
-    [SerializeField] private Slider SpeedSlider = null;
-    [SerializeField] private Slider MusicSlider = null;
-    [SerializeField] private Slider SFXSlider = null;
-    [SerializeField] private Text SpeedValue = null;
-    [SerializeField] private Text MusicValue = null;
-    [SerializeField] private Text SFXValue = null;
+    // SerializeField is for a private variable which will also show up in the editor
+    [SerializeField] Slider SpeedSlider = null;
+    [SerializeField] Slider MusicSlider = null;
+    [SerializeField] Slider SFXSlider = null;
+    [SerializeField] Text SpeedValue = null;
+    [SerializeField] Text MusicValue = null;
+    [SerializeField] Text SFXValue = null;
 
     void Start()
     {
         if (!PlayerPrefs.HasKey("musicVolume"))
         {
             PlayerPrefs.SetFloat("musicVolume", 100);
-            LoadMusic();
+            LoadMusic_slider();
         }
         else
         {
-            LoadMusic();
+            LoadMusic_slider();
         }
 
         if (!PlayerPrefs.HasKey("SFXVolume"))
         {
-            PlayerPrefs.SetFloat("SFXVolume", 100);
-            LoadSFX();
+            PlayerPrefs.SetFloat("SFXVolume", 50);
+            LoadSFX_slider();
         }
         else
         {
-            LoadSFX();
+            LoadSFX_slider();
         }
 
-        if (!PlayerPrefs.HasKey("GameSpeed"))
+        if (!PlayerPrefs.HasKey("gameSpeed"))
         {
-            PlayerPrefs.SetFloat("GameSpeed", 100);
-            LoadSpeed();
+            PlayerPrefs.SetFloat("gameSpeed", 50);
+            LoadSpeed_slider();
         }
         else
         {
-            LoadSpeed();
+            LoadSpeed_slider();
         }
     }
 
-// =============================================================================================
-    public void ControlMusic(float volume)
+// ======================================================================================
+    public void ControlMusic_slider(float volume)
     {
         MusicValue.text = volume.ToString("0");
-        SaveMusic();
+        SaveMusic_slider();
     }
 
-    private void LoadMusic()
+    private void LoadMusic_slider()
     {
-        // set value of volume slider = to value stored in music value key name 
+        // set value of volume slider equal to value stored in music value key name 
         MusicSlider.value = PlayerPrefs.GetFloat("musicVolume");
-        AudioListener.volume = MusicSlider.value;
     }
 
-    private void SaveMusic()
+    private void SaveMusic_slider()
     {
         //                    key name      value
         PlayerPrefs.SetFloat("musicVolume", MusicSlider.value);
-        LoadMusic();
     }
-
-// =============================================================================================
-    public void ControlSFX(float volume)
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ======================================================================================
+    public void ControlSFX_slider(float sfxvolume)
     {
-        SFXValue.text = volume.ToString("0");
-        SaveSFX();
+        SFXValue.text = sfxvolume.ToString("0");
+        SaveSFX_slider();
     }
-    private void LoadSFX()
+    private void LoadSFX_slider()
     {
-        // set value of volume slider = to value stored in music value key name 
+        // set value of volume slider equal to value stored in music value key name 
         SFXSlider.value = PlayerPrefs.GetFloat("SFXVolume");
-        // AudioListener.volume = SFXSlider.value;
     }
 
-    private void SaveSFX()
+    private void SaveSFX_slider()
     {
         //                    key name      value
         PlayerPrefs.SetFloat("SFXVolume", SFXSlider.value);
     }
-
-// =============================================================================================
-    public void ControlSpeed(float speed)
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ======================================================================================
+    public void ControlSpeed_slider(float speed)
     {
+        AudioListener.volume = SpeedSlider.value;
         SpeedValue.text = speed.ToString("0");
-        SaveSpeed();
+        SaveSpeed_slider();
     }
     
-    private void LoadSpeed()
+    private void LoadSpeed_slider()
     {
-        // set value of volume slider = to value stored in music value key name 
-        SpeedSlider.value = PlayerPrefs.GetFloat("GameSpeed");
+        // set value of volume slider equal to value stored in music value key name 
+        SpeedSlider.value = PlayerPrefs.GetFloat("gameSpeed");
     }
 
-    private void SaveSpeed()
+    private void SaveSpeed_slider()
     {
         //                    key name      value
-        PlayerPrefs.SetFloat("GameSpeed", SpeedSlider.value);
+        PlayerPrefs.SetFloat("gameSpeed", SpeedSlider.value);
     }
 }
