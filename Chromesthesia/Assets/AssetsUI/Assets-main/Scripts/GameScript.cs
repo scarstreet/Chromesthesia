@@ -10,17 +10,69 @@ using UnityEngine;
 
 public class GameScript : MonoBehaviour
 {
+  public class Finger
+  {
+    static int pathCnt = 10; // How many entries before can decide stuff
+    double touchStarted;
+    Queue<Vector2> path;
+    public int fingerId;
+    public bool taken;
+    public Finger(int id, Vector2 pos)
+    {
+      path = new Queue<Vector2>();
+      path.Enqueue(pos);
+      touchStarted = Time.timeAsDouble;
+      fingerId = id;
+    }
+    public void updatePath(Vector2 posNow)
+    {
+      if (path.Count < pathCnt)
+      { // 60fps, saving for every 0.16 seconds, so 10 frames saved 
+        path.Enqueue(posNow);
+      }
+      else
+      {
+        path.Dequeue();
+        path.Enqueue(posNow);
+      }
+    }
+    public double decideAngle()
+    {
+      List<Vector2> pathList = path.ToList();
+      Vector2 deltaPos = pathList[pathList.Count - 1] - pathList[0];
+      double rad = Mathf.Atan2(deltaPos.y, deltaPos.x);
+      double angle = rad * (180 / Math.PI); //check the angle and change it to degrees from radian
+      return angle;
+    }
+    public bool isHold()
+    {
+      List<Vector2> pathList = path.ToList();
+      Vector2 deltaPos = pathList[pathList.Count - 1] - pathList[0];
+      if(Math.Abs(deltaPos.x)<=50 && Math.Abs(deltaPos.y) <= 50) {
+        return true;
+      }
+      // Debug.Log(deltaPos);
+      return false;
+    }
+    public bool isJudgable()
+    {
+      if(path.Count < pathCnt) {
+        return false;
+      }
+      return true;
+    }
+  }
   public class Note
   {
+    // static info ===================================================================
     public GameObject obj;
-    public int type;
-    public string color;
+    public string color, direction;
+    public double time, timeEnd;
     public float posx, posy;
-    public string direction;
-    public double timeEnd;
-    public double time;
+    public int type;
+    // dynamic info ===================================================================
     public double timeSpawned; // Needed to calculate how much time left for the hold 
-    public double timePressed; // Needed to calculate how much time left for the hold 
+    public double timePressed; // Needed to calculate how much time left for the hold
     public int fingerId;
     public Note()
     {
@@ -71,9 +123,14 @@ public class GameScript : MonoBehaviour
       this.obj = Instantiate(temp, tempPos, tempRot); // reincarnate to become holdWait
     }
   }
+
+  // GAMEPLAY LISTS =====================================================================================================
   public static Queue<Note> que = new Queue<Note>(), isoutthere = new Queue<Note>(), touchable = new Queue<Note>();
   public static List<(double timing, List<Note> notes)> sametime = new List<(double timing, List<Note> notes)>();
   public static List<Note> existingHolds = new List<Note>(), waitingHolds = new List<Note>();
+  public static List<Finger> fingerList = new List<Finger>();
+
+  // GAMEPLAY STATES ===============================================================================================
   public static bool gameIsPaused = false, gameCompleted = false, gameStarted = false;
   public static int combo, maxcombo, perfectcount, goodcount, misscount;
   public static float songProgress = 0, elapsed = 0;
@@ -81,15 +138,17 @@ public class GameScript : MonoBehaviour
   public static int count;
   static double gameStartTime, time, duration; // SONG DURATION IN SECONDS
   public float delaystart;
-  public Text difficulty, song, currentscore, combotext;
+  public double addscore;
+  // GAMEOBJECT RESOURCE ============================================================================================
   public GameObject circle, hold, countdown, particles;
   public static List<GameObject> particleList;
   public static AudioSource audiosource;
-  public Image backgroundPanel, transitionPanel;
   public static GameObject self;
+  // UI =============================================================================================================
+  public Text difficulty, song, currentscore, combotext;
+  public Image backgroundPanel, transitionPanel;
   public Animator animator;
-  // Start is called before the first frame update
-  public double addscore;
+
   public static void resetStates()
   {
     score = 0;
@@ -187,7 +246,6 @@ public class GameScript : MonoBehaviour
     StartCoroutine(postStart());
   }
 
-  // Update is called once per frame
   void Update()
   {
     if (gameStarted && !gameIsPaused)
@@ -202,7 +260,7 @@ public class GameScript : MonoBehaviour
       {
         StartCoroutine(songfinished());
       }
-      else if (que.Count > 0)
+      else if (que.Count > 0) // Putting stuff to queue
       {
         if (time >= que.Peek().time)
         {
@@ -239,7 +297,7 @@ public class GameScript : MonoBehaviour
           sametime.Add((last.time, Temp));
         }
       }
-      if (isoutthere.Count > 0)
+      if (isoutthere.Count > 0) // Putting stuff to the screen
       {
         if (time >= isoutthere.Peek().time)
         {
@@ -250,61 +308,121 @@ public class GameScript : MonoBehaviour
           }
         }
       }
-      if (Input.touchCount > 0)
+      if (Input.touchCount > 0) // If an input is detected; 
       {
+        Touch[] touches = Input.touches;
         for (int i = 0; i < Input.touchCount; i++)
         {
-          Touch[] touches = Input.touches;
-          Vector2 startPos = touches[i].rawPosition; //the first time the touch connected
-          if (touches[i].phase == TouchPhase.Stationary)
-          {
-            // Debug.Log(touches[i].fingerId + "IS HOLD!!!!!!!!!!");
-            foreach (Note note in existingHolds)
+          // creating & updating fingerlist --------------------------------------------------------------------------
+          int idx = fingerList.FindIndex((ii) => ii.fingerId == touches[i].fingerId);
+          if(idx != -1)
+          { // if the current finger's Id is already in the array
+            fingerList[idx].updatePath(touches[i].position);
+          }
+          else {
+            fingerList.Add(new Finger(touches[i].fingerId, touches[i].position));
+          }
+          // judgements ---------------------------------------------------------------------------------------------
+          // if(fingerList[idx].isJudgable()){
+            if (fingerList[idx].isHold() && fingerList[idx].isJudgable())
             {
-              if (touchable.Contains(note) && waitingHolds.FindIndex((n) => n.fingerId == touches[i].fingerId) == -1)
+              foreach (Note note in existingHolds)
               {
-                // // Debug.Log(touches[i].fingerId);
-                note.setHoldProperties(touches[i].fingerId);
-                HoldSpawn script = note.obj.GetComponent<HoldSpawn>();
-                waitingHolds.Add(note);
-                touchable = new Queue<Note>(touchable.Where(x => x != note)); // remove from original 
+                if (touchable.Contains(note) && waitingHolds.FindIndex((n) => n.fingerId == touches[i].fingerId) == -1)
+                {
+                  note.setHoldProperties(touches[i].fingerId);
+                  HoldSpawn script = note.obj.GetComponent<HoldSpawn>();
+                  waitingHolds.Add(note);
+                  touchable = new Queue<Note>(touchable.Where(x => x != note)); // remove from original 
+                }
+              }
+            }
+            else if ((touches[i].phase == TouchPhase.Ended) && (touches[i].deltaPosition != touches[i].rawPosition))
+            {
+              // double timetouched = time;
+              // Vector2 endPos = Input.touches[i].position; //noting the endposition of the touch
+              // double rad = Mathf.Atan2(touches[i].deltaPosition.y, touches[i].deltaPosition.x);
+              // double angle = rad * (180 / Math.PI); //check the angle and change it to degrees from radian
+              double angle = fingerList[idx].decideAngle();
+              int holdIndex = waitingHolds.FindIndex((note) => note.fingerId == touches[i].fingerId);
+              if (holdIndex != -1)
+              {
+                // IF HOLD'S SWIPE
+                // Debug.Log(touches[i].fingerId + "IS SWIPED!!!!!!!!!!");
+                // Debug.Log(checkDir(angle) + "direction = " + angle);
+                Note held = waitingHolds[holdIndex];
+                HoldWait script = held.obj.GetComponent<HoldWait>();
+                script.setState(directionJudgement(angle, held.time));
+                waitingHolds.Remove(held);
+              }
+              else
+              { // IF SWIPE
+                if (touchable.Count > 0)
+                {
+                  // Debug.Log("SWIPE SWIPE");
+                  NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
+                  s.setState(directionJudgement(angle, touchable.Peek().time));
+                  /*
+                  TODO : FIX THE PERFECT GOOD MISS SCORE AND COMBO HERE CAUSE IT BUGS WHEN IT'S UP THERE
+                  HOW? DIRECTIONJUDGEMENT IS THE LAST JUDGEMENT MEANING THAT IT IS DEFINED LASTLY HERE, SO THIS IS THE FACTOR, THE POINT IS JUST MOVE IT HERE
+                  */
+                  touchable.Dequeue();
+                }
               }
             }
           }
-          else if ((touches[i].phase == TouchPhase.Ended) && (touches[i].deltaPosition != touches[i].rawPosition))
-          {
-            double timetouched = time;
-            Vector2 endPos = Input.touches[i].position; //noting the endposition of the touch
-            double rad = Mathf.Atan2(touches[i].deltaPosition.y, touches[i].deltaPosition.x);
-            double angle = rad * (180 / Math.PI); //check the angle and change it to degrees from radian
+        // }
+        // ===========================================================================================================
+        // for (int i = 0; i < Input.touchCount; i++)
+        // {
+        //   Vector2 startPos = touches[i].rawPosition; //the first time the touch connected
+        //   if (touches[i].phase == TouchPhase.Stationary)
+        //   {
+        //     foreach (Note note in existingHolds)
+        //     {
+        //       if (touchable.Contains(note) && waitingHolds.FindIndex((n) => n.fingerId == touches[i].fingerId) == -1)
+        //       {
+        //         note.setHoldProperties(touches[i].fingerId);
+        //         HoldSpawn script = note.obj.GetComponent<HoldSpawn>();
+        //         waitingHolds.Add(note);
+        //         touchable = new Queue<Note>(touchable.Where(x => x != note)); // remove from original 
+        //       }
+        //     }
+        //   }
+        //   else if ((touches[i].phase == TouchPhase.Ended) && (touches[i].deltaPosition != touches[i].rawPosition))
+        //   {
+        //     double timetouched = time;
+        //     Vector2 endPos = Input.touches[i].position; //noting the endposition of the touch
+        //     double rad = Mathf.Atan2(touches[i].deltaPosition.y, touches[i].deltaPosition.x);
+        //     double angle = rad * (180 / Math.PI); //check the angle and change it to degrees from radian
 
-            int holdIndex = waitingHolds.FindIndex((note) => note.fingerId == touches[i].fingerId);
-            if (holdIndex != -1)
-            {
-              // IF HOLD'S SWIPE
-              // Debug.Log(touches[i].fingerId + "IS SWIPED!!!!!!!!!!");
-              // Debug.Log(checkDir(angle) + "direction = " + angle);
-              Note held = waitingHolds[holdIndex];
-              HoldWait script = held.obj.GetComponent<HoldWait>();
-              script.setState(directionJudgement(angle, held.time));
-              waitingHolds.Remove(held);
-            }
-            else
-            { // IF SWIPE
-              if (touchable.Count > 0)
-              {
-                // Debug.Log("SWIPE SWIPE");
-                NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
-                s.setState(directionJudgement(angle, touchable.Peek().time));
-                /*
-                TODO : FIX THE PERFECT GOOD MISS SCORE AND COMBO HERE CAUSE IT BUGS WHEN IT'S UP THERE
-                HOW? DIRECTIONJUDGEMENT IS THE LAST JUDGEMENT MEANING THAT IT IS DEFINED LASTLY HERE, SO THIS IS THE FACTOR, THE POINT IS JUST MOVE IT HERE
-                */
-                touchable.Dequeue();
-              }
-            }
-          }
-        }
+        //     int holdIndex = waitingHolds.FindIndex((note) => note.fingerId == touches[i].fingerId);
+        //     if (holdIndex != -1)
+        //     {
+        //       // IF HOLD'S SWIPE
+        //       // Debug.Log(touches[i].fingerId + "IS SWIPED!!!!!!!!!!");
+        //       // Debug.Log(checkDir(angle) + "direction = " + angle);
+        //       Note held = waitingHolds[holdIndex];
+        //       HoldWait script = held.obj.GetComponent<HoldWait>();
+        //       script.setState(directionJudgement(angle, held.time));
+        //       waitingHolds.Remove(held);
+        //     }
+        //     else
+        //     { // IF SWIPE
+        //       if (touchable.Count > 0)
+        //       {
+        //         // Debug.Log("SWIPE SWIPE");
+        //         NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
+        //         s.setState(directionJudgement(angle, touchable.Peek().time));
+        //         /*
+        //         TODO : FIX THE PERFECT GOOD MISS SCORE AND COMBO HERE CAUSE IT BUGS WHEN IT'S UP THERE
+        //         HOW? DIRECTIONJUDGEMENT IS THE LAST JUDGEMENT MEANING THAT IT IS DEFINED LASTLY HERE, SO THIS IS THE FACTOR, THE POINT IS JUST MOVE IT HERE
+        //         */
+        //         touchable.Dequeue();
+        //       }
+        //     }
+        //   }
+        // }
       }
       if (songProgress >= 1 && !gameCompleted)
       {
