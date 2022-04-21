@@ -30,6 +30,7 @@ public class NoteDiamond : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
+    gameObject.LeanAlpha(0,0f);
     game = GameScript.self.GetComponent<GameScript>();
     timeStatus = "noInput";
     deathScript = death.GetComponent<NoteDiamondDeath>();
@@ -114,16 +115,22 @@ public class NoteDiamond : MonoBehaviour
 
   IEnumerator FadeIn()
   {
-    float opPerMS = 5 / (float)(duration / (totalFrame / spawnFrame));
-    for (float alpha = 0; alpha < 1; alpha += opPerMS)
+    gameObject.LeanAlpha(1, .75f);
+    for (int i = 0; i < 1; i++)
     {
-      foreach (Renderer renderer in renderers)
-      {
-        Color c = renderer.material.color;
-        c.a = alpha;
-        renderer.material.color = c;
-      }
-      yield return new WaitForSeconds(.001f);
+      yield return new WaitForSeconds(.75f);
     }
+    //   float opPerMS = 10 / (float)(duration / (totalFrame / spawnFrame));
+    //   for (float alpha = 0; alpha < 1; alpha += opPerMS)
+    //   {
+    //     foreach (Renderer renderer in renderers)
+    //     {
+    //       Color c = renderer.material.color;
+    //       c.a = alpha;
+    //       renderer.material.color = c;
+    //     }
+    //     yield return new WaitForSeconds(.001f);
+    //   }
+    // }
   }
 }
