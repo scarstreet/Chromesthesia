@@ -198,7 +198,7 @@ public class GameScript : MonoBehaviour
     difficulty.text = SongSelectScript.currentDifficulty;
     Transform[] transformList = particles.GetComponentsInChildren<Transform>();
     particleList = new List<GameObject>();
-    Debug.Log(transformList.Length);
+    // Debug.Log(transformList.Length);
     foreach (Transform t in transformList)
     {
       particleList.Add(t.gameObject);
@@ -212,6 +212,8 @@ public class GameScript : MonoBehaviour
       currentscore.text = ((int)score).ToString();
       audiosource = GetComponent<AudioSource>();
       audiosource.clip = SongSelectScript.currentSong.getAudio();
+      audiosource.volume = SettingsScript.Music/100;
+      Debug.Log(SettingsScript.Music + "/100");
       TextAsset theList = Resources.Load<TextAsset>(SongSelectScript.beatmapPath()); //read a textfile from "path" note that it only reads from folder Resources, so you have to put everything (that you said to Load) in resources folder, however you may make any folder inside th resouce folder.
       string text = theList.text;
       // Debug.Log(text);

@@ -2751,6 +2751,7 @@ MonoBehaviour:
   SpeedValue: {fileID: 1854006297}
   SFXValue: {fileID: 452564448}
   MusicValue: {fileID: 139177233}
+  transitionPanel: {fileID: 1282948861}
 --- !u!1 &1224695119
 GameObject:
   m_ObjectHideFlags: 0
@@ -3419,7 +3420,6 @@ GameObject:
   - component: {fileID: 1628905169}
   - component: {fileID: 1628905171}
   - component: {fileID: 1628905170}
-  - component: {fileID: 1628905172}
   m_Layer: 0
   m_Name: +
   m_TagString: Untagged
@@ -3513,24 +3513,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1628905168}
   m_CullTransparentMesh: 1
---- !u!114 &1628905172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1628905168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c17dd5eaa9b4a9249aa90ee2ab9c0baf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SpeedSlider: {fileID: 0}
-  MusicSlider: {fileID: 0}
-  SFXSlider: {fileID: 0}
-  SpeedValue: {fileID: 0}
-  MusicValue: {fileID: 0}
-  SFXValue: {fileID: 0}
 --- !u!1 &1632340711
 GameObject:
   m_ObjectHideFlags: 0
