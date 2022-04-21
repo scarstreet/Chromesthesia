@@ -49,14 +49,16 @@ public class GameScript : MonoBehaviour
       List<Vector2> pathList = path.ToList();
       Vector2 deltaPos = pathList[pathList.Count - 1] - pathList[0];
       // Debug.Log(deltaPos);
-      if(Math.Abs(deltaPos.x)<=50 && Math.Abs(deltaPos.y) <= 50) {
+      if (Math.Abs(deltaPos.x) <= 50 && Math.Abs(deltaPos.y) <= 50)
+      {
         return true;
       }
       return false;
     }
     public bool isJudgable()
     {
-      if(path.Count < pathCnt) {
+      if (path.Count < pathCnt)
+      {
         return false;
       }
       return true;
@@ -158,14 +160,12 @@ public class GameScript : MonoBehaviour
     misscount = 0;
     count = 0;
     accuracy = 0f;
-    // Debug.Log("ACCU : " + accuracy);
     que = new Queue<Note>();
     isoutthere = new Queue<Note>();
     touchable = new Queue<Note>();
     sametime = new List<(double timing, List<Note> notes)>();
     existingHolds = new List<Note>();
     waitingHolds = new List<Note>();
-    // backgroundPanel = GameObject.FindGameObjectWithTag("Finish").GetComponent<Image>();
     Time.timeScale = 1;
     AudioListener.pause = false;
     if (audiosource)
@@ -205,7 +205,6 @@ public class GameScript : MonoBehaviour
     }
     song.text = SongSelectScript.currentSong.getTitle() + " - " + SongSelectScript.currentSong.getArtist();
     Time.timeScale = 0;
-    // animator.speed = 0;
     //=====================================================================================
     if (!gameStarted)
     {
@@ -216,11 +215,9 @@ public class GameScript : MonoBehaviour
       Debug.Log(SettingsScript.Music + "/100");
       TextAsset theList = Resources.Load<TextAsset>(SongSelectScript.beatmapPath()); //read a textfile from "path" note that it only reads from folder Resources, so you have to put everything (that you said to Load) in resources folder, however you may make any folder inside th resouce folder.
       string text = theList.text;
-      // Debug.Log(text);
       string[] words = text.Split('\n');
       List<string> wordlist = new List<string>(words);
       int bodyindex = wordlist.FindIndex(x => x.Contains("<body>")) + 1;
-      // Debug.Log(bodyindex + " " + wordlist.Count + " " + wordlist[bodyindex]);
       for (int i = bodyindex; i < wordlist.Count; i++) //read from after the <body> in the textfile and split it for later use
       {
         string[] list = wordlist[i].Split(',');
@@ -240,7 +237,6 @@ public class GameScript : MonoBehaviour
         count++;
       }
       addscore = (double)1000000 / count;
-      // Debug.Log("Count = " + count);
       currentscore.text = ((int)score).ToString();
     }
     //=======================================================================================
@@ -251,10 +247,8 @@ public class GameScript : MonoBehaviour
   {
     if (gameStarted && !gameIsPaused)
     {
-      // Debug.Log(animator.speed);
       songProgress = ((float)(Time.timeAsDouble - gameStartTime) / (float)(duration));
       animator.SetFloat("runner", songProgress);
-      // time = Time.timeAsDouble + 0f;
       time = songProgress * duration;
       combotext.text = combo.ToString();
       if (que.Count == 0)
@@ -316,111 +310,62 @@ public class GameScript : MonoBehaviour
         {
           // creating & updating fingerlist --------------------------------------------------------------------------
           int idx = fingerList.FindIndex((ii) => ii.fingerId == touches[i].fingerId);
-          if(idx != -1)
+          if (idx != -1)
           { // if the current finger's Id is already in the array
             fingerList[idx].updatePath(touches[i].position);
           }
-          else {
+          else
+          {
             fingerList.Add(new Finger(touches[i].fingerId, touches[i].position));
           }
           // judgements ---------------------------------------------------------------------------------------------
-          // if(fingerList[idx].isJudgable()){
-            if (fingerList[idx].isHold() && fingerList[idx].isJudgable()) // ERR - index out of range
+          if (fingerList[idx].isHold() && fingerList[idx].isJudgable()) // ERR - index out of range
+          {
+            foreach (Note note in existingHolds)
             {
-              foreach (Note note in existingHolds)
+              if (touchable.Contains(note) && waitingHolds.FindIndex((n) => n.fingerId == touches[i].fingerId) == -1)
               {
-                if (touchable.Contains(note) && waitingHolds.FindIndex((n) => n.fingerId == touches[i].fingerId) == -1)
-                {
-                  note.setHoldProperties(touches[i].fingerId);
-                  HoldSpawn script = note.obj.GetComponent<HoldSpawn>();
-                  waitingHolds.Add(note);
-                  touchable = new Queue<Note>(touchable.Where(x => x != note)); // remove from original 
-                }
-              }
-            }
-            else if ((touches[i].phase == TouchPhase.Ended) && (touches[i].deltaPosition != touches[i].rawPosition))
-            {
-              double angle = fingerList[idx].decideAngle();
-              int holdIndex = waitingHolds.FindIndex((note) => note.fingerId == touches[i].fingerId);
-              if (holdIndex != -1)
-              {
-                // IF HOLD'S SWIPE
-                Note held = waitingHolds[holdIndex];
-                HoldWait script = held.obj.GetComponent<HoldWait>();
-                script.setState(directionJudgement(angle, held.time));
-                waitingHolds.Remove(held);
-              }
-              else
-              { // IF SWIPE
-                if (touchable.Count > 0)
-                {
-                  // TODO - tryna solve missing ref error by code below
-                  while(touchable.Peek().getGameObject() == null) {
-                    touchable.Dequeue(); // to dequeue all previously missed notes
-                  }
-                  NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
-                  s.setState(directionJudgement(angle, touchable.Peek().time));
-                  /*
-                  TODO : FIX THE PERFECT GOOD MISS SCORE AND COMBO HERE CAUSE IT BUGS WHEN IT'S UP THERE
-                  HOW? DIRECTIONJUDGEMENT IS THE LAST JUDGEMENT MEANING THAT IT IS DEFINED LASTLY HERE, SO THIS IS THE FACTOR, THE POINT IS JUST MOVE IT HERE
-                  */
-                  touchable.Dequeue();
-                }
+                note.setHoldProperties(touches[i].fingerId);
+                HoldSpawn script = note.obj.GetComponent<HoldSpawn>();
+                waitingHolds.Add(note);
+                touchable = new Queue<Note>(touchable.Where(x => x != note)); // remove from original 
               }
             }
           }
-        // }
-        // ===========================================================================================================
-        // for (int i = 0; i < Input.touchCount; i++)
-        // {
-        //   Vector2 startPos = touches[i].rawPosition; //the first time the touch connected
-        //   if (touches[i].phase == TouchPhase.Stationary)
-        //   {
-        //     foreach (Note note in existingHolds)
-        //     {
-        //       if (touchable.Contains(note) && waitingHolds.FindIndex((n) => n.fingerId == touches[i].fingerId) == -1)
-        //       {
-        //         note.setHoldProperties(touches[i].fingerId);
-        //         HoldSpawn script = note.obj.GetComponent<HoldSpawn>();
-        //         waitingHolds.Add(note);
-        //         touchable = new Queue<Note>(touchable.Where(x => x != note)); // remove from original 
-        //       }
-        //     }
-        //   }
-        //   else if ((touches[i].phase == TouchPhase.Ended) && (touches[i].deltaPosition != touches[i].rawPosition))
-        //   {
-        //     double timetouched = time;
-        //     Vector2 endPos = Input.touches[i].position; //noting the endposition of the touch
-        //     double rad = Mathf.Atan2(touches[i].deltaPosition.y, touches[i].deltaPosition.x);
-        //     double angle = rad * (180 / Math.PI); //check the angle and change it to degrees from radian
-
-        //     int holdIndex = waitingHolds.FindIndex((note) => note.fingerId == touches[i].fingerId);
-        //     if (holdIndex != -1)
-        //     {
-        //       // IF HOLD'S SWIPE
-        //       // Debug.Log(touches[i].fingerId + "IS SWIPED!!!!!!!!!!");
-        //       // Debug.Log(checkDir(angle) + "direction = " + angle);
-        //       Note held = waitingHolds[holdIndex];
-        //       HoldWait script = held.obj.GetComponent<HoldWait>();
-        //       script.setState(directionJudgement(angle, held.time));
-        //       waitingHolds.Remove(held);
-        //     }
-        //     else
-        //     { // IF SWIPE
-        //       if (touchable.Count > 0)
-        //       {
-        //         // Debug.Log("SWIPE SWIPE");
-        //         NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
-        //         s.setState(directionJudgement(angle, touchable.Peek().time));
-        //         /*
-        //         TODO : FIX THE PERFECT GOOD MISS SCORE AND COMBO HERE CAUSE IT BUGS WHEN IT'S UP THERE
-        //         HOW? DIRECTIONJUDGEMENT IS THE LAST JUDGEMENT MEANING THAT IT IS DEFINED LASTLY HERE, SO THIS IS THE FACTOR, THE POINT IS JUST MOVE IT HERE
-        //         */
-        //         touchable.Dequeue();
-        //       }
-        //     }
-        //   }
-        // }
+          else if ((touches[i].phase == TouchPhase.Ended) && (touches[i].deltaPosition != touches[i].rawPosition))
+          {
+            Debug.Log("time = " + Time.frameCount + ", touches = " + Input.touchCount.ToString());
+            double angle = fingerList[idx].decideAngle();
+            int holdIndex = waitingHolds.FindIndex((note) => note.fingerId == touches[i].fingerId);
+            if (holdIndex != -1)
+            {
+              // IF HOLD'S SWIPE
+              Note held = waitingHolds[holdIndex];
+              HoldWait script = held.obj.GetComponent<HoldWait>();
+              script.setState(directionJudgement(angle, held.time));
+              waitingHolds.Remove(held);
+            }
+            else
+            { // IF SWIPE
+              if (touchable.Count > 0)
+              {
+                // TODO - tryna solve missing ref error by code below
+                while (touchable.Peek().getGameObject() == null)
+                {
+                  touchable.Dequeue(); // to dequeue all previously missed notes
+                }
+                NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
+                Debug.Log("JUDGEMENT FOR TOUCH - " + touches[i].fingerId +", touchphse end?"+ (touches[i].phase == TouchPhase.Ended).ToString() +" -- "+Time.frameCount);
+                s.setState(directionJudgement(angle, touchable.Peek().time));
+                /*
+                TODO : FIX THE PERFECT GOOD MISS SCORE AND COMBO HERE CAUSE IT BUGS WHEN IT'S UP THERE
+                HOW? DIRECTIONJUDGEMENT IS THE LAST JUDGEMENT MEANING THAT IT IS DEFINED LASTLY HERE, SO THIS IS THE FACTOR, THE POINT IS JUST MOVE IT HERE
+                */
+                touchable.Dequeue();
+              }
+            }
+          }
+        }
       }
       if (songProgress >= 1 && !gameCompleted)
       {
@@ -503,6 +448,7 @@ public class GameScript : MonoBehaviour
   private string directionJudgement(double angle, double time)
   {
     int now = sametime.FindIndex(x => x.timing >= time); // to check what time it is
+    Debug.Log("Initial sametime = " + sametime[now].notes.Count + " -- " + Time.frameCount);
     string result = "miss"; // final result of direction check
     List<(string dir, string t1, string t2, double a1, double a2)> tolerance = new List<(string, string, string, double, double)>();
     tolerance.Add(("d", "e", "c", -22.5, 22.5));
@@ -525,9 +471,11 @@ public class GameScript : MonoBehaviour
       if (sametime[now].notes.FindIndex(x => x.direction[0] == dir[0]) != -1) // if this direction exists
       {
         Note sameDirNote = sametime[now].notes.Find(x => x.direction[0] == dir[0]);
+        Debug.Log("sametime remove notes - perfect " + Time.frameCount);
         sametime[now].notes.Remove(sameDirNote);
         if (sametime[now].notes.Count == 0)
         {
+          Debug.Log("remove sametime - perfect " + Time.frameCount);
           sametime.Remove(sametime[now]);
         }
         result = "perfect";
@@ -559,9 +507,11 @@ public class GameScript : MonoBehaviour
               maxcombo++;
             currentscore.text = Math.Round(score, 0).ToString();
           }
+          Debug.Log("sametime remove notes - good "+ Time.frameCount);
           sametime[now].notes.Remove(sametime[now].notes[toRemove]);
           if (sametime[now].notes.Count == 0)
           {
+            Debug.Log("remove sametime - good " + Time.frameCount);
             sametime.Remove(sametime[now]);
           }
         }
@@ -569,12 +519,19 @@ public class GameScript : MonoBehaviour
       if (result.Contains("miss") || result.Contains("noInput"))
       {
         combo = 0;
+        Debug.Log("sametime remove notes - miss " + Time.frameCount);
         sametime[now].notes.Remove(sametime[now].notes[0]);
         if (sametime[now].notes.Count == 0)
         {
+          Debug.Log("remove sametime - miss " + Time.frameCount);
           sametime.Remove(sametime[now]);
         }
       }
+    }
+    try{
+      Debug.Log("Remaining sametime = " + sametime[now].notes.Count +", result = "+result+" -- " + Time.frameCount);
+    } catch {
+      Debug.Log("Remaining sametime = 0, result = " + result + " -- " + Time.frameCount);
     }
     return result;
   }
