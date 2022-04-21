@@ -74,7 +74,7 @@ public class SongInfo
     string songinfopath = Application.persistentDataPath + "/" + title + ".txt";
     if(!File.Exists(songinfopath))
     {
-        TextAsset getTemplate = Resources.Load<TextAsset>("ScoreTemplate/info");
+        TextAsset getTemplate = Resources.Load<TextAsset>("Template/info");
         string toWrite = getTemplate.text;
         Directory.CreateDirectory(folderpath);
         File.WriteAllText(songinfopath,toWrite);
@@ -110,8 +110,8 @@ public class SongInfo
     audioPath = "Songs/" + folder + "/" + audioPath;
     // audioPath = "Songs/song-3/Body Talk";
     audio = Resources.Load<AudioClip>(audioPath);
-    Debug.Log(audioPath);
-    Debug.Log(audio);
+    // Debug.Log(audioPath);
+    // Debug.Log(audio);
   }
   public void setScore(Score newscore) //only if highscore
   {
@@ -127,7 +127,6 @@ public class SongInfo
     string songinfopath = Application.persistentDataPath + "/" + title + ".txt";
     string info = File.ReadAllText(songinfopath);
     List<string> i = new List<string>(info.Split('\n'));
-    Debug.Log(info);
     if(SongSelectScript.currentDifficulty.Contains("EASY"))
     {
       int index = i.FindIndex(ii => ii.Contains("> Easy"));

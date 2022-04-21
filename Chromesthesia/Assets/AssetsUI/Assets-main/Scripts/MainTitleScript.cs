@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-
-
 
 public class MainTitleScript : MonoBehaviour
 {
@@ -14,6 +13,18 @@ public class MainTitleScript : MonoBehaviour
   void Start()
   {
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
+    string folderpath = Application.persistentDataPath;
+    string settingspath = Application.persistentDataPath + "/settings.txt";
+    if (!File.Exists(settingspath))
+    {
+        TextAsset getTemplate = Resources.Load<TextAsset>("Template/settings");
+        string toWrite = getTemplate.text;
+        Directory.CreateDirectory(folderpath);
+        File.WriteAllText(settingspath, toWrite);
+        SettingsScript.Speed = 5;
+        SettingsScript.SFX = 100;
+        SettingsScript.Music = 100;
+    }
   }
 
   // Update is called once per frame
