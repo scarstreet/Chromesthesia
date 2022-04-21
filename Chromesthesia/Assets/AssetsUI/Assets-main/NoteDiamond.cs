@@ -104,7 +104,7 @@ public class NoteDiamond : MonoBehaviour
       status = "good";
     else
       status = "miss";
-    // Debug.Log("SWIPE || dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status);
+    Debug.Log("SWIPE || dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status + " -- " + Time.frameCount);
   }
 
   public void changeTimeState(string state)
