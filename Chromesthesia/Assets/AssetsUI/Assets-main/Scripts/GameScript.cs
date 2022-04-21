@@ -48,10 +48,10 @@ public class GameScript : MonoBehaviour
     {
       List<Vector2> pathList = path.ToList();
       Vector2 deltaPos = pathList[pathList.Count - 1] - pathList[0];
+      // Debug.Log(deltaPos);
       if(Math.Abs(deltaPos.x)<=50 && Math.Abs(deltaPos.y) <= 50) {
         return true;
       }
-      // Debug.Log(deltaPos);
       return false;
     }
     public bool isJudgable()
@@ -110,7 +110,6 @@ public class GameScript : MonoBehaviour
       // Debug.Log($"{remainDur} = {this.timeEnd} - {this.time}");
       remainDur = remainDur - (this.timePressed - this.time) - 0.5;
       // Debug.Log($"{remainDur} = remainDur - ({this.timePressed} - {this.time}) - 0.5;");
-
       HoldSpawn objScript = this.obj.GetComponent<HoldSpawn>();
       HoldWait script = objScript.HoldStart.GetComponent<HoldWait>();
       script.holdDuration = remainDur * 1000;
@@ -324,7 +323,7 @@ public class GameScript : MonoBehaviour
           }
           // judgements ---------------------------------------------------------------------------------------------
           // if(fingerList[idx].isJudgable()){
-            if (fingerList[idx].isHold() && fingerList[idx].isJudgable())
+            if (fingerList[idx].isHold() && fingerList[idx].isJudgable()) // ERR - index out of range
             {
               foreach (Note note in existingHolds)
               {
@@ -339,17 +338,11 @@ public class GameScript : MonoBehaviour
             }
             else if ((touches[i].phase == TouchPhase.Ended) && (touches[i].deltaPosition != touches[i].rawPosition))
             {
-              // double timetouched = time;
-              // Vector2 endPos = Input.touches[i].position; //noting the endposition of the touch
-              // double rad = Mathf.Atan2(touches[i].deltaPosition.y, touches[i].deltaPosition.x);
-              // double angle = rad * (180 / Math.PI); //check the angle and change it to degrees from radian
               double angle = fingerList[idx].decideAngle();
               int holdIndex = waitingHolds.FindIndex((note) => note.fingerId == touches[i].fingerId);
               if (holdIndex != -1)
               {
                 // IF HOLD'S SWIPE
-                // Debug.Log(touches[i].fingerId + "IS SWIPED!!!!!!!!!!");
-                // Debug.Log(checkDir(angle) + "direction = " + angle);
                 Note held = waitingHolds[holdIndex];
                 HoldWait script = held.obj.GetComponent<HoldWait>();
                 script.setState(directionJudgement(angle, held.time));
@@ -359,7 +352,10 @@ public class GameScript : MonoBehaviour
               { // IF SWIPE
                 if (touchable.Count > 0)
                 {
-                  // Debug.Log("SWIPE SWIPE");
+                  // TODO - tryna solve missing ref error by code below
+                  while(touchable.Peek().getGameObject() == null) {
+                    touchable.Dequeue(); // to dequeue all previously missed notes
+                  }
                   NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
                   s.setState(directionJudgement(angle, touchable.Peek().time));
                   /*
@@ -538,7 +534,7 @@ public class GameScript : MonoBehaviour
         combo++;
         if (combo > maxcombo)
           maxcombo++;
-        Debug.Log(score);
+        // Debug.Log(score);
         currentscore.text = Math.Round(score, 0).ToString();
       }
       else

@@ -77,7 +77,7 @@ public class HoldWait : MonoBehaviour
             {
               index = GameScript.waitingHolds.FindIndex((note) => time >= note.timeEnd);
               Debug.Log(index);
-              GameScript.waitingHolds.Remove(GameScript.waitingHolds[index]);
+              GameScript.waitingHolds.Remove(GameScript.waitingHolds[index]); // ERR - out of range
             }
           }
         }
