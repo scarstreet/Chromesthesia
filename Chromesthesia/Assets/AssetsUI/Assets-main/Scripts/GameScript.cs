@@ -12,7 +12,7 @@ public class GameScript : MonoBehaviour
 {
   public class Finger
   {
-    static int pathCnt = 10; // How many entries before can decide stuff
+    static int pathCnt = 7; // How many entries before can decide stuff
     double touchStarted;
     Queue<Vector2> path;
     public int fingerId;
@@ -277,7 +277,7 @@ public class GameScript : MonoBehaviour
             circle.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
             create.transform.position = new Vector3(que.Peek().posx, que.Peek().posy, 1);
             create.transform.rotation = Quaternion.Euler(0, 0, assignrotate(que.Peek().direction[0]));
-            Note temp = new Note(que.Peek().type, que.Peek().color, que.Peek().posx, que.Peek().posy, que.Peek().direction, que.Peek().timeEnd, que.Peek().time + 1.5f); //changed to 1.5f (trying)
+            Note temp = new Note(que.Peek().type, que.Peek().color, que.Peek().posx, que.Peek().posy, que.Peek().direction, que.Peek().timeEnd, que.Peek().time + 1f); //changed to 1.5f (trying)
             temp.timeSpawned = Time.timeAsDouble;
             temp.setGameObject(create); //assigning which gameobject to the temp
             isoutthere.Enqueue(temp); //showing the note and put in the queue
