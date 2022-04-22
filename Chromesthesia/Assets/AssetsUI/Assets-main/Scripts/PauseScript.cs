@@ -19,7 +19,8 @@ public class PauseScript : MonoBehaviour
     if (SceneManager.GetActiveScene().name != "SettingsScene" && SceneManager.GetActiveScene().name != "PauseScreen")
     {
       prevActiveScene = SceneManager.GetActiveScene().name;
-      SceneManager.UnloadSceneAsync(prevActiveScene);
+      SceneManager.SetActiveScene(SceneManager.GetSceneByName("PauseScreen"));
+      // SceneManager.UnloadSceneAsync(prevActiveScene);
     }
     transitionPanel.CrossFadeAlpha(0, 0f, false);
     difficulty.text = SongSelectScript.currentDifficulty;
@@ -72,6 +73,7 @@ public class PauseScript : MonoBehaviour
   IEnumerator changeScene(string scene)
   {
     bool fadeDone = false;
+    pauseOpen = false;
     while (!fadeDone)
     {
       transitionPanel.CrossFadeAlpha(1, 0.5f, true);
@@ -82,6 +84,15 @@ public class PauseScript : MonoBehaviour
     {
       SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
     }
-    SceneManager.LoadScene(scene, LoadSceneMode.Single);
+    else if (scene.Contains("GameScreen") && GameScript.gameStarted)
+    {
+      SceneManager.SetActiveScene(SceneManager.GetSceneByName("GameScreen"));
+      SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName("PauseScreen"));
+      GameScript.self.GetComponent<GameScript>().pauseDone();
+    }
+    else
+    {
+      SceneManager.LoadScene(scene, LoadSceneMode.Single);
+    }
   }
 }

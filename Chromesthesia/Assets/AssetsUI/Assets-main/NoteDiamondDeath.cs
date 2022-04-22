@@ -20,6 +20,14 @@ public class NoteDiamondDeath : MonoBehaviour
     {
       Destroy(gameObject);
     }
+    if (GameScript.gameIsPaused == true)
+    {
+      gameObject.LeanMoveZ(-100, 0f).setIgnoreTimeScale(true);
+    }
+    else
+    {
+      gameObject.LeanMoveZ(0, 0f).setIgnoreTimeScale(true);
+    }
   }
   public void displayNextState()
   {

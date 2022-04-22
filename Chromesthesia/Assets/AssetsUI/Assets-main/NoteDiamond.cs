@@ -50,7 +50,13 @@ public class NoteDiamond : MonoBehaviour
     {
       Destroy(gameObject);
     }
+    if(GameScript.gameIsPaused == true) {
+      gameObject.LeanMoveZ(-100, 0f).setIgnoreTimeScale(true);
+    } else {
+      gameObject.LeanMoveZ(0, 0f).setIgnoreTimeScale(true);
+    }
   }
+  
   public void setState(string dirStatus)
   {
     NoteDiamondResult resultScript;
@@ -121,7 +127,7 @@ public class NoteDiamond : MonoBehaviour
       yield return new WaitForSeconds(.75f);
     }
     //   float opPerMS = 10 / (float)(duration / (totalFrame / spawnFrame));
-    //   for (float alpha = 0; alpha < 1; alpha += opPerMS)
+    //   for (float alpha = 0; alpha <= 1; alpha += opPerMS)
     //   {
     //     foreach (Renderer renderer in renderers)
     //     {

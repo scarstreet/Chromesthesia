@@ -201,6 +201,7 @@ public class SongSelectScript : MonoBehaviour
   public SongInfo nextSong;
   public SongInfo prevSong;
   // vvv UI ELEMENTS vvv ========================================================
+  public AudioSource audioSource;
   public Image currentSongImage;
   public Image nextSongImage;
   public Image prevSongImage;
@@ -336,6 +337,7 @@ public class SongSelectScript : MonoBehaviour
     nextSong = index + 1 == allSongs.Count ? allSongs[0] : allSongs[index + 1];
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
     updateUI();
+    audioSource.clip = currentSong.getAudio();
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
   }
 
@@ -421,6 +423,7 @@ public class SongSelectScript : MonoBehaviour
     int index = allSongs.FindIndex(song => song == currentSong);
     nextSong = index + 1 == allSongs.Count ? allSongs[0] : allSongs[index + 1];
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
+    audioSource.clip = currentSong.getAudio();
     updateUI();
     songUIfade(1);
   }

@@ -180,10 +180,16 @@ public class GameScript : MonoBehaviour
     duration = SongSelectScript.currentSong.duration;
     score = 0;
     Destroy(self);
+    // self = gameObject;
   }
   void Awake()
   {
     DontDestroyOnLoad(gameObject);
+    foreach (Transform go in gameObject.GetComponentsInChildren<Transform>())
+    {
+      GameObject ddol = go.gameObject;
+      DontDestroyOnLoad(ddol);
+    }
   }
   void Start()
   {
@@ -211,7 +217,7 @@ public class GameScript : MonoBehaviour
       currentscore.text = ((int)score).ToString();
       audiosource = GetComponent<AudioSource>();
       audiosource.clip = SongSelectScript.currentSong.getAudio();
-      audiosource.volume = SettingsScript.Music/100;
+      audiosource.volume = SettingsScript.Music / 100;
       Debug.Log(SettingsScript.Music + "/100");
       TextAsset theList = Resources.Load<TextAsset>(SongSelectScript.beatmapPath()); //read a textfile from "path" note that it only reads from folder Resources, so you have to put everything (that you said to Load) in resources folder, however you may make any folder inside th resouce folder.
       string text = theList.text;
@@ -243,6 +249,10 @@ public class GameScript : MonoBehaviour
     StartCoroutine(postStart());
   }
 
+  public void pauseDone()
+  {
+    StartCoroutine(postStart());
+  }
   void Update()
   {
     if (gameStarted && !gameIsPaused)
@@ -334,7 +344,7 @@ public class GameScript : MonoBehaviour
           }
           else if ((touches[i].phase == TouchPhase.Ended) && (touches[i].deltaPosition != touches[i].rawPosition))
           {
-            Debug.Log("time = " + Time.frameCount + ", touches = " + Input.touchCount.ToString());
+
             double angle = fingerList[idx].decideAngle();
             int holdIndex = waitingHolds.FindIndex((note) => note.fingerId == touches[i].fingerId);
             if (holdIndex != -1)
@@ -355,7 +365,7 @@ public class GameScript : MonoBehaviour
                   touchable.Dequeue(); // to dequeue all previously missed notes
                 }
                 NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
-                Debug.Log("JUDGEMENT FOR TOUCH - " + touches[i].fingerId +", touchphse end?"+ (touches[i].phase == TouchPhase.Ended).ToString() +" -- "+Time.frameCount);
+
                 s.setState(directionJudgement(angle, touchable.Peek().time));
                 /*
                 TODO : FIX THE PERFECT GOOD MISS SCORE AND COMBO HERE CAUSE IT BUGS WHEN IT'S UP THERE
@@ -379,12 +389,10 @@ public class GameScript : MonoBehaviour
 
   public void pauseGame()
   {
-    // TODO - pause the game
     Time.timeScale = 0;
     AudioListener.pause = true;
-    // elapsed = songProgress;
-    // animator.speed = 0;
     gameIsPaused = true;
+    PauseScript.pauseOpen = true;
     SceneManager.LoadScene("PauseScreen", LoadSceneMode.Additive);
   }
   private float assignrotate(char dir) //this function is to check the note direction and assign it by looking at the deltaPosition
@@ -448,7 +456,7 @@ public class GameScript : MonoBehaviour
   private string directionJudgement(double angle, double time)
   {
     int now = sametime.FindIndex(x => x.timing >= time); // to check what time it is
-    Debug.Log("Initial sametime = " + sametime[now].notes.Count + " -- " + Time.frameCount);
+
     string result = "miss"; // final result of direction check
     List<(string dir, string t1, string t2, double a1, double a2)> tolerance = new List<(string, string, string, double, double)>();
     tolerance.Add(("d", "e", "c", -22.5, 22.5));
@@ -471,11 +479,11 @@ public class GameScript : MonoBehaviour
       if (sametime[now].notes.FindIndex(x => x.direction[0] == dir[0]) != -1) // if this direction exists
       {
         Note sameDirNote = sametime[now].notes.Find(x => x.direction[0] == dir[0]);
-        Debug.Log("sametime remove notes - perfect " + Time.frameCount);
+
         sametime[now].notes.Remove(sameDirNote);
         if (sametime[now].notes.Count == 0)
         {
-          Debug.Log("remove sametime - perfect " + Time.frameCount);
+
           sametime.Remove(sametime[now]);
         }
         result = "perfect";
@@ -484,7 +492,7 @@ public class GameScript : MonoBehaviour
         combo++;
         if (combo > maxcombo)
           maxcombo++;
-        // Debug.Log(score);
+        //
         currentscore.text = Math.Round(score, 0).ToString();
       }
       else
@@ -507,11 +515,11 @@ public class GameScript : MonoBehaviour
               maxcombo++;
             currentscore.text = Math.Round(score, 0).ToString();
           }
-          Debug.Log("sametime remove notes - good "+ Time.frameCount);
+
           sametime[now].notes.Remove(sametime[now].notes[toRemove]);
           if (sametime[now].notes.Count == 0)
           {
-            Debug.Log("remove sametime - good " + Time.frameCount);
+
             sametime.Remove(sametime[now]);
           }
         }
@@ -519,19 +527,14 @@ public class GameScript : MonoBehaviour
       if (result.Contains("miss") || result.Contains("noInput"))
       {
         combo = 0;
-        Debug.Log("sametime remove notes - miss " + Time.frameCount);
+
         sametime[now].notes.Remove(sametime[now].notes[0]);
         if (sametime[now].notes.Count == 0)
         {
-          Debug.Log("remove sametime - miss " + Time.frameCount);
+
           sametime.Remove(sametime[now]);
         }
       }
-    }
-    try{
-      Debug.Log("Remaining sametime = " + sametime[now].notes.Count +", result = "+result+" -- " + Time.frameCount);
-    } catch {
-      Debug.Log("Remaining sametime = 0, result = " + result + " -- " + Time.frameCount);
     }
     return result;
   }
@@ -575,7 +578,7 @@ public class GameScript : MonoBehaviour
       }
       else if (i == 1)
       {
-        GameObject cd = Instantiate(countdown, new Vector3(0, 0, 0), Quaternion.identity);
+        GameObject cd = Instantiate(countdown, new Vector3(0, 0, 100), Quaternion.identity);
         cd.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
         yield return new WaitForSecondsRealtime(4.5f);
       }
@@ -589,8 +592,6 @@ public class GameScript : MonoBehaviour
           gameStartTime = Time.timeAsDouble;
           StartCoroutine(startsong());
           gameStarted = true;
-          // double animTime = 5;
-          // animator.speed = (float)(animTime / duration);
         }
         else if (gameIsPaused)
         {
