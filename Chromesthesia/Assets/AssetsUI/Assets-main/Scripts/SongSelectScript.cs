@@ -299,7 +299,8 @@ public class SongSelectScript : MonoBehaviour
 
   public static string getRating()
   {
-    if(GameScript.score>950000)return "S";
+    if(GameScript.score==1000000)return "EX";
+    else if(GameScript.score>950000)return "S";
     else if(GameScript.score>930000)return "A+";
     else if(GameScript.score>900000)return "A";
     else if(GameScript.score>800000)return "B";
@@ -409,6 +410,7 @@ public class SongSelectScript : MonoBehaviour
   IEnumerator changeSong(string which)
   {
     songUIfade(0);
+    audioSource.Stop();
     bool faded = false;
     while (!faded)
     {
@@ -427,7 +429,7 @@ public class SongSelectScript : MonoBehaviour
     nextSong = index + 1 == allSongs.Count ? allSongs[0] : allSongs[index + 1];
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
     audioSource.clip = currentSong.getAudio();
-    // audioSource.Play();
+    audioSource.Play();
     updateUI();
     songUIfade(1);
   }
@@ -465,11 +467,5 @@ public class SongSelectScript : MonoBehaviour
       SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
     }
     SceneManager.LoadScene(scene, LoadSceneMode.Single);
-  }
-  
-  IEnumerator startsong()
-  {
-    audioSource.Play();
-    yield return new WaitForSeconds(0);
   }
 }
