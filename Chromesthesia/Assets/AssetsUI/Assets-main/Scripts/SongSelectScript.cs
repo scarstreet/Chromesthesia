@@ -468,4 +468,8 @@ public class SongSelectScript : MonoBehaviour
     }
     SceneManager.LoadScene(scene, LoadSceneMode.Single);
   }
+  public void back()
+  {
+    StartCoroutine(changeScene("MainTitleScreen"));
+  }
 }
