@@ -24,7 +24,11 @@ public class MainTitleScript : MonoBehaviour
         File.WriteAllText(settingspath, toWrite);
         SettingsScript.Speed = 5;
         SettingsScript.SFX = 100;
-        SettingsScript.Music = 100;
+        SettingsScript.setMusic(100);
+    }
+    else
+    {
+      SettingsScript.loadSettings();
     }
   }
 

@@ -338,6 +338,9 @@ public class SongSelectScript : MonoBehaviour
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
     updateUI();
     audioSource.clip = currentSong.getAudio();
+    audioSource.Play();
+    audioSource.volume = SettingsScript.getMusic() / 100;
+    Debug.Log(SettingsScript.getMusic() + "/100");
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
   }
 
@@ -424,6 +427,7 @@ public class SongSelectScript : MonoBehaviour
     nextSong = index + 1 == allSongs.Count ? allSongs[0] : allSongs[index + 1];
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
     audioSource.clip = currentSong.getAudio();
+    // audioSource.Play();
     updateUI();
     songUIfade(1);
   }
@@ -461,5 +465,11 @@ public class SongSelectScript : MonoBehaviour
       SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
     }
     SceneManager.LoadScene(scene, LoadSceneMode.Single);
+  }
+  
+  IEnumerator startsong()
+  {
+    audioSource.Play();
+    yield return new WaitForSeconds(0);
   }
 }
