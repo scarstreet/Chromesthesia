@@ -1,7 +1,12 @@
 >> song-info
 song-name=Il Vento D'oro
 artist=Yugo Kanno
-duration=12
+duration=65
+
+>> preview
+song-start=0
+song-end=15
+color=#9b4ac6
 
 >> files
 > beatmap-easy=beatmap-easy
