@@ -627,6 +627,7 @@ public class GameScript : MonoBehaviour
   public void changeParticleColour(Color color)
   {
     backgroundPanel.CrossFadeColor(color, .2f, false, false);
+    // particles.LeanColor(color, .2f);
     foreach (GameObject p in particleList)
     {
       LeanTween.color(p, color, .2f);

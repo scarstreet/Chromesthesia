@@ -9,7 +9,7 @@ public class GradientScript : MonoBehaviour
   Image panel;
   public Animator animator;
   public AudioSource audioSource;
-  public float updateStep = 0.2f;
+  public float updateStep = 0f;
   public int sampleDataLength = 1024;
   private float currentUpdateTime = 0f;
   public float clipLoudness;
@@ -62,15 +62,13 @@ public class GradientScript : MonoBehaviour
       // Debug.Log($"{(int)testData[0]} {(int)testData[1]} {(int)testData[3]} {(int)testData[2]}");
       clipLoudness /= sampleDataLength; //clipLoudness is what you are looking for
       clipLoudness *= sizeFactor;
-      clipLoudness = Mathf.Clamp(clipLoudness, 0.9996761f, 2f);
+      // clipLoudness = Mathf.Clamp(clipLoudness, 0.9996761f, 10f);
+      clipLoudness = Mathf.Clamp(clipLoudness, 0f, .3f);
       clipLoudness *= 2;
       if(clipLoudness > 1){
         clipLoudness = 1;
       }
-      gameObject.LeanScaleY(clipLoudness, updateStep);
-      // animator.SetFloat("loudness", clipLoudness);
-      // panel.CrossFadeAlpha(clipLoudness, updateStep, true);
-      // Debug.Log($"!!! clip loudness - {clipLoudness}");
+      animator.SetFloat("loudness", clipLoudness);
     }
   }
 }
