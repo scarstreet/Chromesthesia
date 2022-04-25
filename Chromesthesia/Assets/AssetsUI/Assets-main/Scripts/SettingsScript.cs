@@ -19,7 +19,7 @@ public class SettingsScript : MonoBehaviour
   [SerializeField] Text SpeedValue = null;
   [SerializeField] Text SFXValue = null;
   [SerializeField] Text MusicValue = null;
-  private static string prevActiveScene;
+  public static string prevActiveScene;
   public static bool settingsOpen = false;
   public Image transitionPanel;
   public static float Speed;
@@ -35,26 +35,26 @@ public class SettingsScript : MonoBehaviour
   {
     transitionPanel.CrossFadeAlpha(0, 0.5f, true);
     settingsOpen = true;
-    prevActiveScene = SceneManager.GetActiveScene().name;
-    if (prevActiveScene == null)
-    {
-      prevActiveScene = "MainTitleScreen";
-    }
-    if (prevActiveScene.Contains("SettingsScene"))
-    {
-      // TODO - MAKE A BETTER WAY TO STORE PREVIOUS SCREENS!!!
-      prevActiveScene = "MainTitleScreen";
-    }
-    Debug.Log("settings prevscene is " + prevActiveScene);
-    // try
+    // prevActiveScene = SceneManager.GetActiveScene().name;
+    // if (prevActiveScene == null)
     // {
-    //   SceneManager.UnloadSceneAsync(prevActiveScene);
+    //   prevActiveScene = "MainTitleScreen";
     // }
-    // catch
+    // if (prevActiveScene.Contains("SettingsScene"))
     // {
-    //   Debug.Log("Can't unload scene");
+    //   // TODO - MAKE A BETTER WAY TO STORE PREVIOUS SCREENS!!!
+    //   prevActiveScene = "MainTitleScreen";
     // }
+    // Debug.Log("settings prevscene is " + prevActiveScene);
     SceneManager.SetActiveScene(SceneManager.GetSceneByName("SettingsScene"));
+    try
+    {
+      SceneManager.UnloadSceneAsync(prevActiveScene);
+    }
+    catch
+    {
+      Debug.Log("Can't unload scene");
+    }
 
     loadSettings();
     SpeedSlider.value = Speed;
@@ -93,10 +93,14 @@ public class SettingsScript : MonoBehaviour
       yield return new WaitForSecondsRealtime(.5f);
     }
     Debug.Log("Going back to " + scene);
-    if(scene == "PauseScreen") {
-      SceneManager.SetActiveScene(SceneManager.GetSceneByName(scene));
+    if (scene == "PauseScreen")
+    {
+      //   SceneManager.SetActiveScene(SceneManager.GetSceneByName(scene));
+      SceneManager.LoadScene(scene, LoadSceneMode.Additive);
       SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName("SettingsScene"));
-    } else {
+    }
+    else
+    {
       SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
   }

@@ -191,6 +191,13 @@ public class GameScript : MonoBehaviour
   }
   void Start()
   {
+    EventSystem sceneEventSystem = FindObjectOfType<EventSystem>();
+    if (sceneEventSystem == null)
+    {
+      GameObject eventSystem = new GameObject("EventSystem");
+      eventSystem.AddComponent<EventSystem>();
+      eventSystem.AddComponent<StandaloneInputModule>();
+    }
     pauseButton.interactable = false;
     score = 0;
     combo = 0;

@@ -339,6 +339,13 @@ public class SongSelectScript : MonoBehaviour
   ****************************************************************************/
   public void Start()
   {
+    EventSystem sceneEventSystem = FindObjectOfType<EventSystem>();
+    if (sceneEventSystem == null)
+    {
+      GameObject eventSystem = new GameObject("EventSystem");
+      eventSystem.AddComponent<EventSystem>();
+      eventSystem.AddComponent<StandaloneInputModule>();
+    }
     getAllSongs();
     if (justStarted)
     {
@@ -466,6 +473,7 @@ public class SongSelectScript : MonoBehaviour
 
   public void toSettings()
   {
+    SettingsScript.prevActiveScene = "SongSelect";
     StartCoroutine(changeScene("SettingsScene"));
   }
   private bool IsPointerOverUIObject()

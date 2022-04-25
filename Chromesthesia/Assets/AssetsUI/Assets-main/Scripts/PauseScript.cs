@@ -17,6 +17,13 @@ public class PauseScript : MonoBehaviour
   void Start()
   {
     pauseOpen = true;
+    EventSystem sceneEventSystem = FindObjectOfType<EventSystem>();
+    if (sceneEventSystem == null)
+    {
+      GameObject eventSystem = new GameObject("EventSystem");
+      eventSystem.AddComponent<EventSystem>();
+      eventSystem.AddComponent<StandaloneInputModule>();
+    }
     if (SceneManager.GetActiveScene().name != "SettingsScene" && SceneManager.GetActiveScene().name != "PauseScreen")
     {
       prevActiveScene = SceneManager.GetActiveScene().name;
@@ -35,6 +42,7 @@ public class PauseScript : MonoBehaviour
 
   public void toSettings()
   {
+    SettingsScript.prevActiveScene = "PauseScreen";
     StartCoroutine(changeScene("SettingsScene"));
   }
   public void continuePressed()
@@ -84,9 +92,9 @@ public class PauseScript : MonoBehaviour
     }
     else if (scene.Contains("GameScreen") && GameScript.gameStarted)
     {
-      SceneManager.SetActiveScene(SceneManager.GetSceneByName("GameScreen"));
-      SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName("PauseScreen"));
+      // SceneManager.SetActiveScene(SceneManager.GetSceneByName("GameScreen"));
       GameScript.self.GetComponent<GameScript>().pauseDone();
+      SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName("PauseScreen"));
     }
     else
     {
