@@ -25,6 +25,12 @@ public class SettingsScript : MonoBehaviour
     public static float Speed;
     public static float SFX;
     public static float Music;
+    public static void setSpeed(float speed){Speed = speed;}
+    public static void setSFX(float sfx){SFX = sfx;}
+    public static void setMusic(float music){Music = music;}
+    public static float getSpeed(){return Speed;}
+    public static float getSFX(){return SFX;}
+    public static float getMusic(){return Music;}
     void Start()
     {
         transitionPanel.CrossFadeAlpha(0, 0.5f, false);
@@ -49,15 +55,7 @@ public class SettingsScript : MonoBehaviour
             Debug.Log("Can't unload scene");
         }
 
-        //Read Settings====================================================================
-        string folderpath = Application.persistentDataPath;
-        string settingspath = Application.persistentDataPath + "/settings.txt";
-        //===================================================================================
-        string info = File.ReadAllText(settingspath);
-        List<string> i = new List<string>(info.Split('\n'));
-        Speed = float.Parse(i[0].Split('=')[1]);
-        SFX = float.Parse(i[1].Split('=')[1]);
-        Music = float.Parse(i[2].Split('=')[1]);
+        loadSettings();
         SpeedSlider.value = Speed;
         SFXSlider.value = SFX;
         MusicSlider.value = Music;
@@ -123,6 +121,17 @@ public class SettingsScript : MonoBehaviour
         Debug.Log(newFile);
         File.WriteAllText(settingspath,newFile);
     }
+    public static void loadSettings()
+    {
+        string folderpath = Application.persistentDataPath;
+        string settingspath = Application.persistentDataPath + "/settings.txt";
+        string info = File.ReadAllText(settingspath);
+        List<string> i = new List<string>(info.Split("\n"));
+        Speed = float.Parse(i[0].Split('=')[1]);
+        SFX = float.Parse(i[1].Split('=')[1]);
+        Music = float.Parse(i[2].Split('=')[1]);
+    }
+
     public void ControlSpeed_slider(float speed)
     {
         SpeedValue.text = speed.ToString("0");

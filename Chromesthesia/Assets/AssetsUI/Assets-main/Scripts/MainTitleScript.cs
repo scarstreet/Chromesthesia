@@ -12,7 +12,8 @@ public class MainTitleScript : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    Application.targetFrameRate = 60;
+    Application.targetFrameRate = Screen.currentResolution.refreshRate;
+    Debug.Log(Application.targetFrameRate);
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
     string folderpath = Application.persistentDataPath;
     string settingspath = Application.persistentDataPath + "/settings.txt";
@@ -24,7 +25,11 @@ public class MainTitleScript : MonoBehaviour
         File.WriteAllText(settingspath, toWrite);
         SettingsScript.Speed = 5;
         SettingsScript.SFX = 100;
-        SettingsScript.Music = 100;
+        SettingsScript.setMusic(100);
+    }
+    else
+    {
+      SettingsScript.loadSettings();
     }
   }
 
