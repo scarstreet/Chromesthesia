@@ -3,6 +3,11 @@ song-name=hello
 artist=ITSA ME, MARIO
 duration=123
 
+>> preview
+song-start=58
+song-end=73
+color=#7270e4
+
 >> files
 > beatmap-easy=beatmap-easy
 > beatmap-normal=beatmap-normal

@@ -15,7 +15,7 @@ public class Score
   public double accuracy = 0;
   public int miss = 0, good = 0, perfect = 0;
   public string rating = "";
-  public Score(int i_score, int i_miss, int i_good, int i_perfect, int i_combo, double i_acc,string i_rating)
+  public Score(int i_score, int i_miss, int i_good, int i_perfect, int i_combo, double i_acc, string i_rating)
   {
     notPlayedYet = false;
     score = i_score;
@@ -57,6 +57,8 @@ public class SongInfo
   public string BM_easyPath, BM_normalPath, BM_hardPath;
   public string getTitle() { return title; }
   public string getArtist() { return artist; }
+  public double pvStart, pvEnd;
+  public Color pvColor;
   public Sprite getImage() { return image; }
   public AudioClip getAudio() { return audio; }
   public SongInfo(string folder)
@@ -72,12 +74,12 @@ public class SongInfo
     // CHECK HIGHSCORE ============================================================
     string folderpath = Application.persistentDataPath;
     string songinfopath = Application.persistentDataPath + "/" + title + ".txt";
-    if(!File.Exists(songinfopath))
+    if (!File.Exists(songinfopath))
     {
-        TextAsset getTemplate = Resources.Load<TextAsset>("Template/info");
-        string toWrite = getTemplate.text;
-        Directory.CreateDirectory(folderpath);
-        File.WriteAllText(songinfopath,toWrite);
+      TextAsset getTemplate = Resources.Load<TextAsset>("Template/info");
+      string toWrite = getTemplate.text;
+      Directory.CreateDirectory(folderpath);
+      File.WriteAllText(songinfopath, toWrite);
     }
     string Anotherinfo = File.ReadAllText(songinfopath);
     List<string> information = new List<string>(Anotherinfo.Split('\n'));
@@ -109,14 +111,20 @@ public class SongInfo
     string audioPath = info.Find(i => i.Contains("> audio")).Split("=")[1];
     audioPath = "Songs/" + folder + "/" + audioPath;
     audio = Resources.Load<AudioClip>(audioPath);
+
+    // PREVIEW INFO ==============================================================
+    pvStart = Convert.ToDouble(info.Find(i => i.Contains("song-start")).Split("=")[1]);
+    pvEnd = Convert.ToDouble(info.Find(i => i.Contains("song-end")).Split("=")[1]);
+    string color = info.Find(i => i.Contains("color=")).Split("=")[1];
+    ColorUtility.TryParseHtmlString(color, out pvColor);
   }
   public void setScore(Score newscore) //only if highscore
   {
-    if(SongSelectScript.currentDifficulty.Contains("EASY") && easy.score < newscore.score)
+    if (SongSelectScript.currentDifficulty.Contains("EASY") && easy.score < newscore.score)
       easy = newscore;
-    else if(SongSelectScript.currentDifficulty.Contains("NORMAL") && normal.score < newscore.score)
+    else if (SongSelectScript.currentDifficulty.Contains("NORMAL") && normal.score < newscore.score)
       normal = newscore;
-    else if(SongSelectScript.currentDifficulty.Contains("HARD") && hard.score < newscore.score)
+    else if (SongSelectScript.currentDifficulty.Contains("HARD") && hard.score < newscore.score)
       hard = newscore;
   }
   public void saveScore()
@@ -124,7 +132,7 @@ public class SongInfo
     string songinfopath = Application.persistentDataPath + "/" + title + ".txt";
     string info = File.ReadAllText(songinfopath);
     List<string> i = new List<string>(info.Split('\n'));
-    if(SongSelectScript.currentDifficulty.Contains("EASY"))
+    if (SongSelectScript.currentDifficulty.Contains("EASY"))
     {
       int index = i.FindIndex(ii => ii.Contains("> Easy"));
       int i2 = easy.score;
@@ -134,16 +142,16 @@ public class SongInfo
       int i6 = easy.combo;
       double i7 = easy.accuracy;
       string i8 = easy.rating;
-      i[index+1] = $"new=false";
-      i[index+2] = $"score={i2}";
-      i[index+3] = $"miss={i3}";
-      i[index+4] = $"good={i4}";
-      i[index+5] = $"perfect={i5}";
-      i[index+6] = $"combo={i6}";
-      i[index+7] = $"accuracy={i7}";
-      i[index+8] = $"rating={i8}";
+      i[index + 1] = $"new=false";
+      i[index + 2] = $"score={i2}";
+      i[index + 3] = $"miss={i3}";
+      i[index + 4] = $"good={i4}";
+      i[index + 5] = $"perfect={i5}";
+      i[index + 6] = $"combo={i6}";
+      i[index + 7] = $"accuracy={i7}";
+      i[index + 8] = $"rating={i8}";
     }
-    else if(SongSelectScript.currentDifficulty.Contains("NORMAL"))
+    else if (SongSelectScript.currentDifficulty.Contains("NORMAL"))
     {
       int index = i.FindIndex(ii => ii.Contains("> Normal"));
       int i2 = normal.score;
@@ -153,16 +161,16 @@ public class SongInfo
       int i6 = normal.combo;
       double i7 = normal.accuracy;
       string i8 = normal.rating;
-      i[index+1] = $"new=false";
-      i[index+2] = $"score={i2}";
-      i[index+3] = $"miss={i3}";
-      i[index+4] = $"good={i4}";
-      i[index+5] = $"perfect={i5}";
-      i[index+6] = $"combo={i6}";
-      i[index+7] = $"accuracy={i7}";
-      i[index+8] = $"rating={i8}";
+      i[index + 1] = $"new=false";
+      i[index + 2] = $"score={i2}";
+      i[index + 3] = $"miss={i3}";
+      i[index + 4] = $"good={i4}";
+      i[index + 5] = $"perfect={i5}";
+      i[index + 6] = $"combo={i6}";
+      i[index + 7] = $"accuracy={i7}";
+      i[index + 8] = $"rating={i8}";
     }
-    else if(SongSelectScript.currentDifficulty.Contains("HARD"))
+    else if (SongSelectScript.currentDifficulty.Contains("HARD"))
     {
       int index = i.FindIndex(ii => ii.Contains("> Hard"));
       int i2 = hard.score;
@@ -172,18 +180,18 @@ public class SongInfo
       int i6 = hard.combo;
       double i7 = hard.accuracy;
       string i8 = hard.rating;
-      i[index+1] = $"new=false";
-      i[index+2] = $"score={i2}";
-      i[index+3] = $"miss={i3}";
-      i[index+4] = $"good={i4}";
-      i[index+5] = $"perfect={i5}";
-      i[index+6] = $"combo={i6}";
-      i[index+7] = $"accuracy={i7}";
-      i[index+8] = $"rating={i8}";
+      i[index + 1] = $"new=false";
+      i[index + 2] = $"score={i2}";
+      i[index + 3] = $"miss={i3}";
+      i[index + 4] = $"good={i4}";
+      i[index + 5] = $"perfect={i5}";
+      i[index + 6] = $"combo={i6}";
+      i[index + 7] = $"accuracy={i7}";
+      i[index + 8] = $"rating={i8}";
     }
     string newFile = string.Join("\n", i);
     Debug.Log(newFile);
-    File.WriteAllText(songinfopath,newFile);
+    File.WriteAllText(songinfopath, newFile);
   }
 }
 
@@ -193,6 +201,10 @@ public class SongSelectScript : MonoBehaviour
   public static int currentSongIndex;
   public static string currentDifficulty = "EASY"; //"EASY","NORMAL" or "HARD"
   private List<SongInfo> allSongs;
+  public GameObject particles;
+  public static List<GameObject> particleList;
+  public Image backgroundPanel;
+
   public static bool justStarted = true;
   public static SongInfo currentSong;
   public SongInfo nextSong;
@@ -227,7 +239,8 @@ public class SongSelectScript : MonoBehaviour
       list.Add(new SongInfo(folder));
     }
     allSongs = list;
-    if (!justStarted) {
+    if (!justStarted)
+    {
       int index = allSongs.FindIndex((i) => i.getTitle() == currentSong.getTitle());
       allSongs[index] = currentSong;
     }
@@ -292,16 +305,17 @@ public class SongSelectScript : MonoBehaviour
       accuracy.text = currentSong.hard.accuracy.ToString() + '%';
       rating.text = currentSong.hard.rating;
     }
+    changeParticleColour(currentSong.pvColor);
   }
 
   public static string getRating()
   {
-    if(GameScript.score==1000000)return "EX";
-    else if(GameScript.score>950000)return "S";
-    else if(GameScript.score>930000)return "A+";
-    else if(GameScript.score>900000)return "A";
-    else if(GameScript.score>800000)return "B";
-    else if(GameScript.score>700000)return "C";
+    if (GameScript.score == 1000000) return "EX";
+    else if (GameScript.score > 950000) return "S";
+    else if (GameScript.score > 930000) return "A+";
+    else if (GameScript.score > 900000) return "A";
+    else if (GameScript.score > 800000) return "B";
+    else if (GameScript.score > 700000) return "C";
     else return "F";
   }
 
@@ -331,12 +345,21 @@ public class SongSelectScript : MonoBehaviour
       currentSong = allSongs[0];
       justStarted = false;
     }
+    Transform[] transformList = particles.GetComponentsInChildren<Transform>();
+    particleList = new List<GameObject>();
+    foreach (Transform t in transformList)
+    {
+      particleList.Add(t.gameObject);
+    }
+
     int index = allSongs.FindIndex((i) => i.getTitle() == currentSong.getTitle());
     nextSong = index + 1 == allSongs.Count ? allSongs[0] : allSongs[index + 1];
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
     updateUI();
     audioSource.clip = currentSong.getAudio();
+    audioSource.time = (float)currentSong.pvStart;
     audioSource.Play();
+    // audioSource.PlayScheduled(currentSong.pvStart);
     audioSource.volume = SettingsScript.getMusic() / 100;
     Debug.Log(SettingsScript.getMusic() + "/100");
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
@@ -345,6 +368,10 @@ public class SongSelectScript : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+    if (audioSource.time >= currentSong.pvEnd)
+    {
+      StartCoroutine(fadeMusic(0, true));
+    }
     if (Input.touchCount > 0 && IsPointerOverUIObject() == false)
     {
       Touch touch = Input.GetTouch(0);
@@ -407,6 +434,7 @@ public class SongSelectScript : MonoBehaviour
   IEnumerator changeSong(string which)
   {
     songUIfade(0);
+    StartCoroutine(fadeMusic(0, false));
     audioSource.Stop();
     bool faded = false;
     while (!faded)
@@ -426,8 +454,8 @@ public class SongSelectScript : MonoBehaviour
     nextSong = index + 1 == allSongs.Count ? allSongs[0] : allSongs[index + 1];
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
     audioSource.clip = currentSong.getAudio();
-    audioSource.Play();
     updateUI();
+    StartCoroutine(fadeMusic(1, false));
     songUIfade(1);
   }
   public void playPressed()
@@ -464,6 +492,50 @@ public class SongSelectScript : MonoBehaviour
       SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
     }
     SceneManager.LoadScene(scene, LoadSceneMode.Single);
+  }
+  public void changeParticleColour(Color color)
+  {
+    backgroundPanel.CrossFadeColor(color, .2f, false, false);
+    foreach (GameObject p in particleList)
+    {
+      LeanTween.color(p, color, .2f);
+    }
+  }
+
+  IEnumerator fadeMusic(int which,bool restart)
+  {
+    // which == 1 ? in : out
+    if(which == 1) { // FADE IN
+      audioSource.time = (float)currentSong.pvStart;
+      audioSource.Play();
+      Debug.Log("song started" + Time.timeAsDouble);
+      while (audioSource.volume < SettingsScript.getMusic() / 100)
+      {
+        audioSource.volume += 0.5f * 2;
+        yield return new WaitForSeconds(0.001f);
+      }
+      audioSource.volume = SettingsScript.getMusic() / 100;
+    }
+    else { // FADE OUT
+      while (audioSource.volume > 0f)
+      {
+        audioSource.volume -= 0.05f;
+        yield return new WaitForSeconds(0.001f);
+      }
+      Debug.Log("song ended" + Time.timeAsDouble);
+      audioSource.Stop();
+      if(restart){
+        audioSource.time = (float)currentSong.pvStart;
+        audioSource.Play();
+        Debug.Log("song restarted -- "+ audioSource.time +"||"+Time.timeAsDouble);
+        while (audioSource.volume < SettingsScript.getMusic() / 100)
+        {
+          audioSource.volume += 0.5f * 2;
+          yield return new WaitForSeconds(0.001f);
+        }
+        audioSource.volume = SettingsScript.getMusic() / 100;
+      }
+    }
   }
   public void back()
   {
