@@ -17,11 +17,15 @@ public class ParticleScript : MonoBehaviour
   void Update()
   {
     if (GameScript.gameIsPaused == true) {
+      gameObject.LeanMoveZ(-100, 0f).setIgnoreTimeScale(true);
       ps.Pause(true);
       ps.Stop(true);
-    } else {
+    } else if (GameScript.gameStarted){
+      gameObject.LeanMoveZ(1, 0f).setIgnoreTimeScale(true);
       ps.Pause(false);
       ps.Play(true);
+    } else {
+      
     }
     if (GameScript.gameCompleted == true)
     {
