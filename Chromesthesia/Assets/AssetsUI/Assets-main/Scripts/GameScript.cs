@@ -139,6 +139,7 @@ public class GameScript : MonoBehaviour
   public double addscore,addaccuracy;
   // GAMEOBJECT RESOURCE ============================================================================================
   public GameObject circle, hold, countdown, particles;
+  public Button pauseButton;
   public static List<GameObject> particleList;
   public static AudioSource audiosource;
   public static GameObject self;
@@ -190,6 +191,7 @@ public class GameScript : MonoBehaviour
   }
   void Start()
   {
+    pauseButton.interactable = false;
     score = 0;
     combo = 0;
     maxcombo = 0;
@@ -256,6 +258,7 @@ public class GameScript : MonoBehaviour
   {
     if (gameStarted && !gameIsPaused)
     {
+      pauseButton.interactable = true;
       songProgress = ((float)(Time.timeAsDouble - gameStartTime) / (float)(duration));
       animator.SetFloat("runner", songProgress);
       time = songProgress * duration;
@@ -393,6 +396,7 @@ public class GameScript : MonoBehaviour
     AudioListener.pause = true;
     gameIsPaused = true;
     PauseScript.pauseOpen = true;
+    pauseButton.interactable = false;
     SceneManager.LoadScene("PauseScreen", LoadSceneMode.Additive);
   }
   private float assignrotate(char dir) //this function is to check the note direction and assign it by looking at the deltaPosition
@@ -594,11 +598,13 @@ public class GameScript : MonoBehaviour
           gameStartTime = Time.timeAsDouble;
           StartCoroutine(startsong());
           gameStarted = true;
+          pauseButton.interactable = false;
         }
         else if (gameIsPaused)
         {
           gameIsPaused = false;
           AudioListener.pause = false;
+          pauseButton.interactable = true;
         }
         Time.timeScale = 1;
       }
