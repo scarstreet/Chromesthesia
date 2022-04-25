@@ -8,10 +8,14 @@ public class CountDown : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
+    gameObject.LeanMoveZ(100, 0f);
     animator = gameObject.GetComponent<Animator>();
     animator.speed = 1;
   }
-
+  void Awake()
+  {
+    DontDestroyOnLoad(gameObject);
+  }
   // Update is called once per frame
   void Update()
   {

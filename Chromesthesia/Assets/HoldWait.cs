@@ -32,11 +32,11 @@ public class HoldWait : MonoBehaviour
     {
       Destroy(gameObject);
     }
-    if (GameScript.gameIsPaused == true)
+    if (PauseScript.pauseOpen == true)
     {
       gameObject.LeanMoveZ(-100, 0f).setIgnoreTimeScale(true);
     }
-    else
+    else if(PauseScript.pauseOpen == false)
     {
       gameObject.LeanMoveZ(0, 0f).setIgnoreTimeScale(true);
     }
