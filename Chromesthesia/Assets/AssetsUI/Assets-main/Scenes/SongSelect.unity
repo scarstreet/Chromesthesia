@@ -299,7 +299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &127932784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2733,7 +2733,7 @@ GameObject:
   - component: {fileID: 2074133264}
   m_Layer: 0
   m_Name: Back
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2802,9 +2802,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SettingsScript, Assembly-CSharp
-        m_MethodName: toBack
+      - m_Target: {fileID: 1206594309}
+        m_TargetAssemblyTypeName: SongSelectScript, Assembly-CSharp
+        m_MethodName: back
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

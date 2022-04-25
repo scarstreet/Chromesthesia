@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using System.IO;
 
 public class ScoreScreenScript : MonoBehaviour
 {
-  public Text ddebug;
   public Text highScore;
   public Text combo;
   public Text score;
+  public Text accuracy;
   public Text perfect;
   public Text good;
   public Text miss;
@@ -26,20 +27,17 @@ public class ScoreScreenScript : MonoBehaviour
   Animator animator;
   void Start()
   {
-    // Debug.Log("QWQ " + Application.persistentDataPath);
-    // Debug.Log("QAQ " + Application.dataPath);
-    // Debug.Log("QAAQ " + Application.dataPath+"/HighScores/"+ SongSelectScript.currentSong.getTitle()+"/info.txt");
-    SongSelectScript.currentSong.setScore(new Score((int)GameScript.score, GameScript.misscount, GameScript.goodcount, GameScript.perfectcount, GameScript.combo, GameScript.accuracy,SongSelectScript.getRating()));
+    SongSelectScript.currentSong.setScore(new Score((int)GameScript.score, GameScript.misscount, GameScript.goodcount, GameScript.perfectcount, GameScript.combo, Math.Round(GameScript.accuracy,2),SongSelectScript.getRating()));
     //====================================================
-    score.text = GameScript.score.ToString();
+    score.text = ((int)GameScript.score).ToString();
     combo.text = GameScript.maxcombo.ToString();
     perfect.text = GameScript.perfectcount.ToString();
     good.text = GameScript.goodcount.ToString();
     miss.text = (GameScript.count-GameScript.perfectcount-GameScript.goodcount).ToString();
+    accuracy.text = (Math.Round(GameScript.accuracy,2)).ToString() + "%";
     rating.text = SongSelectScript.getRating();
     //====================================================
     SongSelectScript.currentSong.saveScore();
-    // ddebug.text = Application.persistentDataPath;
     GameScript.resetStates();
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
     animator = gameObject.GetComponent<Animator>();
@@ -56,12 +54,6 @@ public class ScoreScreenScript : MonoBehaviour
     playAgainBtn.enabled = true;
     songListBtn.enabled = true;
     settingsBtn.enabled = true;
-  }
-
-  // Update is called once per frame
-  void Update()
-  {
-
   }
 
   public void toSettings()

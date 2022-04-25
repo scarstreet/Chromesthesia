@@ -29770,18 +29770,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delaystart: 0
-  difficulty: {fileID: 500870077}
-  song: {fileID: 1049139276}
-  currentscore: {fileID: 1796769792}
-  combotext: {fileID: 1396733695}
+  addscore: 0
+  addaccuracy: 0
   circle: {fileID: 1278560318573899504, guid: e08c69148fc757044bb92af7c2c41ec2, type: 3}
   hold: {fileID: 6967701114314300993, guid: 03a961fe6ba0dc14ba7dfa67abd73bd4, type: 3}
   countdown: {fileID: 8975445325118957975, guid: e81767645f1fca24b9ce87409b23bbcb, type: 3}
   particles: {fileID: 562295888}
+  pauseButton: {fileID: 1718150631}
+  difficulty: {fileID: 500870077}
+  song: {fileID: 1049139276}
+  currentscore: {fileID: 1796769792}
+  combotext: {fileID: 1396733695}
   backgroundPanel: {fileID: 153160915}
   transitionPanel: {fileID: 2136140175}
   animator: {fileID: 1206594310}
-  addscore: 0
 --- !u!95 &1206594310
 Animator:
   serializedVersion: 4
@@ -34983,7 +34985,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 25, y: -25}
-  m_SizeDelta: {x: 30, y: 30}
+  m_SizeDelta: {x: 42.93, y: 42.93}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1718150631
 MonoBehaviour:
@@ -35024,7 +35026,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1718150632}
   m_OnClick:
     m_PersistentCalls:
@@ -49707,7 +49709,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2136140174
 RectTransform:
   m_ObjectHideFlags: 0

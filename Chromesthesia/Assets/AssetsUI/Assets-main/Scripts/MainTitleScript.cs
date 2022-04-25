@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -12,7 +13,7 @@ public class MainTitleScript : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    Application.targetFrameRate = Screen.currentResolution.refreshRate;
+    Application.targetFrameRate = (Screen.currentResolution.refreshRate==30)?60:Screen.currentResolution.refreshRate;
     Debug.Log(Application.targetFrameRate);
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
     string folderpath = Application.persistentDataPath;

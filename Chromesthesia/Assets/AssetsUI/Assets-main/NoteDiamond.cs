@@ -25,7 +25,7 @@ public class NoteDiamond : MonoBehaviour
   private double originalDuration = 2500;
   private float totalFrame = 150;
   private float spawnFrame = 40;
-  public string timeStatus = "noInput"; // ''/'miss'/'good'/'perfect'
+  public string timeStatus; // ''/'miss'/'good'/'perfect'
   public string status = "";
   // Start is called before the first frame update
   void Start()

@@ -13,6 +13,7 @@ public class PauseScript : MonoBehaviour
   public Image transitionPanel;
   public Text difficulty;
   public Text song;
+  // public GameScript game;
   void Start()
   {
     pauseOpen = true;
@@ -32,11 +33,6 @@ public class PauseScript : MonoBehaviour
     pauseOpen = false;
   }
 
-  // Update is called once per frame
-  void Update()
-  {
-  }
-
   public void toSettings()
   {
     StartCoroutine(changeScene("SettingsScene"));
@@ -49,7 +45,9 @@ public class PauseScript : MonoBehaviour
   {
     // TODO - the restart
     GameScript.self.GetComponent<GameScript>().changeParticleColour(new Color(1f, 1f, 1f));
+    // game.enabled = false;
     GameScript.resetStates();
+    // game.pauseButton.enabled = true;
     StartCoroutine(changeScene("GameScreen"));
   }
   public void giveUpPressed()

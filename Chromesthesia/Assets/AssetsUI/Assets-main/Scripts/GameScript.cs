@@ -12,7 +12,7 @@ public class GameScript : MonoBehaviour
 {
   public class Finger
   {
-    static int pathCnt = 7; // How many entries before can decide stuff
+    static int pathCnt = 7 * (Screen.currentResolution.refreshRate/60); // How many entries before can decide stuff
     double touchStarted;
     Queue<Vector2> path;
     public int fingerId;
@@ -109,14 +109,11 @@ public class GameScript : MonoBehaviour
       this.fingerId = fingerId;
       this.timePressed = songProgress * duration;
       double remainDur = this.timeEnd - this.time;
-      // Debug.Log($"{remainDur} = {this.timeEnd} - {this.time}");
       remainDur = remainDur - (this.timePressed - this.time) - 0.5;
-      // Debug.Log($"{remainDur} = remainDur - ({this.timePressed} - {this.time}) - 0.5;");
       HoldSpawn objScript = this.obj.GetComponent<HoldSpawn>();
       HoldWait script = objScript.HoldStart.GetComponent<HoldWait>();
       script.holdDuration = remainDur * 1000;
       script.bgColor = objScript.bgColor;
-      // Debug.Log($"{script.holdDuration} = {remainDur} * 1000; || END.");
       GameObject temp = objScript.HoldStart;
       Vector3 tempPos = objScript.gameObject.transform.position;
       Quaternion tempRot = objScript.gameObject.transform.rotation;
@@ -139,9 +136,10 @@ public class GameScript : MonoBehaviour
   public static int count;
   static double gameStartTime, time, duration; // SONG DURATION IN SECONDS
   public float delaystart;
-  public double addscore;
+  public double addscore,addaccuracy;
   // GAMEOBJECT RESOURCE ============================================================================================
   public GameObject circle, hold, countdown, particles;
+  public Button pauseButton;
   public static List<GameObject> particleList;
   public static AudioSource audiosource;
   public static GameObject self;
@@ -193,6 +191,7 @@ public class GameScript : MonoBehaviour
   }
   void Start()
   {
+    pauseButton.interactable = false;
     score = 0;
     combo = 0;
     maxcombo = 0;
@@ -200,6 +199,7 @@ public class GameScript : MonoBehaviour
     goodcount = 0;
     misscount = 0;
     count = 0;
+    accuracy = 0f;
     self = gameObject;
     difficulty.text = SongSelectScript.currentDifficulty;
     Transform[] transformList = particles.GetComponentsInChildren<Transform>();
@@ -243,6 +243,7 @@ public class GameScript : MonoBehaviour
         count++;
       }
       addscore = (double)1000000 / count;
+      addaccuracy = (double)100 / count;
       currentscore.text = ((int)score).ToString();
     }
     //=======================================================================================
@@ -257,6 +258,7 @@ public class GameScript : MonoBehaviour
   {
     if (gameStarted && !gameIsPaused)
     {
+      pauseButton.interactable = true;
       songProgress = ((float)(Time.timeAsDouble - gameStartTime) / (float)(duration));
       animator.SetFloat("runner", songProgress);
       time = songProgress * duration;
@@ -346,6 +348,7 @@ public class GameScript : MonoBehaviour
           {
 
             double angle = fingerList[idx].decideAngle();
+            Debug.Log("Angle : " + checkDir(angle) + " Direction : " + touchable.Peek().direction);
             int holdIndex = waitingHolds.FindIndex((note) => note.fingerId == touches[i].fingerId);
             if (holdIndex != -1)
             {
@@ -393,6 +396,7 @@ public class GameScript : MonoBehaviour
     AudioListener.pause = true;
     gameIsPaused = true;
     PauseScript.pauseOpen = true;
+    pauseButton.interactable = false;
     SceneManager.LoadScene("PauseScreen", LoadSceneMode.Additive);
   }
   private float assignrotate(char dir) //this function is to check the note direction and assign it by looking at the deltaPosition
@@ -489,6 +493,7 @@ public class GameScript : MonoBehaviour
         result = "perfect";
         perfectcount++;
         score += addscore;
+        accuracy += addaccuracy;
         combo++;
         if (combo > maxcombo)
           maxcombo++;
@@ -509,7 +514,8 @@ public class GameScript : MonoBehaviour
           { // to tolerate or to not tolerate
             result = "good";
             goodcount++;
-            score += addscore * 0.5;
+            score += addscore * 0.75;
+            accuracy += addaccuracy *0.5;
             combo++;
             if (combo > maxcombo)
               maxcombo++;
@@ -592,11 +598,13 @@ public class GameScript : MonoBehaviour
           gameStartTime = Time.timeAsDouble;
           StartCoroutine(startsong());
           gameStarted = true;
+          pauseButton.interactable = false;
         }
         else if (gameIsPaused)
         {
           gameIsPaused = false;
           AudioListener.pause = false;
+          pauseButton.interactable = true;
         }
         Time.timeScale = 1;
       }
