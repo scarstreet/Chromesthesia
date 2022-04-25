@@ -13,6 +13,13 @@ public class MainTitleScript : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
+    EventSystem sceneEventSystem = FindObjectOfType<EventSystem>();
+    if (sceneEventSystem == null)
+    {
+      GameObject eventSystem = new GameObject("EventSystem");
+      eventSystem.AddComponent<EventSystem>();
+      eventSystem.AddComponent<StandaloneInputModule>();
+    }
     Application.targetFrameRate = (Screen.currentResolution.refreshRate==30)?60:Screen.currentResolution.refreshRate;
     Debug.Log(Application.targetFrameRate);
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
@@ -46,6 +53,7 @@ public class MainTitleScript : MonoBehaviour
 
   public void toSettings()
   {
+    SettingsScript.prevActiveScene = "MainTitleScreen";
     StartCoroutine(changeScene("SettingsScene"));
   }
   private bool IsPointerOverUIObject()

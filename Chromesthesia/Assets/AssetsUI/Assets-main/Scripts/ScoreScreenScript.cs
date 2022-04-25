@@ -27,6 +27,13 @@ public class ScoreScreenScript : MonoBehaviour
   Animator animator;
   void Start()
   {
+    EventSystem sceneEventSystem = FindObjectOfType<EventSystem>();
+    if (sceneEventSystem == null)
+    {
+      GameObject eventSystem = new GameObject("EventSystem");
+      eventSystem.AddComponent<EventSystem>();
+      eventSystem.AddComponent<StandaloneInputModule>();
+    }
     SongSelectScript.currentSong.setScore(new Score((int)GameScript.score, GameScript.misscount, GameScript.goodcount, GameScript.perfectcount, GameScript.combo, Math.Round(GameScript.accuracy,2),SongSelectScript.getRating()));
     //====================================================
     score.text = ((int)GameScript.score).ToString();
@@ -58,6 +65,7 @@ public class ScoreScreenScript : MonoBehaviour
 
   public void toSettings()
   {
+    SettingsScript.prevActiveScene = "ScoreScreen";
     StartCoroutine(changeScene("SettingsScene"));
   }
 

@@ -191,6 +191,13 @@ public class GameScript : MonoBehaviour
   }
   void Start()
   {
+    EventSystem sceneEventSystem = FindObjectOfType<EventSystem>();
+    if (sceneEventSystem == null)
+    {
+      GameObject eventSystem = new GameObject("EventSystem");
+      eventSystem.AddComponent<EventSystem>();
+      eventSystem.AddComponent<StandaloneInputModule>();
+    }
     pauseButton.interactable = false;
     score = 0;
     combo = 0;
@@ -585,7 +592,7 @@ public class GameScript : MonoBehaviour
       else if (i == 1)
       {
         GameObject cd = Instantiate(countdown, new Vector3(0, 0, 100), Quaternion.identity);
-        cd.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
+        // cd.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
         yield return new WaitForSecondsRealtime(4.5f);
       }
       else
