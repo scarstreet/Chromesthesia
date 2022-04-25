@@ -1815,10 +1815,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b3853daacbad04ab961ce9ce38ddb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ddebug: {fileID: 0}
   highScore: {fileID: 31540860}
   combo: {fileID: 605363346}
   score: {fileID: 31540860}
+  accuracy: {fileID: 639139163}
   perfect: {fileID: 1943620523}
   good: {fileID: 332507938}
   miss: {fileID: 1067872399}
