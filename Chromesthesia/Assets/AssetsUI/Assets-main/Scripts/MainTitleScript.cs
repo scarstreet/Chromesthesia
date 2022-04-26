@@ -20,7 +20,7 @@ public class MainTitleScript : MonoBehaviour
       eventSystem.AddComponent<EventSystem>();
       eventSystem.AddComponent<StandaloneInputModule>();
     }
-    Application.targetFrameRate = (Screen.currentResolution.refreshRate==30)?60:Screen.currentResolution.refreshRate;
+    Application.targetFrameRate = (Screen.currentResolution.refreshRate<60)?60:Screen.currentResolution.refreshRate;
     Debug.Log(Application.targetFrameRate);
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
     string folderpath = Application.persistentDataPath;
