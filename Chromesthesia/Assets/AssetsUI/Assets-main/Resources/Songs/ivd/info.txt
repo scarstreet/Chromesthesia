@@ -5,7 +5,7 @@ duration=65
 
 >> preview
 song-start=1
-song-end=16.5
+song-end=16.8
 color=#9b4ac6
 
 >> files
