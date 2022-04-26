@@ -375,13 +375,37 @@ public class GameScript : MonoBehaviour
                   touchable.Dequeue(); // to dequeue all previously missed notes
                 }
                 NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
-
                 s.setState(directionJudgement(angle, touchable.Peek().time));
+                touchable.Dequeue();
+                if(s.status.Contains("perfect"))
+                {
+                  perfectcount++;
+                  score += addscore;
+                  accuracy += addaccuracy;
+                  combo++;
+                  if (combo > maxcombo)
+                    maxcombo++;
+                  currentscore.text = Math.Round(score, 0).ToString();
+                }
+                else if(s.status.Contains("good"))
+                {
+                  goodcount++;
+                  score += addscore * 0.75;
+                  accuracy += addaccuracy *0.5;
+                  combo++;
+                  if (combo > maxcombo)
+                    maxcombo++;
+                  currentscore.text = Math.Round(score, 0).ToString();
+                }
+                else
+                {
+                  combo=0; 
+                }
+                combotext.text = combo.ToString();
                 /*
                 TODO : FIX THE PERFECT GOOD MISS SCORE AND COMBO HERE CAUSE IT BUGS WHEN IT'S UP THERE
                 HOW? DIRECTIONJUDGEMENT IS THE LAST JUDGEMENT MEANING THAT IT IS DEFINED LASTLY HERE, SO THIS IS THE FACTOR, THE POINT IS JUST MOVE IT HERE
                 */
-                touchable.Dequeue();
               }
             }
           }
@@ -498,14 +522,13 @@ public class GameScript : MonoBehaviour
           sametime.Remove(sametime[now]);
         }
         result = "perfect";
-        perfectcount++;
-        score += addscore;
-        accuracy += addaccuracy;
-        combo++;
-        if (combo > maxcombo)
-          maxcombo++;
-        //
-        currentscore.text = Math.Round(score, 0).ToString();
+        // perfectcount++;
+        // score += addscore;
+        // accuracy += addaccuracy;
+        // combo++;
+        // if (combo > maxcombo)
+        //   maxcombo++;
+        // currentscore.text = Math.Round(score, 0).ToString();
       }
       else
       {
@@ -520,13 +543,13 @@ public class GameScript : MonoBehaviour
           if (angle <= adjacentAngle + toleranceAngle || angle >= adjacentAngle - toleranceAngle)
           { // to tolerate or to not tolerate
             result = "good";
-            goodcount++;
-            score += addscore * 0.75;
-            accuracy += addaccuracy *0.5;
-            combo++;
-            if (combo > maxcombo)
-              maxcombo++;
-            currentscore.text = Math.Round(score, 0).ToString();
+            // goodcount++;
+            // score += addscore * 0.75;
+            // accuracy += addaccuracy *0.5;
+            // combo++;
+            // if (combo > maxcombo)
+            //   maxcombo++;
+            // currentscore.text = Math.Round(score, 0).ToString();
           }
 
           sametime[now].notes.Remove(sametime[now].notes[toRemove]);
@@ -539,8 +562,6 @@ public class GameScript : MonoBehaviour
       }
       if (result.Contains("miss") || result.Contains("noInput"))
       {
-        combo = 0;
-
         sametime[now].notes.Remove(sametime[now].notes[0]);
         if (sametime[now].notes.Count == 0)
         {
