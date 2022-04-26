@@ -108,8 +108,8 @@ public class SettingsScript : MonoBehaviour
   public void ResetSettings()
   {
     SpeedSlider.value = 5;
-    SFXSlider.value = 100;
-    MusicSlider.value = 100;
+    SFXSlider.value = 50;
+    MusicSlider.value = 50;
     Speed = SpeedSlider.value;
     SFX = SFXSlider.value;
     Music = MusicSlider.value;

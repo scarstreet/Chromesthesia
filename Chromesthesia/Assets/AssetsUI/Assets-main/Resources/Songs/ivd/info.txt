@@ -4,8 +4,8 @@ artist=Yugo Kanno
 duration=65
 
 >> preview
-song-start=0
-song-end=15
+song-start=1
+song-end=16.5
 color=#9b4ac6
 
 >> files

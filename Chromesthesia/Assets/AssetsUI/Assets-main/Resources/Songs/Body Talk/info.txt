@@ -4,7 +4,7 @@ artist=M2U
 duration=123
 
 >> preview
-song-start=58
+song-start=60
 song-end=73
 color=#7270e4
 
