@@ -45,7 +45,7 @@ public class SettingsScript : MonoBehaviour
     //   // TODO - MAKE A BETTER WAY TO STORE PREVIOUS SCREENS!!!
     //   prevActiveScene = "MainTitleScreen";
     // }
-    // Debug.Log("settings prevscene is " + prevActiveScene);
+    // //Debug.Log("settings prevscene is " + prevActiveScene);
     SceneManager.SetActiveScene(SceneManager.GetSceneByName("SettingsScene"));
     try
     {
@@ -53,7 +53,7 @@ public class SettingsScript : MonoBehaviour
     }
     catch
     {
-      Debug.Log("Can't unload scene");
+      //Debug.Log("Can't unload scene");
     }
 
     loadSettings();
@@ -68,7 +68,7 @@ public class SettingsScript : MonoBehaviour
 
   public void toBack()
   {
-    Debug.Log("Going back to " + prevActiveScene);
+    //Debug.Log("Going back to " + prevActiveScene);
     StartCoroutine(changeScene(prevActiveScene));
   }
 
@@ -92,7 +92,7 @@ public class SettingsScript : MonoBehaviour
       fadeDone = true;
       yield return new WaitForSecondsRealtime(.5f);
     }
-    Debug.Log("Going back to " + scene);
+    //Debug.Log("Going back to " + scene);
     if (scene == "PauseScreen")
     {
       //   SceneManager.SetActiveScene(SceneManager.GetSceneByName(scene));
@@ -130,7 +130,7 @@ public class SettingsScript : MonoBehaviour
     i[1] = $"SFX={SFX}";
     i[2] = $"Music={Music}";
     string newFile = string.Join("\n", i);
-    Debug.Log(newFile);
+    // //Debug.Log(newFile);
     File.WriteAllText(settingspath, newFile);
   }
   public static void loadSettings()
@@ -165,13 +165,13 @@ public class SettingsScript : MonoBehaviour
     Speed = Mathf.Round(SpeedSlider.value * 1f);
     i[0] = $"Speed={Speed}";
     string newFile = string.Join("\n", i);
-    Debug.Log(newFile);
+    // //Debug.Log(newFile);
     File.WriteAllText(settingspath, newFile);
   }
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public void ControlSpeed_buttonUp()
   {
-    // Debug.Log("OH YA, Bring da music Upp");
+    // //Debug.Log("OH YA, Bring da music Upp");
     SpeedSlider.value += 1;
     SaveSpeed_slider();
   }
@@ -204,13 +204,13 @@ public class SettingsScript : MonoBehaviour
     SFX = Mathf.Round(SFXSlider.value * 1f);
     i[1] = $"SFX={SFX}";
     string newFile = string.Join("\n", i);
-    Debug.Log(newFile);
+    // //Debug.Log(newFile);
     File.WriteAllText(settingspath, newFile);
   }
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public void ControlSFX_buttonUp()
   {
-    // Debug.Log("OH YA, Bring da music Upp");
+    // //Debug.Log("OH YA, Bring da music Upp");
     SFXSlider.value += 1;
     SaveSFX_slider();
   }
@@ -243,13 +243,13 @@ public class SettingsScript : MonoBehaviour
     Music = Mathf.Round(MusicSlider.value * 1f);
     i[2] = $"Music={Music}";
     string newFile = string.Join("\n", i);
-    Debug.Log(newFile);
+    // //Debug.Log(newFile);
     File.WriteAllText(settingspath, newFile);
   }
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public void ControlMusic_buttonUp()
   {
-    // Debug.Log("OH YA, Bring da music Upp");
+    // //Debug.Log("OH YA, Bring da music Upp");
     MusicSlider.value += 1;
     SaveMusic_slider();
   }

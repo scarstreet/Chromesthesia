@@ -225,7 +225,7 @@ public class GameScript : MonoBehaviour
       audiosource = GetComponent<AudioSource>();
       audiosource.clip = SongSelectScript.currentSong.getAudio();
       audiosource.volume = SettingsScript.Music / 100;
-      Debug.Log(SettingsScript.Music + "/100");
+      // Debug.Log(SettingsScript.Music + "/100");
       TextAsset theList = Resources.Load<TextAsset>(SongSelectScript.beatmapPath()); //read a textfile from "path" note that it only reads from folder Resources, so you have to put everything (that you said to Load) in resources folder, however you may make any folder inside th resouce folder.
       string text = theList.text;
       string[] words = text.Split('\n');
@@ -351,11 +351,11 @@ public class GameScript : MonoBehaviour
               }
             }
           }
-          else if ((touches[i].phase == TouchPhase.Ended) && (touches[i].deltaPosition != touches[i].rawPosition))
+          else if ((touches[i].phase == TouchPhase.Ended))
           {
 
             double angle = fingerList[idx].decideAngle();
-            Debug.Log("Angle : " + checkDir(angle) + " Direction : " + touchable.Peek().direction);
+            // Debug.Log("Angle : " + checkDir(angle) + " Direction : " + touchable.Peek().direction);
             int holdIndex = waitingHolds.FindIndex((note) => note.fingerId == touches[i].fingerId);
             if (holdIndex != -1)
             {
@@ -363,6 +363,32 @@ public class GameScript : MonoBehaviour
               Note held = waitingHolds[holdIndex];
               HoldWait script = held.obj.GetComponent<HoldWait>();
               script.setState(directionJudgement(angle, held.time));
+              // Debug.Log("Status :" + script.status);
+              if(script.status.Contains("perfect"))
+              {
+                perfectcount++;
+                score += addscore;
+                accuracy += addaccuracy;
+                combo++;
+                if (combo > maxcombo)
+                  maxcombo++;
+                currentscore.text = Math.Round(score, 0).ToString();
+              }
+              else if(script.status.Contains("good"))
+              {
+                goodcount++;
+                score += addscore * 0.75;
+                accuracy += addaccuracy *0.5;
+                combo++;
+                if (combo > maxcombo)
+                  maxcombo++;
+                currentscore.text = Math.Round(score, 0).ToString();
+              }
+              else
+              {
+                combo=0; 
+              }
+              combotext.text = combo.ToString();
               waitingHolds.Remove(held);
             }
             else
@@ -402,10 +428,6 @@ public class GameScript : MonoBehaviour
                   combo=0; 
                 }
                 combotext.text = combo.ToString();
-                /*
-                TODO : FIX THE PERFECT GOOD MISS SCORE AND COMBO HERE CAUSE IT BUGS WHEN IT'S UP THERE
-                HOW? DIRECTIONJUDGEMENT IS THE LAST JUDGEMENT MEANING THAT IT IS DEFINED LASTLY HERE, SO THIS IS THE FACTOR, THE POINT IS JUST MOVE IT HERE
-                */
               }
             }
           }
@@ -522,13 +544,6 @@ public class GameScript : MonoBehaviour
           sametime.Remove(sametime[now]);
         }
         result = "perfect";
-        // perfectcount++;
-        // score += addscore;
-        // accuracy += addaccuracy;
-        // combo++;
-        // if (combo > maxcombo)
-        //   maxcombo++;
-        // currentscore.text = Math.Round(score, 0).ToString();
       }
       else
       {
@@ -539,17 +554,10 @@ public class GameScript : MonoBehaviour
         { // If found neighboring tolerance
           int toRemove = tolerate1 != -1 ? tolerate1 : tolerate2;
           double adjacentAngle = tolerate1 != -1 ? tolerance[tId].a1 : tolerance[tId].a2;
-          double toleranceAngle = 5;
+          double toleranceAngle = 22.5;
           if (angle <= adjacentAngle + toleranceAngle || angle >= adjacentAngle - toleranceAngle)
           { // to tolerate or to not tolerate
             result = "good";
-            // goodcount++;
-            // score += addscore * 0.75;
-            // accuracy += addaccuracy *0.5;
-            // combo++;
-            // if (combo > maxcombo)
-            //   maxcombo++;
-            // currentscore.text = Math.Round(score, 0).ToString();
           }
 
           sametime[now].notes.Remove(sametime[now].notes[toRemove]);
