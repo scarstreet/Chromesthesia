@@ -75,6 +75,7 @@ public class HoldWait : MonoBehaviour
       deathScript.nextAnimation = miss;
       if (dirStatus.Contains("noInput"))
       {
+        GameScript.combo = 0;
         double time = Time.timeAsDouble;
         if (GameScript.waitingHolds.Count > 0)
         {
@@ -84,7 +85,7 @@ public class HoldWait : MonoBehaviour
             while (index != -1)
             {
               index = GameScript.waitingHolds.FindIndex((note) => time >= note.timeEnd);
-              Debug.Log(index);
+              // Debug.Log(index);
               GameScript.waitingHolds.Remove(GameScript.waitingHolds[index]); // ERR - out of range
             }
           }
@@ -133,7 +134,7 @@ public class HoldWait : MonoBehaviour
       status = "good";
     else
       status = "miss";
-    Debug.Log("HOLD || dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status);
+    // Debug.Log("HOLD || dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status);
   }
   IEnumerator FlickerOut()
   {

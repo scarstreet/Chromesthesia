@@ -57,10 +57,6 @@ public class HoldSpawn : MonoBehaviour
     else
     {
       Destroy(gameObject);
-      // Move this part to GameMaster.cs -----------------------------------------------
-      // HoldWait script = HoldStart.GetComponent<HoldWait>();
-      // script.holdDuration = holdDuration;
-      // Instantiate(HoldStart, transform.position, transform.rotation);
     }
   }
 

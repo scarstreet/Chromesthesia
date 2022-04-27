@@ -5,22 +5,10 @@ using UnityEngine.EventSystems;
 
 public class UIScript : MonoBehaviour
 {
-  // Start is called before the first frame update
-  void Start()
-  {
+  // public void toSettings()
+  // {
 
-  }
-
-  // Update is called once per frame
-  void Update()
-  {
-    if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
-    {
-    }
-  }
-
-  public void toSettings(){
-  }
+  // }
   private bool IsPointerOverUIObject()
   {
     var eventDataCurrentPosition = new PointerEventData(EventSystem.current)

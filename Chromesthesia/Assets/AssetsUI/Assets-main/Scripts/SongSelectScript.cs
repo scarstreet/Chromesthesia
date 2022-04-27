@@ -43,7 +43,7 @@ public class Score
     {
       rating = "";
     }
-    // Debug.Log(score + " " + miss + " " + good + " " + perfect + " " + combo + " " + accuracy + " " + rating + " " + notPlayedYet);
+    // //Debug.Log(score + " " + miss + " " + good + " " + perfect + " " + combo + " " + accuracy + " " + rating + " " + notPlayedYet);
   }
 }
 public class SongInfo
@@ -190,7 +190,7 @@ public class SongInfo
       i[index + 8] = $"rating={i8}";
     }
     string newFile = string.Join("\n", i);
-    Debug.Log(newFile);
+    // //Debug.Log(newFile);
     File.WriteAllText(songinfopath, newFile);
   }
 }
@@ -368,7 +368,7 @@ public class SongSelectScript : MonoBehaviour
     audioSource.Play();
     // audioSource.PlayScheduled(currentSong.pvStart);
     audioSource.volume = SettingsScript.getMusic() / 100;
-    Debug.Log(SettingsScript.getMusic() + "/100");
+    // //Debug.Log(SettingsScript.getMusic() + "/100");
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
   }
 
@@ -516,7 +516,7 @@ public class SongSelectScript : MonoBehaviour
     if(which == 1) { // FADE IN
       audioSource.time = (float)currentSong.pvStart;
       audioSource.Play();
-      Debug.Log("song started" + Time.timeAsDouble);
+      // //Debug.Log("song started" + Time.timeAsDouble);
       while (audioSource.volume < SettingsScript.getMusic() / 100)
       {
         audioSource.volume += 0.5f * 2;
@@ -530,12 +530,12 @@ public class SongSelectScript : MonoBehaviour
         audioSource.volume -= 0.05f;
         yield return new WaitForSeconds(0.001f);
       }
-      Debug.Log("song ended" + Time.timeAsDouble);
+      // //Debug.Log("song ended" + Time.timeAsDouble);
       audioSource.Stop();
       if(restart){
         audioSource.time = (float)currentSong.pvStart;
         audioSource.Play();
-        Debug.Log("song restarted -- "+ audioSource.time +"||"+Time.timeAsDouble);
+        // //Debug.Log("song restarted -- "+ audioSource.time +"||"+Time.timeAsDouble);
         while (audioSource.volume < SettingsScript.getMusic() / 100)
         {
           audioSource.volume += 0.5f * 2;

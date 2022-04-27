@@ -20,8 +20,8 @@ public class MainTitleScript : MonoBehaviour
       eventSystem.AddComponent<EventSystem>();
       eventSystem.AddComponent<StandaloneInputModule>();
     }
-    Application.targetFrameRate = (Screen.currentResolution.refreshRate==30)?60:Screen.currentResolution.refreshRate;
-    Debug.Log(Application.targetFrameRate);
+    Application.targetFrameRate = (Screen.currentResolution.refreshRate<60)?60:Screen.currentResolution.refreshRate;
+    // Debug.Log(Application.targetFrameRate);
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
     string folderpath = Application.persistentDataPath;
     string settingspath = Application.persistentDataPath + "/settings.txt";
@@ -32,8 +32,8 @@ public class MainTitleScript : MonoBehaviour
         Directory.CreateDirectory(folderpath);
         File.WriteAllText(settingspath, toWrite);
         SettingsScript.Speed = 5;
-        SettingsScript.SFX = 100;
-        SettingsScript.setMusic(100);
+        SettingsScript.SFX = 50;
+        SettingsScript.Music = 50;
     }
     else
     {
