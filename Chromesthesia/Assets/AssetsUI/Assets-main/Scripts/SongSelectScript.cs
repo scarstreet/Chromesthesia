@@ -519,29 +519,22 @@ public class SongSelectScript : MonoBehaviour
       // //Debug.Log("song started" + Time.timeAsDouble);
       while (audioSource.volume < SettingsScript.getMusic() / 100)
       {
-        audioSource.volume += 0.5f * 2;
-        yield return new WaitForSeconds(0.001f);
+        audioSource.volume += 0.5f * SettingsScript.getMusic() / 100;
+        yield return new WaitForSeconds(0.01f);
       }
       audioSource.volume = SettingsScript.getMusic() / 100;
     }
     else { // FADE OUT
       while (audioSource.volume > 0f)
       {
-        audioSource.volume -= 0.05f;
-        yield return new WaitForSeconds(0.001f);
+        audioSource.volume -= 0.05f * SettingsScript.getMusic() / 100;
+        yield return new WaitForSeconds(0.01f);
       }
       // //Debug.Log("song ended" + Time.timeAsDouble);
       audioSource.Stop();
       if(restart){
-        audioSource.time = (float)currentSong.pvStart;
-        audioSource.Play();
-        // //Debug.Log("song restarted -- "+ audioSource.time +"||"+Time.timeAsDouble);
-        while (audioSource.volume < SettingsScript.getMusic() / 100)
-        {
-          audioSource.volume += 0.5f * 2;
-          yield return new WaitForSeconds(0.001f);
-        }
-        audioSource.volume = SettingsScript.getMusic() / 100;
+        Debug.Log("Restarting");
+        StartCoroutine(fadeMusic(1,true));
       }
     }
   }
