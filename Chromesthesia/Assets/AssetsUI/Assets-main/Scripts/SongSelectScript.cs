@@ -110,7 +110,9 @@ public class SongInfo
     // AUDIO =====================================================================
     string audioPath = info.Find(i => i.Contains("> audio")).Split("=")[1];
     audioPath = "Songs/" + folder + "/" + audioPath;
-    audio = Resources.Load<AudioClip>(audioPath);
+    string previewPath = info.Find(i => i.Contains("preview-name")).Split("=")[1];
+    previewPath = "Songs/" + folder + "/" + previewPath;
+    audio = Resources.Load<AudioClip>(previewPath);
 
     // PREVIEW INFO ==============================================================
     pvStart = Convert.ToDouble(info.Find(i => i.Contains("song-start")).Split("=")[1]);
@@ -375,10 +377,6 @@ public class SongSelectScript : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (audioSource.time >= currentSong.pvEnd)
-    {
-      StartCoroutine(fadeMusic(0, true));
-    }
     if (Input.touchCount > 0 && IsPointerOverUIObject() == false)
     {
       Touch touch = Input.GetTouch(0);
@@ -441,7 +439,6 @@ public class SongSelectScript : MonoBehaviour
   IEnumerator changeSong(string which)
   {
     songUIfade(0);
-    StartCoroutine(fadeMusic(0, false));
     audioSource.Stop();
     bool faded = false;
     while (!faded)
@@ -462,7 +459,7 @@ public class SongSelectScript : MonoBehaviour
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
     audioSource.clip = currentSong.getAudio();
     updateUI();
-    StartCoroutine(fadeMusic(1, false));
+    audioSource.Play();
     songUIfade(1);
   }
   public void playPressed()
@@ -507,35 +504,6 @@ public class SongSelectScript : MonoBehaviour
     foreach (GameObject p in particleList)
     {
       LeanTween.color(p, color, .2f);
-    }
-  }
-
-  IEnumerator fadeMusic(int which,bool restart)
-  {
-    // which == 1 ? in : out
-    if(which == 1) { // FADE IN
-      audioSource.time = (float)currentSong.pvStart;
-      audioSource.Play();
-      // //Debug.Log("song started" + Time.timeAsDouble);
-      while (audioSource.volume < SettingsScript.getMusic() / 100)
-      {
-        audioSource.volume += 0.5f * SettingsScript.getMusic() / 100;
-        yield return new WaitForSeconds(0.01f);
-      }
-      audioSource.volume = SettingsScript.getMusic() / 100;
-    }
-    else { // FADE OUT
-      while (audioSource.volume > 0f)
-      {
-        audioSource.volume -= 0.05f * SettingsScript.getMusic() / 100;
-        yield return new WaitForSeconds(0.01f);
-      }
-      // //Debug.Log("song ended" + Time.timeAsDouble);
-      audioSource.Stop();
-      if(restart){
-        Debug.Log("Restarting");
-        StartCoroutine(fadeMusic(1,true));
-      }
     }
   }
   public void back()

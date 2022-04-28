@@ -4,9 +4,10 @@ artist=Yugo Kanno
 duration=65
 
 >> preview
-song-start=1
-song-end=16.8
+song-start=0
+song-end=0
 color=#9b4ac6
+preview-name=Preview
 
 >> files
 > beatmap-easy=beatmap-easy
