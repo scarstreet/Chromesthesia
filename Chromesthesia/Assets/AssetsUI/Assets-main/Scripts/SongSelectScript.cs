@@ -49,7 +49,7 @@ public class Score
 public class SongInfo
 {
   Sprite image;
-  AudioClip audio;
+  AudioClip audio,preview;
   string title;
   string artist;
   public double duration;
@@ -61,6 +61,7 @@ public class SongInfo
   public Color pvColor;
   public Sprite getImage() { return image; }
   public AudioClip getAudio() { return audio; }
+  public AudioClip getPreview() { return preview; }
   public SongInfo(string folder)
   {
     TextAsset i = Resources.Load<TextAsset>("Songs/" + folder + "/info");
@@ -112,7 +113,8 @@ public class SongInfo
     audioPath = "Songs/" + folder + "/" + audioPath;
     string previewPath = info.Find(i => i.Contains("preview-name")).Split("=")[1];
     previewPath = "Songs/" + folder + "/" + previewPath;
-    audio = Resources.Load<AudioClip>(previewPath);
+    audio = Resources.Load<AudioClip>(audioPath);
+    preview = Resources.Load<AudioClip>(previewPath);
 
     // PREVIEW INFO ==============================================================
     pvStart = Convert.ToDouble(info.Find(i => i.Contains("song-start")).Split("=")[1]);
@@ -365,7 +367,7 @@ public class SongSelectScript : MonoBehaviour
     nextSong = index + 1 == allSongs.Count ? allSongs[0] : allSongs[index + 1];
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
     updateUI();
-    audioSource.clip = currentSong.getAudio();
+    audioSource.clip = currentSong.getPreview();
     audioSource.time = (float)currentSong.pvStart;
     audioSource.Play();
     // audioSource.PlayScheduled(currentSong.pvStart);
@@ -457,7 +459,7 @@ public class SongSelectScript : MonoBehaviour
     int index = allSongs.FindIndex(song => song == currentSong);
     nextSong = index + 1 == allSongs.Count ? allSongs[0] : allSongs[index + 1];
     prevSong = index - 1 == -1 ? allSongs[allSongs.Count - 1] : allSongs[index - 1];
-    audioSource.clip = currentSong.getAudio();
+    audioSource.clip = currentSong.getPreview();
     updateUI();
     audioSource.Play();
     songUIfade(1);
