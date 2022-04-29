@@ -91,6 +91,7 @@ public class HoldWait : MonoBehaviour
           }
         }
       }
+      Debug.Log("SWIPE || dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status + " -- " + Time.frameCount);
       game.changeParticleColour(bgColor);
     }
     else

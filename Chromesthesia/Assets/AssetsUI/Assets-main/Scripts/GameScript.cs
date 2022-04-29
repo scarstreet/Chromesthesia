@@ -121,7 +121,7 @@ public class GameScript : MonoBehaviour
       this.fingerId = fingerId;
       this.timePressed = songProgress * duration;
       double remainDur = this.timeEnd - this.time;
-      remainDur = remainDur - (this.timePressed - this.time) - 0.5;
+      remainDur = remainDur - (this.timePressed - this.time) - 0.5 +1f;
       HoldSpawn objScript = this.obj.GetComponent<HoldSpawn>();
       HoldWait script = objScript.HoldStart.GetComponent<HoldWait>();
       script.holdDuration = remainDur * 1000;
@@ -584,7 +584,7 @@ public class GameScript : MonoBehaviour
       {
         Debug.Log("InpurDir : " + dir + ", sametimes: - "+Time.frameCount);
         foreach(Note n in sametime[now].notes) {
-          Debug.Log(n.direction + " - " + Time.frameCount);
+          Debug.Log(n.direction + " - " + sametime[now].timing + " - " + Time.frameCount);
         }
         Debug.Log(finger.checkDirs() + " - " + Time.frameCount);
         sametime[now].notes.Remove(sametime[now].notes[0]);

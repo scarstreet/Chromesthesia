@@ -51,6 +51,7 @@ public class HoldSpawn : MonoBehaviour
       HoldDeath script = HoldSpawnDeath.GetComponent<HoldDeath>();
       script.nextState = "noInput";
       script.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
+      
       Destroy(gameObject);
       Instantiate(HoldSpawnDeath, transform.position, transform.rotation);
     }
