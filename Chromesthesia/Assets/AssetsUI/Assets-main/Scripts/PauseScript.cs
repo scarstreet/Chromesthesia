@@ -37,7 +37,6 @@ public class PauseScript : MonoBehaviour
 
   private void OnDestroy()
   {
-    pauseOpen = false;
   }
 
   public void toSettings()
@@ -47,15 +46,14 @@ public class PauseScript : MonoBehaviour
   }
   public void continuePressed()
   {
+    pauseOpen = false;
     StartCoroutine(changeScene("GameScreen"));
   }
   public void restartPressed()
   {
-    // TODO - the restart
+    pauseOpen = false;
     GameScript.self.GetComponent<GameScript>().changeParticleColour(new Color(1f, 1f, 1f));
-    // game.enabled = false;
     GameScript.resetStates();
-    // game.pauseButton.enabled = true;
     StartCoroutine(changeScene("GameScreen"));
   }
   public void giveUpPressed()
@@ -79,7 +77,6 @@ public class PauseScript : MonoBehaviour
   IEnumerator changeScene(string scene)
   {
     bool fadeDone = false;
-    pauseOpen = false;
     while (!fadeDone)
     {
       transitionPanel.CrossFadeAlpha(1, 0.5f, true);
