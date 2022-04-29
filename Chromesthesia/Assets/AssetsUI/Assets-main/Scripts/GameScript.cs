@@ -44,6 +44,18 @@ public class GameScript : MonoBehaviour
       double angle = rad * (180 / Math.PI); //check the angle and change it to degrees from radian
       return angle;
     }
+    public string checkDirs() {
+      List<Vector2> pathList = path.ToList();
+      string[] dirs = new string[pathCnt-1];
+      
+      for (int i = 0; i < pathList.Count - 1;i++) {
+        Vector2 deltaPos = pathList[pathList.Count - 1] - pathList[i];
+        double rad = Mathf.Atan2(deltaPos.y, deltaPos.x);
+        double angle = rad * (180 / Math.PI);
+        dirs[i] = GameScript.self.GetComponent<GameScript>().checkDir(angle);
+      }
+      return String.Join(' ',dirs);
+    }
     public bool isHold()
     {
       List<Vector2> pathList = path.ToList();
@@ -362,7 +374,7 @@ public class GameScript : MonoBehaviour
               // IF HOLD'S SWIPE
               Note held = waitingHolds[holdIndex];
               HoldWait script = held.obj.GetComponent<HoldWait>();
-              script.setState(directionJudgement(angle, held.time));
+              script.setState(directionJudgement(angle, held.time,fingerList[idx]));
               // Debug.Log("Status :" + script.status);
               if(script.status.Contains("perfect"))
               {
@@ -401,7 +413,7 @@ public class GameScript : MonoBehaviour
                   touchable.Dequeue(); // to dequeue all previously missed notes
                 }
                 NoteDiamond s = touchable.Peek().getGameObject().GetComponent<NoteDiamond>();
-                s.setState(directionJudgement(angle, touchable.Peek().time));
+                s.setState(directionJudgement(angle, touchable.Peek().time,fingerList[idx]));
                 touchable.Dequeue();
                 if(s.status.Contains("perfect"))
                 {
@@ -487,7 +499,7 @@ public class GameScript : MonoBehaviour
   e = upright;
   */
 
-  private string checkDir(double angle)
+  public string checkDir(double angle)
   {
     string dir = "";
     if (angle >= -22.5 && angle < 22.5) // right
@@ -510,7 +522,7 @@ public class GameScript : MonoBehaviour
     return dir;
   }
 
-  private string directionJudgement(double angle, double time)
+  private string directionJudgement(double angle, double time, Finger finger)
   {
     int now = sametime.FindIndex(x => x.timing >= time); // to check what time it is
 
@@ -570,10 +582,14 @@ public class GameScript : MonoBehaviour
       }
       if (result.Contains("miss") || result.Contains("noInput"))
       {
+        Debug.Log("InpurDir : " + dir + ", sametimes: - "+Time.frameCount);
+        foreach(Note n in sametime[now].notes) {
+          Debug.Log(n.direction + " - " + Time.frameCount);
+        }
+        Debug.Log(finger.checkDirs() + " - " + Time.frameCount);
         sametime[now].notes.Remove(sametime[now].notes[0]);
         if (sametime[now].notes.Count == 0)
         {
-
           sametime.Remove(sametime[now]);
         }
       }

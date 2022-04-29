@@ -56,6 +56,7 @@ public class HoldSpawn : MonoBehaviour
     }
     else
     {
+      GameScript.self.GetComponent<GameScript>().changeParticleColour(bgColor);
       Destroy(gameObject);
     }
   }
