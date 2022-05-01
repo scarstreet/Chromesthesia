@@ -1,7 +1,7 @@
 >> song-info
 song-name=Il Vento D'oro
 artist=Yugo Kanno
-duration=65
+duration=12
 
 >> preview
 song-start=0

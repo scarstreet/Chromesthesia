@@ -110,6 +110,7 @@ Library: lib_burst_generated
 --compilation-defines=ENABLE_TILEMAP
 --compilation-defines=ENABLE_TIMELINE
 --compilation-defines=ENABLE_LEGACY_INPUT_MANAGER
+--compilation-defines=UNITY_POST_PROCESSING_STACK_V2
 --compilation-defines=PACKAGE_PHYSICS
 --compilation-defines=PACKAGE_PHYSICS2D
 --compilation-defines=PACKAGE_TILEMAP
@@ -123,6 +124,8 @@ Library: lib_burst_generated
 --compilation-defines=MODULE_PHYSICS_EXISTS
 --compilation-defines=MODULE_PHYSICS_2D_EXISTS
 --compilation-defines=MODULE_PARTICLE_SYSTEM_EXISTS
+--compilation-defines=ENABLE_VR_MODULE
+--compilation-defines=ENABLE_XR_MODULE
 --compilation-defines=ENABLE_ANIMATION_BURST
 --compilation-defines=TIMELINE_FRAMEACCURATE
 --compilation-defines=ENABLE_SPRITESHAPE_BURST
@@ -134,6 +137,7 @@ Library: lib_burst_generated
 --root-assembly=C:\Users\steve\Documents\GitHub\Chromesthesia\Chromesthesia\Temp\StagingArea\Data\Managed\Unity.Mathematics.dll
 --root-assembly=C:\Users\steve\Documents\GitHub\Chromesthesia\Chromesthesia\Temp\StagingArea\Data\Managed\Unity.VisualScripting.State.dll
 --root-assembly=C:\Users\steve\Documents\GitHub\Chromesthesia\Chromesthesia\Temp\StagingArea\Data\Managed\Unity.VisualScripting.Core.dll
+--root-assembly=C:\Users\steve\Documents\GitHub\Chromesthesia\Chromesthesia\Temp\StagingArea\Data\Managed\Unity.Postprocessing.Runtime.dll
 --root-assembly=C:\Users\steve\Documents\GitHub\Chromesthesia\Chromesthesia\Temp\StagingArea\Data\Managed\Unity.Burst.dll
 --root-assembly=C:\Users\steve\Documents\GitHub\Chromesthesia\Chromesthesia\Temp\StagingArea\Data\Managed\Unity.2D.Animation.Runtime.dll
 --root-assembly=C:\Users\steve\Documents\GitHub\Chromesthesia\Chromesthesia\Temp\StagingArea\Data\Managed\Unity.TextMeshPro.dll
