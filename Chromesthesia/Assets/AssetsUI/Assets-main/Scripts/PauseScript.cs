@@ -93,7 +93,7 @@ public class PauseScript : MonoBehaviour
       GameScript.self.GetComponent<GameScript>().pauseDone();
       SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName("PauseScreen"));
     }
-    else
+    else if (PauseScript.pauseOpen == false)
     {
       SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }

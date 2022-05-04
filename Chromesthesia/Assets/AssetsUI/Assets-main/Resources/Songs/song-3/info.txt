@@ -1,7 +1,7 @@
 >> song-info
-song-name=hello
-artist=ITSA ME, MARIO
-duration=123
+song-name=Dance With Silence
+artist=Camellia
+duration=291
 
 >> preview
 song-start=0
@@ -14,4 +14,4 @@ preview-name=Preview
 > beatmap-normal=beatmap-normal
 > beatmap-hard=beatmap-hard
 > image=image
-> audio=Body Talk
+> audio=Dance With Silence
