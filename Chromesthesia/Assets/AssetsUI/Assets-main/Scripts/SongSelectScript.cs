@@ -474,7 +474,11 @@ public class SongSelectScript : MonoBehaviour
     GameScript.resetStates();
     StartCoroutine(changeScene("GameScreen"));
   }
-
+  public void toTutorial()
+  {
+    TutorialScript.prevScene = "SongSelect";
+    StartCoroutine(changeScene("TutorialScreen"));
+  }
   public void toSettings()
   {
     SettingsScript.prevActiveScene = "SongSelect";

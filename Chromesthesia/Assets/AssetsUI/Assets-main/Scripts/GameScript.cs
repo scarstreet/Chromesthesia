@@ -305,7 +305,8 @@ public class GameScript : MonoBehaviour
               HoldSpawn script = create.GetComponent<HoldSpawn>();
               ColorUtility.TryParseHtmlString(que.Peek().color, out script.bgColor);
             }
-            circle.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+            if(que.Peek().type == 1)
+              create.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
             create.transform.position = new Vector3(que.Peek().posx, que.Peek().posy, 1);
             create.transform.rotation = Quaternion.Euler(0, 0, assignrotate(que.Peek().direction[0]));
             Note temp = new Note(que.Peek().type, que.Peek().color, que.Peek().posx, que.Peek().posy, que.Peek().direction, que.Peek().timeEnd, que.Peek().time + 1f); //changed to 1.5f (trying)

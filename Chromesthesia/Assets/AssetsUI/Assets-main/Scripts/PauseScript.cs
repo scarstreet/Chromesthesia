@@ -44,6 +44,11 @@ public class PauseScript : MonoBehaviour
     SettingsScript.prevActiveScene = "PauseScreen";
     StartCoroutine(changeScene("SettingsScene"));
   }
+  public void toTutorial()
+  {
+    TutorialScript.prevScene = "PauseScreen";
+    StartCoroutine(changeScene("TutorialScreen"));
+  }
   public void continuePressed()
   {
     pauseOpen = false;

@@ -56,6 +56,11 @@ public class MainTitleScript : MonoBehaviour
     SettingsScript.prevActiveScene = "MainTitleScreen";
     StartCoroutine(changeScene("SettingsScene"));
   }
+  public void toTutorial()
+  {
+    TutorialScript.prevScene = "MainTitleScreen";
+    StartCoroutine(changeScene("TutorialScreen"));
+  }
   private bool IsPointerOverUIObject()
   {
     var eventDataCurrentPosition = new PointerEventData(EventSystem.current)

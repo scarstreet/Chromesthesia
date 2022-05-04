@@ -150,11 +150,13 @@ public class TutorialScript : MonoBehaviour
   string swipeDesc = "Swipe the note when the arrow reaches the main body of the normal swipe note.";
   string holdDesc = "Hold the note before the white filling reaches the middle. Then, wait until the arrow reaches the main body and swipe it according to the direction.";
   public GameObject foreverSwipe, foreverHold;
+  public Image transitionPanel;
   void Start()
   {
     // GameScript.gameStarted = true;
     isTutorialOpen = true;
     StartCoroutine(addNote());
+    transitionPanel.CrossFadeAlpha(0, 0.5f, false);
   }
   // Update is called once per frame
   void Update()
@@ -209,7 +211,7 @@ public class TutorialScript : MonoBehaviour
         }
       }
     }
-    if (Input.touchCount > 0) // If an input is detected; 
+    if (Input.touchCount > 0 && !IsPointerOverUIObject()) // If an input is detected; 
     {
       Debug.Log("Touches " + Input.touchCount);
       Touch[] touches = Input.touches;
@@ -283,10 +285,27 @@ public class TutorialScript : MonoBehaviour
   public void backButton()
   {
     if(prevScene == null) {
-      // prevScene = "MainTitleScree"
+      prevScene = "MainTitleScreen";
     }
+    isTutorialOpen = false;
+    StartCoroutine(changeScene(prevScene));
   }
 
+  IEnumerator changeScene(string scene)
+  {
+    bool fadeDone = false;
+    while (!fadeDone)
+    {
+      transitionPanel.CrossFadeAlpha(1, 0.5f, true);
+      fadeDone = true;
+      yield return new WaitForSecondsRealtime(.5f);
+    }
+    if (scene.Contains("SettingsScene"))
+    {
+      SceneManager.LoadScene("SettingsScene", LoadSceneMode.Additive);
+    }
+    SceneManager.LoadScene(scene, LoadSceneMode.Single);
+  }
   public string checkDir(double angle)
   {
     string dir = "";

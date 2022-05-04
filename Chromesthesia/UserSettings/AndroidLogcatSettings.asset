@@ -1,9 +1,9 @@
 {
-    "m_SelectedDeviceId": "A6PFFYFIEMAUOBCQ",
+    "m_SelectedDeviceId": "9HSGSKW4KZZP5PZX",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "9HSGSKW4KZZP5PZX",
+        "name": "com.DefaultCompany.com.unity.template.mobile2D",
+        "processId": 18359,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -167,24 +167,6 @@
         {
             "deviceId": "9HSGSKW4KZZP5PZX",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 7347,
-            "exited": true
-        },
-        {
-            "deviceId": "9HSGSKW4KZZP5PZX",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 1164,
-            "exited": true
-        },
-        {
-            "deviceId": "9HSGSKW4KZZP5PZX",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 4324,
-            "exited": true
-        },
-        {
-            "deviceId": "9HSGSKW4KZZP5PZX",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 3798,
             "exited": true
         },
@@ -204,18 +186,30 @@
             "deviceId": "9HSGSKW4KZZP5PZX",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 8029,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "9HSGSKW4KZZP5PZX",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 20837,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "9HSGSKW4KZZP5PZX",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 24024,
+            "exited": true
+        },
+        {
+            "deviceId": "9HSGSKW4KZZP5PZX",
+            "name": "com.instagram.android",
+            "processId": 12093,
+            "exited": false
+        },
+        {
+            "deviceId": "9HSGSKW4KZZP5PZX",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 18359,
             "exited": false
         },
         {
