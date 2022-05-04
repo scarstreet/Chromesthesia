@@ -8,6 +8,7 @@ public class NoteDiamondDeath : MonoBehaviour
   public Color nextColor;
   void Start()
   {
+    Debug.Log("I SHOULD BE ALIVE");
     gameObject.LeanColor(nextColor, 0.5f).setEaseOutQuad();
   }
   void Awake()
@@ -16,7 +17,7 @@ public class NoteDiamondDeath : MonoBehaviour
   }
   void Update()
   {
-    if (GameScript.gameStarted == false)
+    if (GameScript.gameStarted == false && TutorialScript.isTutorialOpen == false)
     {
       Destroy(gameObject);
     }

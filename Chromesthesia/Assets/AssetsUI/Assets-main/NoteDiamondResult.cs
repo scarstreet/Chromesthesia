@@ -18,7 +18,7 @@ public class NoteDiamondResult : MonoBehaviour
   }
   void Update()
   {
-    if (GameScript.gameStarted == false)
+    if (GameScript.gameStarted == false && TutorialScript.isTutorialOpen == false)
     {
       Destroy(gameObject);
     }

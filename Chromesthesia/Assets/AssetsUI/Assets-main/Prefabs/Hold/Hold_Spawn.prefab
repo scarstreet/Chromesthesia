@@ -363,7 +363,7 @@ Transform:
   m_GameObject: {fileID: 6967701114314300993}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3.36, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7662841606199461505}
@@ -416,5 +416,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84c62f1fe76256e49ba48547850045ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bgColor: {r: 0, g: 0, b: 0, a: 0}
   HoldStart: {fileID: 7551970938954819331, guid: da8d45e927efebf42b7a8fc5278f370c, type: 3}
   HoldSpawnDeath: {fileID: 3671692392896119024, guid: cfc94a60fcfd71f42b246c6b83aa53c1, type: 3}
+  duration: 2500
+  holdDuration: 5000

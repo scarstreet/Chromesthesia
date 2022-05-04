@@ -20,7 +20,8 @@ public class HoldWait : MonoBehaviour
   private NoteDiamondDeath deathScript;
   void Start()
   {
-    game = GameScript.self.GetComponent<GameScript>();
+    if(GameScript.gameStarted)
+      game = GameScript.self.GetComponent<GameScript>();
     deathScript = death.GetComponent<NoteDiamondDeath>();
     animator = gameObject.GetComponent<Animator>();
   }
@@ -28,7 +29,7 @@ public class HoldWait : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (GameScript.gameStarted == false)
+    if (GameScript.gameStarted == false && TutorialScript.isTutorialOpen == false)
     {
       Destroy(gameObject);
     }
@@ -36,7 +37,7 @@ public class HoldWait : MonoBehaviour
     {
       gameObject.LeanMoveZ(-100, 0f).setIgnoreTimeScale(true);
     }
-    else if(PauseScript.pauseOpen == false)
+    else if (PauseScript.pauseOpen == false)
     {
       gameObject.LeanMoveZ(0, 0f).setIgnoreTimeScale(true);
     }
@@ -73,7 +74,7 @@ public class HoldWait : MonoBehaviour
       resultScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextAnimation = miss;
-      if (dirStatus.Contains("noInput"))
+      if (dirStatus.Contains("noInput") && GameScript.gameStarted)
       {
         GameScript.combo = 0;
         double time = Time.timeAsDouble;
@@ -92,6 +93,7 @@ public class HoldWait : MonoBehaviour
         }
       }
       Debug.Log("SWIPE || dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status + " -- " + Time.frameCount);
+    if(GameScript.gameStarted)
       game.changeParticleColour(bgColor);
     }
     else

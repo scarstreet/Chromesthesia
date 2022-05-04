@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NoteDiamond : MonoBehaviour
 {
-  public Color bgColor = new Color(1f,1f,1f);
+  public Color bgColor = new Color(1f, 1f, 1f);
   public GameScript game;
   Renderer[] renderers;
   private IEnumerator coroutine;
@@ -30,8 +30,9 @@ public class NoteDiamond : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    gameObject.LeanAlpha(0,0f);
-    game = GameScript.self.GetComponent<GameScript>();
+    gameObject.LeanAlpha(0, 0f);
+    if (GameScript.gameStarted)
+      game = GameScript.self.GetComponent<GameScript>();
     timeStatus = "noInput";
     deathScript = death.GetComponent<NoteDiamondDeath>();
     renderers = GetComponentsInChildren<Renderer>();
@@ -46,7 +47,7 @@ public class NoteDiamond : MonoBehaviour
   }
   void Update()
   {
-    if (GameScript.gameStarted == false)
+    if (GameScript.gameStarted == false && TutorialScript.isTutorialOpen == false && TutorialScript.isTutorialOpen == false)
     {
       Destroy(gameObject);
     }
@@ -59,7 +60,7 @@ public class NoteDiamond : MonoBehaviour
       gameObject.LeanMoveZ(0, 0f).setIgnoreTimeScale(true);
     }
   }
-  
+
   public void setState(string dirStatus)
   {
     NoteDiamondResult resultScript;
@@ -67,12 +68,13 @@ public class NoteDiamond : MonoBehaviour
     // TODO - consider both timing/direction and 
     if (status.Contains("miss") || timeStatus.Contains("noInput"))
     {
-      GameScript.combo=0;
+      if (GameScript.gameStarted)
+        GameScript.combo = 0;
       resultScript = miss.GetComponent<NoteDiamondResult>();
       resultScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
       deathScript.nextAnimation = miss;
-      if (dirStatus.Contains("noInput"))
+      if (dirStatus.Contains("noInput") && GameScript.gameStarted)
       {
         // Debug.Log(gameObject + "!!! Dequeueing !!!");
         if (GameScript.touchable.Count > 0)
@@ -99,9 +101,9 @@ public class NoteDiamond : MonoBehaviour
     {
       Debug.Log("omegeh, Note has bad timeStatus. This should not happen");
     }
-    game.changeParticleColour(bgColor);
-    Destroy(gameObject);
+    if (GameScript.gameStarted) { game.changeParticleColour(bgColor); }
     Instantiate(death, transform.position, transform.rotation);
+    Destroy(gameObject);
   }
 
   void statusDetermine(string dirStatus)
@@ -114,8 +116,9 @@ public class NoteDiamond : MonoBehaviour
       status = "good";
     else
       status = "miss";
-    if(status.Contains("miss")) {
-      Debug.Log("SWIPE || dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status + " -- " + Time.frameCount);
+    if (status.Contains("miss"))
+    {
+      // Debug.Log("SWIPE || dir: " + dirStatus + ", time: " + timeStatus + ", result = " + status + " -- " + Time.frameCount);
     }
   }
 

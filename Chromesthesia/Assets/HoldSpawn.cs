@@ -27,7 +27,7 @@ public class HoldSpawn : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (GameScript.gameStarted == false)
+    if (GameScript.gameStarted == false && TutorialScript.isTutorialOpen == false)
     {
       Destroy(gameObject);
     }
@@ -44,20 +44,21 @@ public class HoldSpawn : MonoBehaviour
   {
     DontDestroyOnLoad(gameObject);
   }
-    public void setState(string state)
+  public void setState(string state)
   {
     if (state.Contains("noInput"))
     {
       HoldDeath script = HoldSpawnDeath.GetComponent<HoldDeath>();
       script.nextState = "noInput";
       script.nextColor = new Color((255f / 255f), (100f / 255f), (100f / 255f), 1); // sum light red
-      
+
       Destroy(gameObject);
       Instantiate(HoldSpawnDeath, transform.position, transform.rotation);
     }
     else
     {
-      GameScript.self.GetComponent<GameScript>().changeParticleColour(bgColor);
+      if(GameScript.gameStarted)
+        GameScript.self.GetComponent<GameScript>().changeParticleColour(bgColor);
       Destroy(gameObject);
     }
   }
