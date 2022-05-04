@@ -250,7 +250,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
   m_SpriteSortPoint: 0
 --- !u!1 &6652847634204344803
 GameObject:
@@ -418,6 +418,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 235ccb24edd42a746beb28de1758750c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bgColor: {r: 0, g: 0, b: 0, a: 0}
+  game: {fileID: 0}
   holdDuration: 5000
   timeStatus: noInput
   dirStatus: 

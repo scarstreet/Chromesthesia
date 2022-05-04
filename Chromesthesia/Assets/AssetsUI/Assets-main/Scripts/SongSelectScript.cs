@@ -37,6 +37,7 @@ public class Score
     good = Convert.ToInt16(i_good.Split('=')[1]);
     perfect = Convert.ToInt16(i_perfect.Split('=')[1]);
     combo = Convert.ToInt16(i_combo.Split('=')[1]);
+    Debug.Log(combo+" after open");
     accuracy = Convert.ToDouble(i_acc.Split('=')[1]);
     rating = i_rating.Split('=')[1];
     if (rating.Contains('0'))
@@ -133,6 +134,7 @@ public class SongInfo
   }
   public void saveScore()
   {
+    Debug.Log(GameScript.maxcombo);
     string songinfopath = Application.persistentDataPath + "/" + title + ".txt";
     string info = File.ReadAllText(songinfopath);
     List<string> i = new List<string>(info.Split('\n'));
@@ -143,7 +145,8 @@ public class SongInfo
       int i3 = easy.miss;
       int i4 = easy.good;
       int i5 = easy.perfect;
-      int i6 = easy.combo;
+      int i6 = GameScript.maxcombo;
+      Debug.Log(i6);
       double i7 = easy.accuracy;
       string i8 = easy.rating;
       i[index + 1] = $"new=false";
@@ -158,11 +161,11 @@ public class SongInfo
     else if (SongSelectScript.currentDifficulty.Contains("NORMAL"))
     {
       int index = i.FindIndex(ii => ii.Contains("> Normal"));
-      int i2 = normal.score;
+      int i2 = (int)GameScript.score;
       int i3 = normal.miss;
       int i4 = normal.good;
       int i5 = normal.perfect;
-      int i6 = normal.combo;
+      int i6 = GameScript.maxcombo;
       double i7 = normal.accuracy;
       string i8 = normal.rating;
       i[index + 1] = $"new=false";
@@ -181,7 +184,7 @@ public class SongInfo
       int i3 = hard.miss;
       int i4 = hard.good;
       int i5 = hard.perfect;
-      int i6 = hard.combo;
+      int i6 = GameScript.maxcombo;
       double i7 = hard.accuracy;
       string i8 = hard.rating;
       i[index + 1] = $"new=false";
@@ -194,7 +197,7 @@ public class SongInfo
       i[index + 8] = $"rating={i8}";
     }
     string newFile = string.Join("\n", i);
-    // //Debug.Log(newFile);
+    Debug.Log(newFile);
     File.WriteAllText(songinfopath, newFile);
   }
 }
@@ -272,6 +275,7 @@ public class SongSelectScript : MonoBehaviour
   }
   public void updateUI()
   {
+    // getAllSongs();
     songTitle.text = currentSong.getTitle();
     artistName.text = currentSong.getArtist();
     currentSongImage.sprite = currentSong.getImage();
@@ -285,6 +289,7 @@ public class SongSelectScript : MonoBehaviour
       normalText.color = new Color((100f / 255f), (100f / 255f), (100f / 255f), 1);
       hardText.color = new Color((100f / 255f), (100f / 255f), (100f / 255f), 1);
       highscore.text = currentSong.easy.score.ToString();
+      Debug.Log(currentSong.easy.combo + " On text");
       combo.text = currentSong.easy.combo.ToString();
       accuracy.text = currentSong.easy.accuracy.ToString() + '%';
       rating.text = currentSong.easy.rating;

@@ -419,6 +419,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d4d92fdaebe8444e91f966c3bc96121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bgColor: {r: 1, g: 1, b: 1, a: 1}
+  game: {fileID: 0}
   perfect: {fileID: 4055103485004937997, guid: 4d46854d58d5d4942b1933ac20d35c3c, type: 3}
   good: {fileID: 2047814215754629394, guid: 7f996b7665e763047a6e86b9ba410ca3, type: 3}
   miss: {fileID: 6036812546695217688, guid: 14b69635f918a494d95a88d28b33a269, type: 3}

@@ -34,7 +34,7 @@ public class ScoreScreenScript : MonoBehaviour
       eventSystem.AddComponent<EventSystem>();
       eventSystem.AddComponent<StandaloneInputModule>();
     }
-    SongSelectScript.currentSong.setScore(new Score((int)GameScript.score, GameScript.misscount, GameScript.goodcount, GameScript.perfectcount, GameScript.combo, Math.Round(GameScript.accuracy,2),SongSelectScript.getRating()));
+    SongSelectScript.currentSong.setScore(new Score((int)GameScript.score, GameScript.misscount, GameScript.goodcount, GameScript.perfectcount, GameScript.maxcombo, Math.Round(GameScript.accuracy,2),SongSelectScript.getRating()));
     //====================================================
     score.text = ((int)GameScript.score).ToString();
     combo.text = GameScript.maxcombo.ToString();
@@ -44,8 +44,8 @@ public class ScoreScreenScript : MonoBehaviour
     accuracy.text = (Math.Round(GameScript.accuracy,2)).ToString() + "%";
     rating.text = SongSelectScript.getRating();
     //====================================================
+    Debug.Log(GameScript.maxcombo);
     SongSelectScript.currentSong.saveScore();
-    GameScript.resetStates();
     transitionPanel.CrossFadeAlpha(0, 0.5f, false);
     animator = gameObject.GetComponent<Animator>();
     difficulty.text = SongSelectScript.currentDifficulty;
@@ -71,6 +71,7 @@ public class ScoreScreenScript : MonoBehaviour
 
   public void toSongList()
   {
+    GameScript.resetStates();
     StartCoroutine(changeScene("SongSelect"));
   }
 
