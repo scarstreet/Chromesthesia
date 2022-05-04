@@ -141,10 +141,10 @@ public class TutorialScript : MonoBehaviour
 
   string mode = "swipe"; // swipe or hold
   public static bool isTutorialOpen;
-  public static Queue<Note> que = new Queue<Note>(), isoutthere = new Queue<Note>(), touchable = new Queue<Note>();
-  public static List<(double timing, List<Note> notes)> sametime = new List<(double timing, List<Note> notes)>();
-  public static List<Note> existingHolds = new List<Note>(), waitingHolds = new List<Note>();
-  public static List<Finger> fingerList = new List<Finger>();
+  public Queue<Note> que = new Queue<Note>(), isoutthere = new Queue<Note>(), touchable = new Queue<Note>();
+  public List<(double timing, List<Note> notes)> sametime = new List<(double timing, List<Note> notes)>();
+  public List<Note> existingHolds = new List<Note>(), waitingHolds = new List<Note>();
+  public List<Finger> fingerList = new List<Finger>();
   public Text title, desc, currentMode;
   public Button back;
   string swipeDesc = "Swipe the note when the arrow reaches the main body of the normal swipe note.";
