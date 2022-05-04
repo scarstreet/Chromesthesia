@@ -20,7 +20,7 @@ public class ParticleScript : MonoBehaviour
       gameObject.LeanMoveZ(-100, 0f).setIgnoreTimeScale(true);
       ps.Pause(true);
       ps.Stop(true);
-    } else if (GameScript.gameStarted && PauseScript.pauseOpen == false){
+    } else if (GameScript.gameStarted && PauseScript.pauseOpen == false || GameScript.gameStarted){
       gameObject.LeanMoveZ(1, 0f).setIgnoreTimeScale(true);
       ps.Pause(false);
       ps.Play(true);

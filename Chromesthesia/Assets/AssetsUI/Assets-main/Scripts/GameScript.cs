@@ -566,7 +566,7 @@ public class GameScript : MonoBehaviour
         { // If found neighboring tolerance
           int toRemove = tolerate1 != -1 ? tolerate1 : tolerate2;
           double adjacentAngle = tolerate1 != -1 ? tolerance[tId].a1 : tolerance[tId].a2;
-          double toleranceAngle = 22.5;
+          double toleranceAngle = 5;
           if (angle <= adjacentAngle + toleranceAngle || angle >= adjacentAngle - toleranceAngle)
           { // to tolerate or to not tolerate
             result = "good";

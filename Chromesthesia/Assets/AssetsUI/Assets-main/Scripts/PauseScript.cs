@@ -59,6 +59,7 @@ public class PauseScript : MonoBehaviour
   public void giveUpPressed()
   {
     // TODO - clear all dem data
+    pauseOpen = false;
     GameScript.self.GetComponent<GameScript>().changeParticleColour(new Color(1f, 1f, 1f));
     GameScript.resetStates();
     StartCoroutine(changeScene("SongSelect"));

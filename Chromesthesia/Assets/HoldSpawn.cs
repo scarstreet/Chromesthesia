@@ -35,7 +35,7 @@ public class HoldSpawn : MonoBehaviour
     {
       gameObject.LeanMoveZ(-100, 0f).setIgnoreTimeScale(true);
     }
-    else if (PauseScript.pauseOpen == false)
+    else
     {
       gameObject.LeanMoveZ(0, 0f).setIgnoreTimeScale(true);
     }
