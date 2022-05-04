@@ -59,6 +59,7 @@ public class PauseScript : MonoBehaviour
   public void giveUpPressed()
   {
     // TODO - clear all dem data
+    pauseOpen = false;
     GameScript.self.GetComponent<GameScript>().changeParticleColour(new Color(1f, 1f, 1f));
     GameScript.resetStates();
     StartCoroutine(changeScene("SongSelect"));
@@ -93,7 +94,7 @@ public class PauseScript : MonoBehaviour
       GameScript.self.GetComponent<GameScript>().pauseDone();
       SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName("PauseScreen"));
     }
-    else if (PauseScript.pauseOpen == false)
+    else 
     {
       SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
