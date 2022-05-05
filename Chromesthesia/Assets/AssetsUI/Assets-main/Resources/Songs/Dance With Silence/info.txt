@@ -6,7 +6,7 @@ duration=291
 >> preview
 song-start=0
 song-end=0
-color=#7270e4
+color=#5fd78b
 preview-name=Preview
 
 >> files
