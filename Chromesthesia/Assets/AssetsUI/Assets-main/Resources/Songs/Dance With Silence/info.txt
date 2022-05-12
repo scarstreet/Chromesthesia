@@ -1,7 +1,7 @@
 >> song-info
 song-name=Dance With Silence
 artist=Camellia
-duration=291
+duration=12
 
 >> preview
 song-start=0

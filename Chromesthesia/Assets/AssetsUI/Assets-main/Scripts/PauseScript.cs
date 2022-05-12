@@ -58,6 +58,7 @@ public class PauseScript : MonoBehaviour
   {
     pauseOpen = false;
     GameScript.self.GetComponent<GameScript>().changeParticleColour(new Color(1f, 1f, 1f));
+    // GameScript.kys = false;
     GameScript.resetStates();
     StartCoroutine(changeScene("GameScreen"));
   }

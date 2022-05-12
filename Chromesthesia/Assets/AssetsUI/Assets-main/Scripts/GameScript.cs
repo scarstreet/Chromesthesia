@@ -141,6 +141,7 @@ public class GameScript : MonoBehaviour
   public static List<Finger> fingerList = new List<Finger>();
 
   // GAMEPLAY STATES ===============================================================================================
+  public static bool kys = true;
   public static bool gameIsPaused = false, gameCompleted = false, gameStarted = false;
   public static int combo, maxcombo, perfectcount, goodcount, misscount;
   public static float songProgress = 0, elapsed = 0;
@@ -189,7 +190,11 @@ public class GameScript : MonoBehaviour
     elapsed = 0;
     duration = SongSelectScript.currentSong.duration;
     score = 0;
-    Destroy(self);
+    if(kys){
+      Destroy(self);
+    } else {
+      kys = true;
+    }
     // self = gameObject;
   }
   void Awake()
@@ -622,6 +627,7 @@ public class GameScript : MonoBehaviour
 
   IEnumerator songfinished()
   {
+    pauseButton.interactable = false;
     yield return new WaitForSeconds(7);
     audiosource.Stop();
   }

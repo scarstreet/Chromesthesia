@@ -77,6 +77,8 @@ public class ScoreScreenScript : MonoBehaviour
 
   public void playAgainPressed()
   {
+    // GameScript.kys = false;
+    GameScript.resetStates();
     StartCoroutine(changeScene("GameScreen"));
   }
 
