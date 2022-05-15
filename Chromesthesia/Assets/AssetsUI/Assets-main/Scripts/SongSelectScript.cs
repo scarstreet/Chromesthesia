@@ -324,7 +324,7 @@ public class SongSelectScript : MonoBehaviour
     else if (GameScript.score > 930000) return "A+";
     else if (GameScript.score > 900000) return "A";
     else if (GameScript.score > 800000) return "B";
-    else if (GameScript.score > 700000) return "C";
+    else if (GameScript.score >= 700000) return "C";
     else return "F";
   }
 
