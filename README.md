@@ -13,6 +13,11 @@ This game was made using unity and as for now only playable in android devices.
 
 ![Gameplay](https://i.ibb.co/WP7CGVh/110-Project-Video-Chormesthesia-Trim2-Adobe-Express.gif)
 
+- Gameplay Images
+![1](https://i.ibb.co/wcBL9fr/asdasdasdadawd.png)
+![2](https://i.ibb.co/wsTpPTF/dawdadsfagaf.png)
+![3](https://i.ibb.co/JkjVKpc/asdadawdaawdadwa.png)
+
 # Note
 
 This project's songs are temporary and NOT final. We do not plan to publish this game using these songs to avoid copyright issues. Thank you for your understanding
